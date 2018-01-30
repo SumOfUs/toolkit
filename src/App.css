@@ -1,0 +1,24 @@
+textarea.valid-true {
+  border-color: green;
+}
+
+textarea.valid-false {
+  border-color: red;
+  border-width: 5px;
+}
+
+textarea:focus, input:focus {
+    outline:none;
+}
+
+*:focus { outline: none; }
+
+
+.tweets {
+  margin-top: 20px;
+}
+
+
+section.raw textarea {
+  font-family: monospace;
+}
