@@ -1,25 +1,22 @@
-function Template(html, options) {
-	var re = /\{\{(.+?)\}\}/g,
-		reExp = /(^( )?(var|if|for|else|switch|case|break|{|}|;))(.*)?/g,
-		code = 'with(obj) { var r=[];\n',
-		cursor = 0,
-		result,
-	    	match;
-	var add = function(line, js) {
-		js? (code += line.match(reExp) ? line + '\n' : 'r.push(' + line + ');\n') :
-			(code += line != '' ? 'r.push("' + line.replace(/"/g, '\\"') + '");\n' : '');
-		return add;
-	}
-	while(match = re.exec(html)) {
-		add(html.slice(cursor, match.index))(match[1], true);
-		cursor = match.index + match[0].length;
-	}
-	add(html.substr(cursor, html.length - cursor));
-	code = (code + 'return r.join(""); }').replace(/[\r\t\n]/g, ' ');
-	try { result = new Function('obj', code).apply(options, [options]); }
-	catch(err) { console.error("'" + err.message + "'", " in \n\nCode:\n", code, "\n"); }
-	return result;
-}
+
+Handlebars.registerHelper('ifHighScore', function(options) {
+	console.log(options);
+	var data = options.data.root;
+	var score = data.score / data.total;
+	if(score >= 0.8) return options.fn(this);
+});
+
+Handlebars.registerHelper('ifOkScore', function(options) {
+	var data = options.data.root;
+	var score = data.score / data.total;
+	if(score > 0.3 && score < 0.8) return options.fn(this);
+});
+
+Handlebars.registerHelper('ifLowScore', function(options) {
+	var data = options.data.root;
+	var score = data.score / data.total;
+	if(score <= 0.3) return options.fn(this);
+});
 
 var Game = function() {
 	var score = 0;
@@ -99,16 +96,17 @@ $(document).ready(function() {
 
 	$('.js-qz-share-yes').on('click', function(){
 		var $q = $('.section.qz-share');
+
 		$q.find('h2').text(
-			Template(
-				$q.find('h2').text(), game.getScore()
-			)
+			Handlebars.compile(
+				$q.find('h2').text()
+			)(game.getScore())
 		);
 
 		$q.find('p').text(
-			Template(
-				$q.find('p').text(), game.getScore()
-			)
+			Handlebars.compile(
+				$q.find('p').text()
+			)(game.getScore())
 		);
 		$.fn.fullpage.moveTo(game.getQuestionIndex() + 4);
 	});
@@ -183,8 +181,9 @@ $(document).ready(function() {
 	$('.js-qz-share-dialog').on('click', function() {
 		var $q = $('div.section.qz-share');
 		window.q = $q
-		var title = Template($q.data('title').trim(), game.getScore());
-		var description = Template($q.data('description').trim(), game.getScore());
+
+		var title = Handlebars.compile($q.data('title').trim())(game.getScore());
+		var description = Handlebars.compile($q.data('description').trim())(game.getScore());
 		var image = $q.data('image-url');
 
 
@@ -207,7 +206,7 @@ $(document).ready(function() {
 		var index = $el.parent().parent().find('.column').index($el.parent());
     game.answered(questionId, index);
 		if(game.endOfQuiz){
-			var html = Template(quiz.scoreTemplate, game.getScore());
+			var html = Handlebars.compile(quiz.scoreTemplate)(game.getScore());
 			$('.qz-summary .js-content').html("<h2>" + html + "</h2>");
 		}
 		$.fn.fullpage.moveTo(game.getQuestionIndex());
