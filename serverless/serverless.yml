@@ -1,0 +1,73 @@
+service: toolServices
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  deploymentBucket: sumofus.org.serverless.us-west-2
+  region: 'us-west-2'
+  environment: ${file(./env.yml):${opt:stage, 'dev'}}
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+       - dynamodb:Query
+       - dynamodb:Scan
+       - dynamodb:GetItem
+       - dynamodb:PutItem
+       - dynamodb:UpdateItem
+       - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.QUIZ_TABLE}"
+
+
+functions:
+  QuizMakerGet:
+    handler: functions/quiz_maker/get.handler
+    events:
+      - http:
+          method: GET
+          path: quizmaker/{id}
+          cors: true
+  QuizMakerList:
+    handler: functions/quiz_maker/list.handler
+    events:
+      - http:
+          method: GET
+          path: quizmaker
+          cors: true
+  QuizMakerSave:
+    handler: functions/quiz_maker/save.handler
+    events:
+      - http:
+          method: PUT
+          path: quizmaker
+          cors: true
+  QuizCloudinary:
+    handler: functions/quiz_maker/cloudinary.handler
+
+resources:
+  Resources:
+    invitesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.QUIZ_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    BucketPermissionQuiz:
+      Type: AWS::Lambda::Permission
+      Properties:
+        Action: 'lambda:InvokeFunction'
+        FunctionName:
+          Ref: QuizCloudinaryLambdaFunction
+        Principal: s3.amazonaws.com
+        SourceAccount:
+          Ref: "AWS::AccountId"
+        SourceArn: "arn:aws:s3:::sumofus.org.quiz"

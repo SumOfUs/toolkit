@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 150px;
+}
+
 textarea.valid-true {
   border-color: green;
 }
@@ -13,12 +17,29 @@ textarea:focus, input:focus {
 
 *:focus { outline: none; }
 
-
 .tweets {
   margin-top: 20px;
 }
 
-
 section.raw textarea {
   font-family: monospace;
+}
+
+.update-box {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #ddd;
+}
+
+.section.update-box {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.question-box {
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
