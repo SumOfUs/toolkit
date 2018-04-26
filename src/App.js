@@ -16,7 +16,7 @@ import {
 
 const Routes = () => (
   <div>
-    <Router basename='/toolkit'>
+    <Router basename=''>
       <div>
         <div className="navbar is-light" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">

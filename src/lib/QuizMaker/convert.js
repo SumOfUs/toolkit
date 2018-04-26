@@ -97,7 +97,7 @@ const template = `
           </form>
         </div>
         <div class='column'>
-          <p>{{ actionText }</p>
+          <p>{{ actionText }}</p>
         </div>
       </div>
     </div>

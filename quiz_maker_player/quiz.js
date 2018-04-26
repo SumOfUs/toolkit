@@ -119,8 +119,6 @@ $(document).ready(function() {
 		var data = $form.serializeArray();
 		var errors = [];
 
-
-
 		data.forEach( function(field){
 			if(field.name === 'postcode') return;
 
@@ -164,7 +162,7 @@ $(document).ready(function() {
 		  return memo
 		}, {});
 
-		data.form_id = 13;
+		data.form_id = __QUIZ_FORM_ID;
 
 		$.post('/api/pages/' + quiz.actionSlug + '/actions', data, function(resp){
 			console.log(resp);
@@ -212,10 +210,6 @@ $(document).ready(function() {
 			var html = Template(quiz.scoreTemplate, game.getScore());
 			$('.qz-summary .js-content').html("<h2>" + html + "</h2>");
 		}
-    console.log(
-      JSON.stringify(game.showAnswers(), null, 1)
-    );
-
 		$.fn.fullpage.moveTo(game.getQuestionIndex());
 	});
 });
