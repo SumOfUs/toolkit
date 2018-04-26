@@ -3,21 +3,20 @@ import { Hero } from 'reactbulma';
 import './App.css';
 import EmailTool from './EmailTool';
 import TweetTool from './TweetTool';
-// import QuizMaker from './containers/QuizMaker';
 import QuizMaker from './containers/QuizMaker';
 import ListQuizzes from './containers/ListQuizzes';
 import BookList from './containers/book-list';
 import BookDetail from './containers/book-detail';
 
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
 
 const Routes = () => (
   <div>
-    <Router>
+    <Router basename='/toolkit'>
       <div>
         <div className="navbar is-light" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
