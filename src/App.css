@@ -43,3 +43,7 @@ section.raw textarea {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+
+.delete {
+  cursor: pointer;
+}

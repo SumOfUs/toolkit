@@ -24,8 +24,6 @@ const quizzes = function(state = defaultState, action) {
       return { ...state, new_quiz: null }
       break;
 
-
-
     default:
   }
   return state;

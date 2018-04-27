@@ -65,7 +65,6 @@ const questions = function(state = [], action) {
       return state.filter( question => question.id !== action.payload);
 
     case SAVE_IMAGE:
-      console.log("first", action.payload);
       return state.map( question => {
 
         if(question.id === action.payload.id)

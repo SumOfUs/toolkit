@@ -1,6 +1,5 @@
 
 Handlebars.registerHelper('ifHighScore', function(options) {
-	console.log(options);
 	var data = options.data.root;
 	var score = data.score / data.total;
 	if(score >= 0.8) return options.fn(this);

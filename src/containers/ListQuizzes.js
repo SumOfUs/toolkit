@@ -8,7 +8,15 @@ import { Redirect } from 'react-router-dom'
 
 const Quiz = props => (
   <tr>
-    <td><Link to={`/quiz/${props.id}`}>{props.title}</Link></td>
+    <td>
+      <a onClick={() => {
+          props.handleDelete(props.id)
+        }} className="delete is-small">
+      </a>
+    </td>
+    <td>
+      <Link to={`/quiz/${props.id}`}>{props.title}</Link>
+  </td>
   </tr>
 );
 
@@ -26,8 +34,12 @@ class ListQuizzes extends Component {
     this.props.createQuiz(this.newQuizTitle.current.value);
   }
 
+  handleDelete(id) {
+    alert('Ping Omar on Slack to delete a quiz');
+  }
+
   renderTable() {
-    const quizzes = this.props.quizzes.map( quiz => <Quiz key={quiz.id} {...quiz } /> );
+    const quizzes = this.props.quizzes.map( quiz => <Quiz key={quiz.id} handleDelete={this.handleDelete.bind(this)} {...quiz } /> );
 
     return(
       <div className='section'>
