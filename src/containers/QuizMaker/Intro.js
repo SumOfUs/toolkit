@@ -1,5 +1,5 @@
 import React from 'react';
-import { Message, Tag, Control, Field, Section, Textarea, Button, Level, Input } from 'reactbulma'
+import {Textarea, Field, Input } from 'reactbulma'
 import ImageUpload from '../ImageUpload';
 const Intro = (props) => (
   <div className='section'>
@@ -7,11 +7,11 @@ const Intro = (props) => (
       <h1 className='title is-3'>Glorious Quiz Maker</h1>
       <Field>
         <label className="label">Title</label>
-        <Input className='is-large' type='text' onChange={ props.handleContentChange } value={props.quiz.title || ''} />
+        <Input className='is-large' type='text' name='title' onChange={ props.handleContentChange } value={props.quiz.title || ''} />
       </Field>
       <Field>
         <label className="label">Subtitle</label>
-        <Input className='is-large' type='text' onChange={ props.handleContentChange } value={props.quiz.subtitle || ''} />
+        <Input className='is-large' type='text' name='subtitle' onChange={ props.handleContentChange } value={props.quiz.subtitle || ''} />
       </Field>
       <Field>
         <ImageUpload quizId={props.quiz.id}  objectKey={'intro'} saveImage={ props.saveIntroImage } image={props.quiz.introImagePath} />

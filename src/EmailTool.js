@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Message, Tag, Control, Field, Section, Textarea, Button, Level, Input } from 'reactbulma'
+import { Section } from 'reactbulma'
 import './App.css';
-import Tweet from './Tweet';
-import twitter from 'twitter-text';
 import EmailForm from './components/EmailForm';
 import EmailPreview from './components/EmailPreview';
 import CopyContent from './components/CopyContent';

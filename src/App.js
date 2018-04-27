@@ -5,8 +5,6 @@ import EmailTool from './EmailTool';
 import TweetTool from './TweetTool';
 import QuizMaker from './containers/QuizMaker';
 import ListQuizzes from './containers/ListQuizzes';
-import BookList from './containers/book-list';
-import BookDetail from './containers/book-detail';
 
 import {
   HashRouter as Router,

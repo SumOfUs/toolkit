@@ -1,9 +1,5 @@
 import React from 'react';
 
-const makeCorrectAnswer = e => {
-  console.log(e.target);
-}
-
 const Answer = ({ setCorrectAnswer, deleteAnswer, text, correct }) => {
 
   return(

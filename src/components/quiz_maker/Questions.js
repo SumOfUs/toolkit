@@ -1,8 +1,4 @@
-import React, { Component } from 'react';
-import { Field, Input, Button, Textarea } from 'reactbulma'
-import { connect } from 'react-redux';
-import { createAnswer } from '../../actions/index';
-import { bindActionCreators } from 'redux';
+import React from 'react';
 import Question from '../../containers/Question'
 
 const Questions = (props) => {

@@ -1,7 +1,4 @@
 import axios from 'axios';
-import createHistory from 'history/createBrowserHistory';
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux';
-
 export const FETCH_QUIZ = 'FETCH_QUIZ';
 export const FETCH_QUIZZES = 'FETCH_QUIZZES';
 export const CREATE_ANSWER = 'CREATE_ANSWER';
@@ -15,10 +12,7 @@ export const SAVE_INTRO_IMAGE = 'SAVE_INTRO_IMAGE';
 export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
 export const DELETE_ANSWER = 'DELETE_ANSWER';
 export const DELETE_QUESTION = 'DELETE_QUESTION';
-export const UPDATE_TITLE = 'UPDATE_TITLE';
-export const UPDATE_ACTION_SLUG = 'UPDATE_ACTION_SLUG';
 export const UPDATE_QUIZ_CONTENT = 'UPDATE_QUIZ_CONTENT';
-export const UPDATE_SUBTITLE = 'UPDATE_SUBTITLE';
 export const LOAD_QUIZ = 'LOAD_QUIZ';
 export const LOAD_QUIZZES = 'LOAD_QUIZZES';
 export const SAVED_QUIZ = 'SAVED_QUIZ';
@@ -26,7 +20,6 @@ export const SAVING_QUIZ = 'SAVING_QUIZ';
 export const SAVE_QUIZ_IMAGE = 'SAVE_QUIZ_IMAGE';
 
 const uri = `https://a6niv79zai.execute-api.us-west-2.amazonaws.com/dev/quizmaker`;
-const history = createHistory();
 
 export const loadQuiz = (quiz) => {
   return {
@@ -55,7 +48,6 @@ export const fetchQuiz = (id) => {
   return dispatch => {
     promise
       .then( resp => {
-        console.log(resp.data.Item);
         dispatch(loadQuiz(resp.data.Item))
       })
       .catch( e => console.log("error", e))
@@ -82,7 +74,6 @@ export const createQuiz = (title) => {
   return dispatch => {
     promise
       .then( resp => {
-        console.log(resp.data);
         dispatch(newQuizCreated(resp.data.id))
       })
       .catch( e => console.log("error", e))
@@ -95,7 +86,6 @@ export const fetchQuizzes = () => {
   return dispatch => {
     promise
       .then( resp => {
-        console.log(resp.data);
         dispatch(loadQuizzes(resp.data))
       })
       .catch( e => console.log("error", e))
@@ -110,35 +100,18 @@ export const savedQuiz = (quiz) => {
 }
 
 export const saveQuiz = (body) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+
     dispatch(savingQuiz());
-    const promise = axios.put(uri, body);
+    let state = getState();
+    state = Object.assign({}, {questions: state.questions}, state.quiz);
+    console.log(state);
+    const promise = axios.put(uri, state);
 
     promise
       .then( resp => {
         dispatch(savedQuiz());
       });
-  }
-}
-
-export const updateTitle = (title) => {
-  return {
-    type: UPDATE_TITLE,
-    payload: title
-  }
-}
-
-export const updateActionSlug = (slug) => {
-  return {
-    type: UPDATE_ACTION_SLUG,
-    payload: slug
-  }
-}
-
-export const updateSubTitle = (text) => {
-  return {
-    type: UPDATE_SUBTITLE,
-    payload: text
   }
 }
 
@@ -171,7 +144,6 @@ export const deleteQuestion = (question) => {
 }
 
 export const saveImage = (data) => {
-  console.log("SAVE IMAGE", data);
   return {
     type: SAVE_IMAGE,
     payload: data
@@ -199,10 +171,17 @@ export const saveIntroImage = (data) => {
   }
 }
 
-export const updateQuizContent = (data) => {
-  return {
+const update = data => (
+  {
     type: UPDATE_QUIZ_CONTENT,
-    payload: data
+    payload: data,
+  }
+)
+
+export const updateQuizContent = (data, state) => {
+  return (dispatch, state) => {
+    console.log(state());
+    dispatch(update(data));
   }
 }
 

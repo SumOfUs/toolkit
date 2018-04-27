@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, Input, Button, Textarea } from 'reactbulma'
+import { Field, Input, } from 'reactbulma'
 
 const Form = (props) => {
   return(

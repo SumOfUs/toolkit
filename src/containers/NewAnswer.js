@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createAnswer } from '../actions/index';
-import { Field, Input, Button, Textarea } from 'reactbulma'
+import { Field, Input } from 'reactbulma'
 
 class NewAnswer extends Component {
   constructor(props) {

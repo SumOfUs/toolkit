@@ -1,8 +1,5 @@
-'use strict';
-
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Control, Field, Input } from 'reactbulma'
 import { connect } from 'react-redux';
 import { fetchQuizzes, createQuiz } from '../actions/index';
 import { bindActionCreators } from 'redux';
@@ -55,12 +52,8 @@ class ListQuizzes extends Component {
     )
   }
 
-  render(){
-    const newQuiz = this.props.new_quiz;
-
-    const view = this.props.newQuiz ? <Redirect to={`/quiz/${this.props.newQuiz}`} push /> : this.renderTable();
-
-    return view;
+  render() {
+    return this.props.newQuiz ? <Redirect to={`/quiz/${this.props.newQuiz}`} push /> : this.renderTable();
   }
 }
 

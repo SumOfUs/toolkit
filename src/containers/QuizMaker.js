@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { Message, Tag, Control, Field, Section, Textarea, Button, Level, Input } from 'reactbulma'
+import {Field, Input, Textarea, } from 'reactbulma'
 import Form from '../components/quiz_maker/Form';
 import Questions from '../components/quiz_maker/Questions';
 import { connect } from 'react-redux';
 import ImageUpload from './ImageUpload';
 import Intro from './QuizMaker/Intro';
+import { debounce } from 'lodash';
 
 import {
   fetchQuiz,
   createQuestion,
-  updateTitle,
-  updateSubTitle,
-  updateActionSlug,
   updateQuizContent,
   saveQuiz,
   saveShareImage,
@@ -20,28 +18,14 @@ import {
   newQuizLoaded,
  } from '../actions/index';
 import { bindActionCreators } from 'redux';
-import Amplify, { Storage, Auth } from 'aws-amplify';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Convert from '../lib/QuizMaker/convert';
-
-Amplify.configure({
-    Auth: {
-        identityPoolId: 'us-east-1:d971a7bb-3f58-4aff-9bb9-d13c9ad089a5', //REQUIRED - Amazon Cognito Identity Pool ID
-        region: 'us-east-1', // REQUIRED - Amazon Cognito Region
-        userPoolId: 'us-east-1_dFic90M1t', //OPTIONAL - Amazon Cognito User Pool ID
-        userPoolWebClientId: '9ilre0g9agfcvtaeb1du82ag5', //OPTIONAL - Amazon Cognito Web Client ID
-    },
-    Storage: {
-        bucket: 'sumofus.org.quiz', //REQUIRED -  Amazon S3 bucket
-        region: 'us-east-1', //OPTIONAL -  Amazon service region
-        identityPoolId: 'us-east-1:d971a7bb-3f58-4aff-9bb9-d13c9ad089a5'
-    }
-  }
-);
+import '../amplify_config';
 
 class QuizMaker extends Component {
   constructor(props) {
     super(props);
+    this.delayedSave = debounce(this.handleSave.bind(this), 1000);
 
     this.state = {
       question: '',
@@ -55,8 +39,6 @@ class QuizMaker extends Component {
   }
 
   handleChange(e) {
-    const target = e.target;
-
     this.setState({
       question: e.target.value
     });
@@ -66,19 +48,6 @@ class QuizMaker extends Component {
     e.preventDefault();
     this.props.createQuestion({text: this.state.question})
     this.setState({question: ''});
-  }
-
-  handleTitleChange(e) {
-    this.props.updateTitle(e.target.value);
-  }
-
-  handleSlugChange(e) {
-    this.props.updateActionSlug(e.target.value);
-  }
-
-
-  handleSubTitleChange(e) {
-    this.props.updateSubTitle(e.target.value);
   }
 
   payload() {
@@ -96,8 +65,9 @@ class QuizMaker extends Component {
   }
 
   handleSave() {
-    const properties = this.payload();
-    this.props.saveQuiz(properties);
+    this.props.saveQuiz(
+      this.payload()
+    );
   }
 
   handleCopy() {
@@ -117,13 +87,16 @@ class QuizMaker extends Component {
   }
 
   handleContentChange(e) {
-    const name = e.target.name;
-    const content = e.target.value;
-    this.props.updateQuizContent({name, content});
+    this.props.updateQuizContent({
+      name: e.target.name,
+      content: e.target.value
+    });
+
+    this.delayedSave();
   }
 
   render() {
-    const isSaving = this.props.quiz.saving ? 'is-loading' : '';
+    const isSaving = this.props.control.saving ? 'is-loading' : '';
 
     return(
       <div>
@@ -184,7 +157,12 @@ class QuizMaker extends Component {
               <Textarea name='shareContentTemplate' value={this.props.quiz.shareContentTemplate} onChange={this.handleContentChange.bind(this)} />
             </Field>
             <Field>
-              <ImageUpload quizId={this.props.quiz.id}  objectKey={'share'} saveImage={ this.props.saveShareImage } image={this.props.quiz.shareImagePath} />
+              <ImageUpload
+                quizId={this.props.quiz.id}
+                objectKey={'share'}
+                saveImage={ this.props.saveShareImage }
+                image={this.props.quiz.shareImagePath }
+                />
             </Field>
           </div>
         </div>
@@ -194,7 +172,7 @@ class QuizMaker extends Component {
             <CopyToClipboard text={ this.output() }>
               <button className='button' onClick={this.handleCopy.bind(this)}>{this.state.copyButton}</button>
             </CopyToClipboard>
-            <button className={`button ${isSaving}`} onClick={this.handleSave.bind(this)}>Save</button>
+            <button className={`button is-danger ${isSaving}`} onClick={this.handleSave.bind(this)}>Save</button>
           </div>
         </div>
       </div>
@@ -206,6 +184,7 @@ function mapStateToProps(state) {
   return {
     questions: state.questions,
     quiz: state.quiz,
+    control: state.control,
   }
 }
 
@@ -213,9 +192,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchQuiz,
     createQuestion,
-    updateTitle,
-    updateSubTitle,
-    updateActionSlug,
     updateQuizContent,
     saveQuiz,
     saveShareImage,

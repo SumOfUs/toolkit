@@ -78,7 +78,7 @@ var Game = function() {
 $(document).ready(function() {
 	window.game = Game();
 
-	$('#fullpage').fullpage();
+	$('#fullpage').fullpage({scrollOverflow: true});
 	$.fn.fullpage.setMouseWheelScrolling(false);
 	$.fn.fullpage.setAllowScrolling(false);
 

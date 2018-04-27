@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { createAnswer } from '../actions/index';
-import Amplify, { Storage, Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { PhotoPicker } from 'aws-amplify-react';
 import S3 from 'aws-sdk/clients/s3';
 
@@ -68,7 +65,6 @@ class ImageUpload extends Component {
       <div className="file is-boxed">
       <label className="file-label">
         <input onChange={ e => {
-            console.log(e.target.files);
             this.upload(e.target.files[0]);
           }} className="file-input" type="file" name="resume" />
         <span className="file-cta">
@@ -99,9 +95,8 @@ class ImageUpload extends Component {
 
     const key = `quiz/${this.props.quizId}/${this.props.objectKey}/raw/${this.props.image}`;
     const path = `https://s3-us-west-2.amazonaws.com/sumofus.org.quiz/${key}`;
-    // https://s3-us-west-2.amazonaws.com/sumofus.org.quiz/quiz/4cc1a920-47ab-11e8-9b12-9788cc46faef/intro/raw/slide_14.JPEG
-    // const path = `https://s3.amazonaws.com/sumofus.org.quizmaker/${this.props.path}/${this.props.id}/raw/${this.props.image}`;
-    return (<p><img width='100' height='100' src={path} /></p>);
+
+    return (<p><img alt='quiz' width='100' height='100' src={path} /></p>);
   }
 
   render() {
