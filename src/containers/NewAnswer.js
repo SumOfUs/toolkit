@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createAnswer } from '../actions/index';
+import { createAnswer, saveQuiz } from '../actions/index';
 import { Field, Input } from 'reactbulma'
 
 class NewAnswer extends Component {
@@ -23,6 +23,7 @@ class NewAnswer extends Component {
     e.preventDefault();
     this.props.createAnswer({id: this.props.questionId, text: this.state.currentAnswer});
     this.setState({currentAnswer: ''});
+    this.props.saveQuiz();
   }
 
   render() {
@@ -38,7 +39,7 @@ class NewAnswer extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({createAnswer}, dispatch);
+  return bindActionCreators({createAnswer, saveQuiz}, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(NewAnswer);

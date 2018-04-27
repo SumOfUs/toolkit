@@ -25,7 +25,7 @@ import '../amplify_config';
 class QuizMaker extends Component {
   constructor(props) {
     super(props);
-    this.delayedSave = debounce(this.handleSave.bind(this), 1000);
+    this.delayedSave = debounce(this.handleSave.bind(this), 800);
 
     this.state = {
       question: '',
@@ -47,6 +47,7 @@ class QuizMaker extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.createQuestion({text: this.state.question})
+    this.props.saveQuiz();
     this.setState({question: ''});
   }
 
@@ -65,9 +66,7 @@ class QuizMaker extends Component {
   }
 
   handleSave() {
-    this.props.saveQuiz(
-      this.payload()
-    );
+    this.props.saveQuiz();
   }
 
   handleCopy() {

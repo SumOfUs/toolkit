@@ -9,16 +9,17 @@ import {
   deleteAnswer,
   deleteQuestion,
   saveImage,
+  saveQuiz,
 } from '../actions/index';
 
 class Question extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
   }
 
   deleteQuestion(id) {
     this.props.deleteQuestion(id);
+    this.props.saveQuiz();
   }
 
   render() {
@@ -26,9 +27,11 @@ class Question extends Component {
       (answer, i) => <Answer
         setCorrectAnswer={ () => {
           this.props.setCorrectAnswer(this.props.id, i);
+          this.props.saveQuiz();
         }}
         deleteAnswer={ () => {
           this.props.deleteAnswer(this.props.id, i);
+          this.props.saveQuiz();
         }}
         key={i} {...answer} />
     );
@@ -60,6 +63,7 @@ function mapDispatchToProps(dispatch) {
     deleteAnswer,
     deleteQuestion,
     saveImage,
+    saveQuiz,
   }, dispatch);
 }
 

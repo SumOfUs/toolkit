@@ -99,13 +99,13 @@ export const savedQuiz = (quiz) => {
   }
 }
 
-export const saveQuiz = (body) => {
+export const saveQuiz = () => {
   return (dispatch, getState) => {
 
     dispatch(savingQuiz());
     let state = getState();
-    state = Object.assign({}, {questions: state.questions}, state.quiz);
-    console.log(state);
+
+    state = Object.assign({}, state.quiz, {questions: state.questions});
     const promise = axios.put(uri, state);
 
     promise

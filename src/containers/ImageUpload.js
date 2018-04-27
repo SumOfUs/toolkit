@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
 import { PhotoPicker } from 'aws-amplify-react';
 import S3 from 'aws-sdk/clients/s3';
-
+import {
+  saveQuiz,
+ } from '../actions/index';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class ImageUpload extends Component {
   constructor(props) {
@@ -44,9 +48,11 @@ class ImageUpload extends Component {
           };
 
           if(percentage >= 100){
-            console.log("DONE", {section: this.props.section, id: this.props.id, path: data.name});
             newState.uploading = false;
-            this.props.saveImage({section: this.props.section, id: this.props.id, path: data.name});
+            setTimeout( () => {
+              this.props.saveImage({section: this.props.section, id: this.props.id, path: data.name});
+              this.props.saveQuiz();
+            }, 500);
           }
 
           this.setState(newState);
@@ -57,36 +63,30 @@ class ImageUpload extends Component {
       });
   }
 
-  renderPicker() {
-    return (
-      this.state.uploading ?
-        <progress className="progress is-small is-info" value={this.state.progress} max="100"></progress>
-          :
-      <div className="file is-boxed">
-      <label className="file-label">
-        <input onChange={ e => {
-            this.upload(e.target.files[0]);
-          }} className="file-input" type="file" name="resume" />
-        <span className="file-cta">
-          <span className="file-label">
-            Choose a photo
-          </span>
-        </span>
-      </label>
-      </div>
-
-    )
+  uploading() {
+    return this.state.uploading ?
+      <progress className="progress is-small is-info" value={this.state.progress} max="100"></progress> : ''
   }
-  renderPicker2() {
+
+  renderPicker() {
+    const uploading = this.uploading();
+
     return (
-      this.state.uploading ?
-      <progress className="progress is-small is-info" value={this.state.progress} max="100"></progress>
-        : <PhotoPicker
-        onPick={
-          data => {
-            this.upload(data)
-          }
-        }/>
+      <div>
+        {uploading}
+        <div className="file is-boxed">
+        <label className="file-label">
+          <input onChange={ e => {
+              this.upload(e.target.files[0]);
+            }} className="file-input" type="file" name="resume" />
+          <span className="file-cta">
+            <span className="file-label">
+              Choose a photo
+            </span>
+          </span>
+        </label>
+        </div>
+      </div>
     )
   }
 
@@ -109,4 +109,10 @@ class ImageUpload extends Component {
   }
 }
 
-export default ImageUpload;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    saveQuiz,
+  }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(ImageUpload);
