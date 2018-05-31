@@ -24,6 +24,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
     "reactbulma": "^1.1.1",
+    "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
     "twitter-text": "^2.0.3",
     "uuid": "^3.2.1"
