@@ -4,7 +4,7 @@ import Handlebars from 'handlebars';
 delimiters(Handlebars, ['<%', '%>']);
 
 const generateLink = ({rates, pageUrl, currency, lang, linkText, recurringDefault}, amount) => {
-  const textParts = linkText.split('$');
+  const textParts = linkText.split('{{amount}}');
   let convertedAmount = parseInt(rates[currency] * amount, 10);
   convertedAmount = new Intl.NumberFormat(lang, { style: 'currency', currency: currency }).format(convertedAmount);
 
@@ -20,7 +20,7 @@ const generateLink = ({rates, pageUrl, currency, lang, linkText, recurringDefaul
     `<a style="background-color: #dc6134; border: 1px solid #dc6134; border-radius: 3px; color: #ffffff; display: block; font-family: sans-serif; font-size: 14px; text-transform: uppercase; line-height: 44px; text-align: center; font-weight: bold; text-decoration: none; width: 90%; max-width: 350px; -webkit-text-size-adjust: none; white-space: nowrap; box-shadow: inset 0 -1.2px rgba(0, 0, 0, 0.12) !important;"
         title="SumOfUs"
         href="${pageUrl}?amount=${amount}${recurringDefaultParam}&amp;currency=${currency}&amp;source=fwd">
-      ${textParts[0]} ${convertedAmount} ${textParts[1]}
+      ${textParts[0]}${convertedAmount}${textParts[1]}
     </a>`
   );
 };

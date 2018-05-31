@@ -3,6 +3,7 @@ import axios from 'axios';
 import Menu from './Menu';
 import NonDonorEmailForm from './NonDonorEmailForm';
 import MonthlyFundraiserForm from './MonthlyFundraiserForm';
+import * as enCopy from './locales/en';
 import { compact } from 'lodash';
 
 class Generator extends Component {
@@ -10,20 +11,9 @@ class Generator extends Component {
     super(props)
 
     const state = {
-      pageUrl: 'https://foobar.com',
-      plainText: "Can you chip in $ to keep nestle's hands off our water",
-      linkText: "Can you chip in $ to keep nestle's hands off our water",
       rates: {},
       lang: 'en',
-      section: 'monthly',
-      donateAnotherAmountText: 'Donate another amount',
-      monthlyAmount1: 1,
-      monthlyAmount2: 5,
-      monthlyAmount3: 10,
-      monthlyAmount4: '',
-      monthlyAmount5: '',
-      recurringDefault: '',
-      amounts: []
+      ...enCopy
     }
 
     this.state = {
@@ -80,7 +70,11 @@ class Generator extends Component {
   }
 
   switchLang(lang) {
-    this.setState({lang});
+    console.log(lang);
+    import(`./locales/${lang}`).then(data => {
+      console.log(data);
+      this.setState({lang, ...data});
+    })
   }
 
   render() {
@@ -125,6 +119,5 @@ class Generator extends Component {
     )
   }
 }
-
 
 export default Generator;
