@@ -5,7 +5,7 @@ import EmailTool from './EmailTool';
 import TweetTool from './TweetTool';
 import QuizMaker from './containers/QuizMaker';
 import ListQuizzes from './containers/ListQuizzes';
-import FundraiserMailingGenerator from './containers/FundraiserMailingGenerator/Generator';
+import FundraiserMailingGenerator from './FundraiserMailingGenerator/BaseComponent';
 
 import {
   HashRouter as Router,
