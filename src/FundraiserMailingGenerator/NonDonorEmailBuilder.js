@@ -92,8 +92,8 @@ const templates = {
 };
 
 const Data = state => {
-  const plainText = state.plainText.split('$');
-  const linkText = state.linkText.split('$');
+  const plainText = state.plainText.split('{{amount}}');
+  const linkText = state.linkText.split('{{amount}}');
 
   const memo = Object.assign({}, state, state.rates, {
     plainPre:   plainText[0].trim(),

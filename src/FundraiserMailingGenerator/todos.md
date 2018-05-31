@@ -7,6 +7,7 @@
 * Change labels on buttons (box template, button, link, plain text)
 * Add feedback to actions
 * Code reuse
+* Validate and show errors (eg blank field)
 
 
 ## Ideas

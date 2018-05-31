@@ -3,25 +3,29 @@ import axios from 'axios';
 import Menu from './Menu';
 import NonDonorEmailForm from './NonDonorEmailForm';
 import MonthlyFundraiserForm from './MonthlyFundraiserForm';
-import * as enCopy from './locales/en';
+import * as en from './locales/en';
+import * as fr from './locales/fr';
+import * as de from './locales/de';
 import { compact } from 'lodash';
+
+const hydrateState = () => {
+  const defaultState = {
+    rates: {},
+    lang: 'en',
+    en,
+    de,
+    fr,
+  };
+  const cache = localStorage.getItem('fundraiserMailingBuilder');
+  const localState = JSON.parse(cache) || {};
+  return { ...defaultState, ...localState };
+}
 
 class Generator extends Component {
   constructor(props) {
     super(props)
 
-    const state = {
-      rates: {},
-      lang: 'en',
-      ...enCopy
-    }
-
-    this.state = {
-      // buttonCompiled: BuildTemplate(state, buttonTemplate),
-      // plainCompiled: BuildTemplate(state, textTemplate),
-      // linkCompiled: BuildTemplate(state, linkTemplate),
-      ...state
-    }
+    this.state = hydrateState();
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -58,9 +62,13 @@ class Generator extends Component {
   }
 
   handleChange(e) {
-    this.setState({
+    const previousDefaults = this.state[this.lang];
+    const newDefaults = {
+      ...previousDefaults,
       [e.target.name]: e.target.value,
-    });
+    };
+
+    this.setState({ [this.state.lang]: newDefaults });
 
     this.setAmounts();
   }
@@ -70,25 +78,33 @@ class Generator extends Component {
   }
 
   switchLang(lang) {
-    console.log(lang);
     import(`./locales/${lang}`).then(data => {
       console.log(data);
       this.setState({lang, ...data});
     })
   }
 
+  formState() {
+    const { rates, lang } = this.state;
+    return {
+      ...this.state[this.state.lang],
+      rates,
+      lang,
+    };
+  }
+
   render() {
-    const form = ( (section) => {
+    const form = (section => {
       switch(section) {
         case 'nonDonor':
           return <NonDonorEmailForm
             handleChange={this.handleChange.bind(this)}
-            {...this.state}
+            {...this.formState()}
           />;
         case 'monthly':
           return <MonthlyFundraiserForm
             handleChange={this.handleChange.bind(this)}
-            {...this.state}
+            {...this.formState()}
           />;
         default:
           return '';
