@@ -7,6 +7,7 @@ import * as en from './locales/en';
 import * as fr from './locales/fr';
 import * as de from './locales/de';
 import { compact } from 'lodash';
+import { Route } from 'react-router';
 
 const hydrateState = () => {
   const defaultState = {
@@ -45,15 +46,19 @@ class Generator extends Component {
         monthlyAmount2,
         monthlyAmount3,
         monthlyAmount4,
-        monthlyAmount5])
-    })
+        monthlyAmount5,
+      ]),
+    });
   }
 
   fetchCurrencyData() {
-    axios.get('https://openexchangerates.org/api/latest.json?app_id=b35691a10625439b84bd3638ee37b741')
+    axios
+      .get(
+        'https://openexchangerates.org/api/latest.json?app_id=b35691a10625439b84bd3638ee37b741'
+      )
       .then(resp => {
-        this.setState({ rates: resp.data.rates })
-      })
+        this.setState({ rates: resp.data.rates });
+      });
   }
 
   componentDidMount() {
@@ -94,45 +99,64 @@ class Generator extends Component {
   }
 
   render() {
-    const form = (section => {
-      switch(section) {
-        case 'nonDonor':
-          return <NonDonorEmailForm
-            handleChange={this.handleChange.bind(this)}
-            {...this.formState()}
-          />;
-        case 'monthly':
-          return <MonthlyFundraiserForm
-            handleChange={this.handleChange.bind(this)}
-            {...this.formState()}
-          />;
-        default:
-          return '';
-      }
-    })(this.state.section);
-
     const lang = this.state.lang;
     return (
-      <div className='section'>
-        <div className='container'>
+      <div className="section">
+        <div className="container">
           <nav className="breadcrumb">
             <ul>
               <li className={lang === 'en' ? 'is-active' : ''}>
-                <a onClick={(e) => e.preventDefault() || this.switchLang('en')} >En</a>
+                <a onClick={e => e.preventDefault() || this.switchLang('en')}>
+                  En
+                </a>
               </li>
               <li className={lang === 'fr' ? 'is-active' : ''}>
-                <a onClick={(e) => e.preventDefault() || this.switchLang('fr')} >Fr</a>
+                <a onClick={e => e.preventDefault() || this.switchLang('fr')}>
+                  Fr
+                </a>
               </li>
               <li className={lang === 'de' ? 'is-active' : ''}>
-                <a onClick={(e) => e.preventDefault() || this.switchLang('de')} >De</a>
+                <a onClick={e => e.preventDefault() || this.switchLang('de')}>
+                  De
+                </a>
               </li>
             </ul>
           </nav>
-          <Menu switchTo={this.handleSwitch.bind(this)} section={this.state.section} />
-          {form}
+          <Menu
+            switchTo={this.handleSwitch.bind(this)}
+            section={this.state.section}
+          />
+
+          <Route
+            exact
+            path="/fundraiser-mailing"
+            component={props => (
+              <NonDonorEmailForm
+                handleChange={this.handleChange.bind(this)}
+                {...this.formState()}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/fundraiser-mailing/donors"
+            component={() => 'Not implemented'}
+          />
+          <Route
+            exact
+            path="/fundraiser-mailing/recurring-donors"
+            component={props => (
+              <MonthlyFundraiserForm
+                handleChange={this.handleChange.bind(this)}
+                {...this.formState()}
+                {...props}
+              />
+            )}
+          />
         </div>
       </div>
-    )
+    );
   }
 }
 

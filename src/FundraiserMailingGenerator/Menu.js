@@ -1,16 +1,32 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import './Menu.css';
 
-export default (props) => (
-  <nav className="breadcrumb is-centered is-large">
+export default props => (
+  <nav className="FundraiserMailingMenu breadcrumb is-centered">
     <ul>
-      <li className={props.section === 'nonDonor' ? 'is-active' : ''}>
-        <a href="#" onClick={(e) => e.preventDefault() || props.switchTo('nonDonor')} >Non Donor Email</a>
+      <li>
+        <NavLink exact to="/fundraiser-mailing" activeClassName="is-active">
+          Non Donor Email
+        </NavLink>
       </li>
-      <li className={props.section === 'donor' ? 'is-active' : ''}>
-        <a href="#" onClick={(e) => e.preventDefault() || props.switchTo('donor')} >Donor Email</a>
+      <li>
+        <NavLink
+          exact
+          to="/fundraiser-mailing/donors"
+          activeClassName="is-active"
+        >
+          Donor Email
+        </NavLink>
       </li>
-      <li className={props.section === 'monthly' ? 'is-active' : ''}>
-        <a href="#" onClick={(e) => e.preventDefault() || props.switchTo('monthly')}>Monthly Fundraiser</a>
+      <li>
+        <NavLink
+          exact
+          to="/fundraiser-mailing/recurring-donors"
+          activeClassName="is-active"
+        >
+          Monthly Fundraiser
+        </NavLink>
       </li>
     </ul>
   </nav>

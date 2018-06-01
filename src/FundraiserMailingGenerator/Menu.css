@@ -1,0 +1,10 @@
+.FundraiserMailingMenu a {
+  margin: auto 1em;
+  padding: 0.5em 0;
+  border-bottom: 2px solid white;
+}
+
+.FundraiserMailingMenu .is-active {
+  border-bottom: 2px solid #c3f3aa;
+  color: #333;
+}
