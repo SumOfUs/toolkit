@@ -50,7 +50,6 @@ const textTemplate = Handlebars.compile(`
   {% endif %} <% post %></p>
 `);
 
-
 const buttonTemplate = Handlebars.compile(`
   <div style="text-align: center; padding-bottom: 10px;" align="center">
     <center>
@@ -78,7 +77,6 @@ const buttonTemplate = Handlebars.compile(`
     </div>
 `);
 
-
 const linkTemplate = Handlebars.compile(`
   <p>
     <a style="font-size: 14px; font-weight: bold; color: #00abbd;" href="<% pageUrl %>?source=fwd&amp;donation_band=${queryString}">
@@ -88,7 +86,9 @@ const linkTemplate = Handlebars.compile(`
 `);
 
 const templates = {
-  textTemplate, buttonTemplate, linkTemplate
+  textTemplate,
+  buttonTemplate,
+  linkTemplate,
 };
 
 const Data = state => {
@@ -96,20 +96,20 @@ const Data = state => {
   const linkText = state.linkText.split('{{amount}}');
 
   const memo = Object.assign({}, state, state.rates, {
-    plainPre:   plainText[0].trim(),
-    plainPost:  plainText[1].trim(),
-    linkPre:    linkText[0].trim(),
-    linkPost:   linkText[1].trim(),
+    plainPre: plainText[0].trim(),
+    plainPost: plainText[1].trim(),
+    linkPre: linkText[0].trim(),
+    linkPost: linkText[1].trim(),
   });
 
   return memo;
-}
+};
 
 export const BuildTemplate = (state, template) => {
   const html = templates[template](Data(state))
     .split(/(\r\n|\n|\r)/)
-    .map( line => line.trim())
+    .map(line => line.trim())
     .join('');
 
   return html;
-}
+};
