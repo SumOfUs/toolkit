@@ -3,28 +3,27 @@ import axios from 'axios';
 import Menu from './Menu';
 import NonDonorEmailForm from './NonDonorEmailForm';
 import MonthlyFundraiserForm from './MonthlyFundraiserForm';
-import * as en from './locales/en';
-import * as fr from './locales/fr';
-import * as de from './locales/de';
+import locales from './locales';
 import { compact } from 'lodash';
 import { Route } from 'react-router';
 
 const hydrateState = () => {
   const defaultState = {
+    section: 'nonDonor',
     rates: {},
     lang: 'en',
-    en,
-    de,
-    fr,
+    en: locales.en,
+    de: locales.de,
+    fr: locales.fr,
   };
   const cache = localStorage.getItem('fundraiserMailingBuilder');
   const localState = JSON.parse(cache) || {};
   return { ...defaultState, ...localState };
-}
+};
 
 class Generator extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = hydrateState();
 
@@ -37,7 +36,7 @@ class Generator extends Component {
       monthlyAmount2,
       monthlyAmount3,
       monthlyAmount4,
-      monthlyAmount5
+      monthlyAmount5,
     } = this.state;
 
     this.setState({
@@ -79,14 +78,13 @@ class Generator extends Component {
   }
 
   handleSwitch(section) {
-    this.setState({section});
+    this.setState({ section });
   }
 
   switchLang(lang) {
     import(`./locales/${lang}`).then(data => {
-      console.log(data);
-      this.setState({lang, ...data});
-    })
+      this.setState({ lang, ...data });
+    });
   }
 
   formState() {
