@@ -19,6 +19,7 @@
     "react": "^16.2.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.2.0",
+    "react-loadable": "^5.4.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
@@ -35,6 +36,12 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "precommit": "precise-commits"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "precise-commits": "^1.0.2",
+    "prettier": "^1.13.3"
   }
 }
