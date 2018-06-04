@@ -16,9 +16,11 @@
     "immutable": "^3.8.2",
     "lodash": "^4.17.10",
     "mustache": "^2.3.0",
+    "query-string": "^6.1.0",
     "react": "^16.2.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.2.0",
+    "react-intl": "^2.4.0",
     "react-loadable": "^5.4.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
@@ -37,11 +39,16 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "precommit": "precise-commits"
+    "precommit": "precise-commits",
+    "flow": "flow"
   },
   "devDependencies": {
+    "flow-bin": "^0.73.0",
     "husky": "^0.14.3",
     "precise-commits": "^1.0.2",
     "prettier": "^1.13.3"
+  },
+  "peerDependencies": {
+    "jest": "*"
   }
 }
