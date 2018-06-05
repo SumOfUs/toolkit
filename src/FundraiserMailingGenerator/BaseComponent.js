@@ -1,154 +1,110 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Menu from './Menu';
-import NonDonorEmailForm from './NonDonorEmailForm';
-import MonthlyFundraiserForm from './MonthlyFundraiserForm';
-import locales from './locales';
-import { compact } from 'lodash';
-import { Route } from 'react-router';
+// @flow
 
-const hydrateState = () => {
-  const defaultState = {
-    section: 'nonDonor',
-    rates: {},
-    lang: 'en',
-    en: locales.en,
-    de: locales.de,
-    fr: locales.fr,
-  };
-  const cache = localStorage.getItem('fundraiserMailingBuilder');
-  const localState = JSON.parse(cache) || {};
-  return { ...defaultState, ...localState };
+import React, { Component } from 'react';
+import { debounce } from 'lodash';
+import { Route } from 'react-router';
+import { Field, Input } from 'reactbulma';
+
+import { fetchRates } from './utils/exchange-rates';
+import { hydrate, save } from './state/localStorage';
+
+import Basic from './components/Basic';
+import Donors from './components/Donors';
+import FixedAmountBox from './components/FixedAmountBox';
+import Menu from './components/Menu';
+import SwitchLanguage from './components/SwitchLanguage';
+
+import type { Rates } from './utils/exchange-rates';
+
+export type State = {
+  url: string,
+  rates: ?Rates,
+  lang: string,
 };
 
-class Generator extends Component {
-  constructor(props) {
-    super(props);
+class Generator extends Component<null, State> {
+  _debouncedSave: any;
 
-    this.state = hydrateState();
+  static defaultState: State = {
+    url: 'https://actions.sumofus.org/a/donate',
+    rates: null,
+    lang: 'en',
+  };
 
-    this.handleChange = this.handleChange.bind(this);
+  constructor() {
+    super();
+    this.state = hydrate('BaseComponent', Generator.defaultState);
   }
 
-  setAmounts() {
-    const {
-      monthlyAmount1,
-      monthlyAmount2,
-      monthlyAmount3,
-      monthlyAmount4,
-      monthlyAmount5,
-    } = this.state;
-
-    this.setState({
-      amounts: compact([
-        monthlyAmount1,
-        monthlyAmount2,
-        monthlyAmount3,
-        monthlyAmount4,
-        monthlyAmount5,
-      ]),
-    });
+  componentDidUpdate() {
+    this._debouncedSave = this.saveState();
   }
 
-  fetchCurrencyData() {
-    axios
-      .get(
-        'https://openexchangerates.org/api/latest.json?app_id=b35691a10625439b84bd3638ee37b741'
-      )
-      .then(resp => {
-        this.setState({ rates: resp.data.rates });
-      });
+  componentWillUnmount() {
+    if (this._debouncedSave) this._debouncedSave.flush();
   }
 
-  componentDidMount() {
-    this.fetchCurrencyData();
-    this.setAmounts();
-  }
+  saveState = debounce(() => save('BaseComponent', this.state), 3000);
 
-  handleChange(e) {
-    const previousDefaults = this.state[this.lang];
-    const newDefaults = {
-      ...previousDefaults,
-      [e.target.name]: e.target.value,
-    };
-
-    this.setState({ [this.state.lang]: newDefaults });
-
-    this.setAmounts();
-  }
-
-  handleSwitch(section) {
-    this.setState({ section });
-  }
-
-  switchLang(lang) {
-    import(`./locales/${lang}`).then(data => {
-      this.setState({ lang, ...data });
-    });
-  }
-
-  formState() {
-    const { rates, lang } = this.state;
-    return {
-      ...this.state[this.state.lang],
-      rates,
-      lang,
-    };
+  async componentDidMount() {
+    const rates = await fetchRates();
+    this.setState({ rates });
   }
 
   render() {
-    const lang = this.state.lang;
     return (
       <div className="section">
         <div className="container">
-          <nav className="breadcrumb">
-            <ul>
-              <li className={lang === 'en' ? 'is-active' : ''}>
-                <a onClick={e => e.preventDefault() || this.switchLang('en')}>
-                  En
-                </a>
-              </li>
-              <li className={lang === 'fr' ? 'is-active' : ''}>
-                <a onClick={e => e.preventDefault() || this.switchLang('fr')}>
-                  Fr
-                </a>
-              </li>
-              <li className={lang === 'de' ? 'is-active' : ''}>
-                <a onClick={e => e.preventDefault() || this.switchLang('de')}>
-                  De
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <Menu
-            switchTo={this.handleSwitch.bind(this)}
-            section={this.state.section}
+          <SwitchLanguage
+            currentLanguage={this.state.lang}
+            onChange={lang => this.setState({ lang })}
           />
+          <Menu />
+
+          <div className="UrlField">
+            <Field>
+              <label className="label">Page URL</label>
+              <Input
+                type="text"
+                name="pageUrl"
+                onChange={e => this.setState({ url: e.target.value })}
+                value={this.state.url}
+              />
+            </Field>
+          </div>
 
           <Route
             exact
             path="/fundraiser-mailing"
             component={props => (
-              <NonDonorEmailForm
-                handleChange={this.handleChange.bind(this)}
-                {...this.formState()}
-                {...props}
+              <Basic
+                url={this.state.url}
+                rates={this.state.rates}
+                lang={this.state.lang}
               />
             )}
           />
+
           <Route
             exact
             path="/fundraiser-mailing/donors"
-            component={() => 'Not implemented'}
+            component={props => (
+              <Donors
+                url={this.state.url}
+                rates={this.state.rates}
+                lang={this.state.lang}
+              />
+            )}
           />
+
           <Route
             exact
             path="/fundraiser-mailing/recurring-donors"
             component={props => (
-              <MonthlyFundraiserForm
-                handleChange={this.handleChange.bind(this)}
-                {...this.formState()}
-                {...props}
+              <FixedAmountBox
+                url={this.state.url}
+                rates={this.state.rates}
+                lang={this.state.lang}
               />
             )}
           />

@@ -3,59 +3,97 @@ import Handlebars from 'handlebars';
 
 delimiters(Handlebars, ['<%', '%>']);
 
-const generateLink = ({rates, pageUrl, currency, lang, linkText, recurringDefault}, amount) => {
+const currencyMap = {
+  AUD: ['Australia'],
+  CAD: ['Canada'],
+  GBP: ['United Kingdom'],
+  NZD: ['New Zealand'],
+  CHF: ['Switzerland'],
+  EUR: [
+    'Austria',
+    'Belgium',
+    'Cyprus',
+    'Germany',
+    'Estonia',
+    'Spain',
+    'Finland',
+    'France',
+    'Greece',
+    'Ireland',
+    'Italy',
+    'Lithuania',
+    'Luxembourg',
+    'Latvia',
+    'Malta',
+    'Netherlands',
+    'Portugal',
+    'Slovenia',
+    'Slovakia',
+  ],
+};
+
+const generateLink = (
+  { rates, pageUrl, currency, lang, linkText, recurringDefault },
+  amount
+) => {
   const textParts = linkText.split('{{amount}}');
   let convertedAmount = parseInt(rates[currency] * amount, 10);
-  convertedAmount = new Intl.NumberFormat(lang, { style: 'currency', currency: currency }).format(convertedAmount);
+  convertedAmount = new Intl.NumberFormat(lang, {
+    style: 'currency',
+    currency: currency,
+  }).format(convertedAmount);
 
   let recurringDefaultParam = '';
 
-  if(recurringDefault !== ''){
+  if (recurringDefault !== '') {
     recurringDefaultParam = `&amp;recurring_default=${recurringDefault}`;
   }
 
   console.log(recurringDefaultParam);
 
-  return (
-    `<a style="background-color: #dc6134; border: 1px solid #dc6134; border-radius: 3px; color: #ffffff; display: block; font-family: sans-serif; font-size: 14px; text-transform: uppercase; line-height: 44px; text-align: center; font-weight: bold; text-decoration: none; width: 90%; max-width: 350px; -webkit-text-size-adjust: none; white-space: nowrap; box-shadow: inset 0 -1.2px rgba(0, 0, 0, 0.12) !important;"
+  return `<a style="background-color: #dc6134; border: 1px solid #dc6134; border-radius: 3px; color: #ffffff; display: block; font-family: sans-serif; font-size: 14px; text-transform: uppercase; line-height: 44px; text-align: center; font-weight: bold; text-decoration: none; width: 90%; max-width: 350px; -webkit-text-size-adjust: none; white-space: nowrap; box-shadow: inset 0 -1.2px rgba(0, 0, 0, 0.12) !important;"
         title="SumOfUs"
         href="${pageUrl}?amount=${amount}${recurringDefaultParam}&amp;currency=${currency}&amp;source=fwd">
       ${textParts[0]}${convertedAmount}${textParts[1]}
-    </a>`
-  );
+    </a>`;
 };
 
-const otherAmountLink = ({pageUrl, currency, donateAnotherAmountText, recurringDefault}) => {
+const otherAmountLink = ({
+  pageUrl,
+  currency,
+  donateAnotherAmountText,
+  recurringDefault,
+}) => {
   let recurringDefaultParam = '';
 
-  if(recurringDefault !== ''){
+  if (recurringDefault !== '') {
     recurringDefaultParam = `&amp;recurring_default=${recurringDefault}`;
   }
 
-  return (
-    `<div style="padding-bottom: 10px;">
+  return `<div style="padding-bottom: 10px;">
       <a style="color: #00abbd; font-family: sans-serif; font-size: 14px; line-height: 44px; font-weight: bold;" title="SumOfUs"
         href="${pageUrl}?currency=${currency}${recurringDefaultParam}&amp;source=fwd">
         ${donateAnotherAmountText}
       </a>
       <br />
-    </div>`
-  );
+    </div>`;
 };
 
 const section = (amounts, opts) => {
-  let content = amounts.map( amount => (`
+  let content = amounts.map(
+    amount => `
     <div style="padding-bottom: 10px;">
       ${generateLink(opts, amount)}
       <br />
     </div>
-  `));
+  `
+  );
 
-  content.push(otherAmountLink(opts))
+  content.push(otherAmountLink(opts));
   return content.join('');
 };
 
-export default (opts) => {
+export default opts => {
   const amounts = opts.amounts;
 
   let html = `
@@ -77,4 +115,44 @@ export default (opts) => {
   `;
 
   return html;
-}
+};
+
+const countrySwitch = (countries, currency, opts, pos) => {
+  const { amounts } = opts;
+  let keyword = 'if';
+  if (pos > 0) keyword = 'elif';
+
+  const conditions = countries.map(c => `user.country == "${c}"`).join(' or ');
+
+  return `{% ${keyword} ${conditions} %}${section(amounts, {
+    ...opts,
+    currency,
+  })}`;
+};
+
+const htmlBuilder = opts => {
+  const { amounts } = opts;
+  let html = Object.keys(currencyMap)
+    .map((currency, index) => {
+      const countries = currencyMap[currency];
+      let keyword = 'if';
+      if (index > 0) keyword = 'elif';
+
+      const conditions = countries
+        .map(c => `user.country == "${c}"`)
+        .join(' or ');
+
+      return `{% ${keyword} ${conditions} %}${section(amounts, {
+        ...opts,
+        currency,
+      })}`;
+    })
+    .join('');
+
+  html += `{% else %}${section(amounts, {
+    ...opts,
+    currrency: 'USD',
+  })}{% endif %}`;
+
+  return html;
+};

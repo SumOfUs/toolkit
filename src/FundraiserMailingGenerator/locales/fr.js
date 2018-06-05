@@ -1,6 +1,6 @@
-export const pageUrl = '';
-export const plainText = "FR Can you chip in {{amount}} to keep nestle's hands off our water";
-export const linkText = "FR Can you chip in {{amount}} to keep nestle's hands off our water";
+export const pageUrl = 'https://actions.sumofus.org/a/donate';
+export const plainText = `Oui, je vais faire un don de {{amount}} pour sauver les abeilles`;
+export const linkText = `Oui, je vais faire un don de {{amount}} pour sauver les abeilles`;
 export const section = 'monthly';
 export const donateAnotherAmountText = 'FR Donate another amount';
 export const monthlyAmount1 = 1;
@@ -9,4 +9,4 @@ export const monthlyAmount3 = 10;
 export const monthlyAmount4 = '';
 export const monthlyAmount5 = '';
 export const recurringDefault = '';
-export const amounts = []
+export const amounts = [];

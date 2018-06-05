@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Menu.css';
 
-export default props => (
+export default () => (
   <nav className="FundraiserMailingMenu breadcrumb is-centered">
     <ul>
       <li>
