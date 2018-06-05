@@ -1,33 +1,34 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { Tabs } from 'reactbulma';
 import './Menu.css';
 
 export default () => (
-  <nav className="FundraiserMailingMenu breadcrumb is-centered">
+  <Tabs centered className="FundraiserMailingMenu">
     <ul>
       <li>
         <NavLink exact to="/fundraiser-mailing" activeClassName="is-active">
-          Non Donor Email
+          Suggested Amounts
         </NavLink>
       </li>
       <li>
         <NavLink
           exact
-          to="/fundraiser-mailing/donors"
+          to="/fundraiser-mailing/multipliers"
           activeClassName="is-active"
         >
-          Donor Email
+          Suggested Amounts (Donors)
         </NavLink>
       </li>
       <li>
         <NavLink
           exact
-          to="/fundraiser-mailing/recurring-donors"
+          to="/fundraiser-mailing/fixed-amount"
           activeClassName="is-active"
         >
-          Monthly Fundraiser
+          Fixed Amounts (Monthly)
         </NavLink>
       </li>
     </ul>
-  </nav>
+  </Tabs>
 );

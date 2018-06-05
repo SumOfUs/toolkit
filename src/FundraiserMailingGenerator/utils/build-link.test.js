@@ -84,7 +84,7 @@ describe('buildLink', () => {
   describe('Link Style', () => {
     test('link to have a style attribute', () => {
       expect(buildLink(options)).toEqual(
-        expect.stringMatching(/style="background-color.+\!important"/)
+        expect.stringMatching(/style="font-size:14px;font-weight:bold.+\"/)
       );
     });
   });

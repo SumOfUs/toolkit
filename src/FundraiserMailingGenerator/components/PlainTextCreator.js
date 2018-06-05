@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Field, Input, Control, Button, Icon } from 'reactbulma';
-import CopyButton from './CopyButton';
+import InputWithActions from './InputWithActions';
 import { debounce, isEqual } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import { buildPlainText } from '../utils';
@@ -18,9 +17,9 @@ export default class PlainTextCreator extends Component<Props, State> {
 
   static defaultState = {
     template: {
-      en: 'Will you chip in {{amount}} to save the bees?',
-      fr: 'Will you chip in {{amount}} to save the bees?',
-      de: 'Will you chip in {{amount}} to save the bees?',
+      en: 'Will you chip in {{amount}} to help ...?',
+      fr: 'Ferez-vous un don de {{amount}} pour aider ...?',
+      de: 'Wirst du {{amount}} spenden um zu helfen ...?',
     },
   };
 
@@ -42,7 +41,7 @@ export default class PlainTextCreator extends Component<Props, State> {
     if (this._debouncedSave) this._debouncedSave.flush();
   }
 
-  saveState = debounce(() => save('PlainTextCreator', this.state), 3000);
+  saveState = debounce(() => save('PlainTextCreator', this.state), 1500);
 
   updateTemplate = (data: { [string]: string }) => {
     this.setState({ template: { ...this.state.template, ...data } });
@@ -53,7 +52,7 @@ export default class PlainTextCreator extends Component<Props, State> {
   build = (): string => {
     const { rates, lang } = this.props;
     const template = this.state.template[this.props.lang];
-    if (rates) return buildPlainText(template, rates, lang);
+    if (rates) return buildPlainText({ template, rates, lang });
 
     throw new Error('Rates not loaded');
   };
@@ -64,27 +63,14 @@ export default class PlainTextCreator extends Component<Props, State> {
 
   render() {
     return (
-      <div className="PlainTextBuilder">
-        <label className="label">Plain Text Content</label>
-        <Field hasAddons>
-          <Control>
-            <Button onClick={this.resetTemplate}>
-              <Icon small>
-                <i className="fas fa-sync" />
-              </Icon>
-            </Button>
-          </Control>
-          <Control style={{ width: '100%' }}>
-            <Input
-              type="text"
-              onChange={this.onChange}
-              value={this.state.template[this.props.lang]}
-            />
-          </Control>
-          <Control>
-            <CopyButton textFn={this.build} />
-          </Control>
-        </Field>
+      <div className="PlainTextBuilder tool-section">
+        <label className="label">Build plain text</label>
+        <InputWithActions
+          value={this.state.template[this.props.lang]}
+          onChange={this.onChange}
+          onReset={this.resetTemplate}
+          onSubmit={this.build}
+        />
       </div>
     );
   }

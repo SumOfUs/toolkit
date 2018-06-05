@@ -4,15 +4,14 @@ import React, { Component } from 'react';
 import { debounce } from 'lodash';
 import { Route } from 'react-router';
 import { Field, Input } from 'reactbulma';
-
 import { fetchRates } from './utils/exchange-rates';
 import { hydrate, save } from './state/localStorage';
-
 import Basic from './components/Basic';
 import Donors from './components/Donors';
 import FixedAmountBox from './components/FixedAmountBox';
 import Menu from './components/Menu';
 import SwitchLanguage from './components/SwitchLanguage';
+import './BaseComponent.css';
 
 import type { Rates } from './utils/exchange-rates';
 
@@ -53,7 +52,7 @@ class Generator extends Component<null, State> {
 
   render() {
     return (
-      <div className="section">
+      <div className="BaseComponent section">
         <div className="container">
           <SwitchLanguage
             currentLanguage={this.state.lang}
@@ -61,17 +60,15 @@ class Generator extends Component<null, State> {
           />
           <Menu />
 
-          <div className="UrlField">
-            <Field>
-              <label className="label">Page URL</label>
-              <Input
-                type="text"
-                name="pageUrl"
-                onChange={e => this.setState({ url: e.target.value })}
-                value={this.state.url}
-              />
-            </Field>
-          </div>
+          <Field className="BaseComponent-url">
+            <label className="label">Page URL</label>
+            <Input
+              type="text"
+              name="pageUrl"
+              onChange={e => this.setState({ url: e.target.value })}
+              value={this.state.url}
+            />
+          </Field>
 
           <Route
             exact
@@ -87,7 +84,7 @@ class Generator extends Component<null, State> {
 
           <Route
             exact
-            path="/fundraiser-mailing/donors"
+            path="/fundraiser-mailing/multipliers"
             component={props => (
               <Donors
                 url={this.state.url}
@@ -99,7 +96,7 @@ class Generator extends Component<null, State> {
 
           <Route
             exact
-            path="/fundraiser-mailing/recurring-donors"
+            path="/fundraiser-mailing/fixed-amount"
             component={props => (
               <FixedAmountBox
                 url={this.state.url}
