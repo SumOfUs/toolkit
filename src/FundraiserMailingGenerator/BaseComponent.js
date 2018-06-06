@@ -7,7 +7,7 @@ import { Field, Input } from 'reactbulma';
 import { fetchRates } from './utils/exchange-rates';
 import { hydrate, save } from './state/localStorage';
 import Basic from './components/Basic';
-import Donors from './components/Donors';
+import SuggestedAmountsDonors from './components/SuggestedAmountsDonors';
 import FixedAmountBox from './components/FixedAmountBox';
 import Menu from './components/Menu';
 import SwitchLanguage from './components/SwitchLanguage';
@@ -86,7 +86,7 @@ class Generator extends Component<null, State> {
             exact
             path="/fundraiser-mailing/multipliers"
             component={props => (
-              <Donors
+              <SuggestedAmountsDonors
                 url={this.state.url}
                 rates={this.state.rates}
                 lang={this.state.lang}
