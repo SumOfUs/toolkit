@@ -14,7 +14,7 @@ export default () => (
       <li>
         <NavLink
           exact
-          to="/fundraiser-mailing/multipliers"
+          to="/fundraiser-mailing/suggested-amounts-donors"
           activeClassName="is-active"
         >
           Suggested Amounts (Donors)

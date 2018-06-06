@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react';
-import { Field, Input, Control, Button, Icon } from 'reactbulma';
 import CopyButton from './CopyButton';
 import InputWithActions from './InputWithActions';
 import { debounce, isEqual } from 'lodash';

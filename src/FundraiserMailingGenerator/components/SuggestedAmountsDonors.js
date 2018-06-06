@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button, Control, Field, Icon, Input } from 'reactbulma';
-import { debounce } from 'lodash';
+import { debounce, includes } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import CopyButton from '../components/CopyButton';
 import UrlBuilder from '../utils/builders/url';
@@ -18,7 +18,7 @@ type State = {
   buttonTemplate: Translations,
   otherLinkTemplate: Translations,
 };
-export default class FixedAmountCreator extends Component<Props, State> {
+export default class SuggestedAmountsDonors extends Component<Props, State> {
   _debouncedSave: any;
   static defaultState: State = {
     amounts: [4, 8, 20, undefined, undefined],
@@ -36,7 +36,10 @@ export default class FixedAmountCreator extends Component<Props, State> {
   };
   constructor(props: Props) {
     super(props);
-    this.state = hydrate('FixedAmountCreator', FixedAmountCreator.defaultState);
+    this.state = hydrate(
+      'SuggestedAmountsDonors',
+      SuggestedAmountsDonors.defaultState
+    );
   }
 
   componentDidUpdate() {
@@ -47,7 +50,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
     if (this._debouncedSave) this._debouncedSave.flush();
   }
 
-  saveState = debounce(() => save('FixedAmountCreator', this.state), 500);
+  saveState = debounce(() => save('SuggestedAmountsDonors', this.state), 500);
 
   updateButtonTemplate = (e: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({
@@ -87,7 +90,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
     }
   };
 
-  resetState = () => this.setState(FixedAmountCreator.defaultState);
+  resetState = () => this.setState(SuggestedAmountsDonors.defaultState);
 
   link = (amount: number): string => {
     const { lang, rates, url } = this.props;
@@ -130,7 +133,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
   };
 
   copy = () => {
-    const { rates } = this.props;
+    const { url, rates, lang } = this.props;
     if (!rates) return '';
     return this.state.amounts
       .map(this.button)
@@ -140,9 +143,9 @@ export default class FixedAmountCreator extends Component<Props, State> {
 
   render() {
     return (
-      <div className="FixedAmountCreator tool-section">
+      <div className="SuggestedAmountsDonors tool-section">
         <Field>
-          <label className="label">Button copy</label>
+          <label className="label">Link and button copy</label>
           <Input
             type="text"
             small

@@ -84,7 +84,7 @@ class Generator extends Component<null, State> {
 
           <Route
             exact
-            path="/fundraiser-mailing/multipliers"
+            path="/fundraiser-mailing/suggested-amounts-donors"
             component={props => (
               <SuggestedAmountsDonors
                 url={this.state.url}
