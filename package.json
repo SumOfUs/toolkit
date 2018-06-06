@@ -35,7 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "NODE_ICU_DATA=node_modules/full-icu react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "flow-bin": "^0.73.0",
+    "full-icu": "^1.2.1",
     "husky": "^0.14.3",
     "precise-commits": "^1.0.2",
     "prettier": "^1.13.3"
