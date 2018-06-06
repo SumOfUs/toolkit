@@ -43,18 +43,20 @@ describe('buildLink', () => {
       );
 
       expect(buildLink({ ...options, locale: 'fr' })).toEqual(
-        expect.stringContaining('chip in US$ 10 to')
+        expect.stringContaining(
+          'Will you chip in 10 $US to help fight against corporate power'
+        )
       );
 
       expect(buildLink({ ...options, locale: 'de' })).toEqual(
         expect.stringContaining(
-          'Will you chip in US$ 10 to help fight against corporate power'
+          'Will you chip in 10 $ to help fight against corporate power?'
         )
       );
 
       expect(buildLink({ ...options, currency: 'EUR', locale: 'de' })).toEqual(
         expect.stringContaining(
-          'Will you chip in € 9 to help fight against corporate power'
+          'Will you chip in 9 € to help fight against corporate power?'
         )
       );
     });

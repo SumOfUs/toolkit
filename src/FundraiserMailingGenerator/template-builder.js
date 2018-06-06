@@ -1,6 +1,6 @@
 // @flow
 
-import { currencyMap } from './utils/currency-map';
+import { currencyMap } from './utils/currencyMap';
 
 type RecurringDefault = 'default' | 'recurring' | 'only_recurring' | 'one_off';
 
