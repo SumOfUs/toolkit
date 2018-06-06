@@ -13,39 +13,46 @@ import {
 } from '../actions/index';
 
 class Question extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   deleteQuestion(id) {
     this.props.deleteQuestion(id);
     this.props.saveQuiz();
   }
 
   render() {
-    const answers = this.props.answers.map(
-      (answer, i) => <Answer
-        setCorrectAnswer={ () => {
+    const answers = this.props.answers.map((answer, i) => (
+      <Answer
+        setCorrectAnswer={() => {
           this.props.setCorrectAnswer(this.props.id, i);
           this.props.saveQuiz();
         }}
-        deleteAnswer={ () => {
+        deleteAnswer={() => {
           this.props.deleteAnswer(this.props.id, i);
           this.props.saveQuiz();
         }}
-        key={i} {...answer} />
-    );
+        key={i}
+        {...answer}
+      />
+    ));
 
     return (
-      <div className='box'>
-        <div className='media'>
-          <div className='media-left'>
-            <ImageUpload quizId={this.props.quizId} objectKey={`question/${this.props.id}`} id={this.props.id} saveImage={ this.props.saveImage } image={this.props.image} />
+      <div className="box">
+        <div className="media">
+          <div className="media-left">
+            <ImageUpload
+              quizId={this.props.quizId}
+              objectKey={`question/${this.props.id}`}
+              id={this.props.id}
+              saveImage={this.props.saveImage}
+              image={this.props.image}
+            />
           </div>
-          <div className='media-content'>
-            <div className='content'>
-              <h1 className='title is-2'>
-                <span onClick={this.deleteQuestion.bind(this, this.props.id)}>[del]</span> {this.props.question}
+          <div className="media-content">
+            <div className="content">
+              <h1 className="title is-2">
+                <span onClick={this.deleteQuestion.bind(this, this.props.id)}>
+                  [del]
+                </span>{' '}
+                {this.props.question}
               </h1>
               <ul>{answers}</ul>
               <NewAnswer questionId={this.props.id} />
@@ -55,16 +62,22 @@ class Question extends Component {
       </div>
     );
   }
-};
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    setCorrectAnswer,
-    deleteAnswer,
-    deleteQuestion,
-    saveImage,
-    saveQuiz,
-  }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(Question);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setCorrectAnswer,
+      deleteAnswer,
+      deleteQuestion,
+      saveImage,
+      saveQuiz,
+    },
+    dispatch
+  );
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Question);
