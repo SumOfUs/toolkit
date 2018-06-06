@@ -34,12 +34,12 @@ describe('TextBuilder', () => {
       );
       expect(text.build()).toEqual(
         expect.stringContaining(
-          `{{suggested_ask_via_usd|multiplier:1.3|floatformat:0}}`
+          `{{suggested_ask_via_usd|multiply:1.3|floatformat:0}}`
         )
       );
       expect(text.build()).toEqual(
         expect.stringContaining(
-          `{{suggested_ask_via_usd|multiplier:1|floatformat:0}}`
+          `{{suggested_ask_via_usd|multiply:1|floatformat:0}}`
         )
       );
     });

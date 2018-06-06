@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Field, Input, Control, Button, Icon } from 'reactbulma';
 import CopyButton from './CopyButton';
 

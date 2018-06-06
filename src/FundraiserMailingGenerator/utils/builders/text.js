@@ -38,7 +38,7 @@ export default class TextBuilder {
     return groupByCurrency(currency => {
       const rate = this.config.rates[currency];
       if (!rate) return '';
-      const ask = `{{suggested_ask_via_usd|multiplier:${rate}|floatformat:0}}`;
+      const ask = `{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}`;
       return renderToStaticMarkup(
         <Currency amount={0} currency={currency} locale={this.config.locale} />
       ).replace('0', ask);

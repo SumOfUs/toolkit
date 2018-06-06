@@ -9,15 +9,15 @@ export type RecurringDefault =
   | 'only_recurring'
   | 'one_off';
 
-type UrlBuilderOptions = {
-  url?: string,
-  config?: UrlBuilderConfig,
-};
-
 type UrlBuilderConfig = {
   amount: number,
   rates: Rates,
   recurringDefault?: RecurringDefault,
+};
+
+type UrlBuilderOptions = {
+  url?: string,
+  config?: UrlBuilderConfig,
 };
 
 export default class UrlBuilder {
@@ -32,16 +32,15 @@ export default class UrlBuilder {
   );
 
   constructor(options: UrlBuilderOptions = {}) {
-    const { url, config } = options;
     if (options.url) this.url = options.url;
-    if (config) this.config = config;
+    if (options.config) this.config = options.config;
   }
 
   amount = (currency?: string): string => {
     if (!currency || !this.config || !this.config.rates[currency]) return '';
     const rate = this.config.rates[currency];
     return [
-      `{{${this.config.amount}|multiplier:${rate}|floatformat:0}}`,
+      `{{${this.config.amount}|multiply:${rate}|floatformat:0}}`,
       `currency=${currency}`,
     ].join('&');
   };

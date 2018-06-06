@@ -1,29 +1,33 @@
 export const linkStyle = {
-  fontSize: 14,
-  fontWeight: 'bold',
   color: '#00abbd',
+  fontFamily: 'sans-serif',
+  fontSize: '14px',
+  fontWeight: 'bold',
+  lineHeight: '44px',
+  marginBottom: 20,
 };
 
 export const buttonStyle = {
   backgroundColor: '#dc6134',
   borderRadius: '3px',
+  boxShadow: 'inset 0 -1.2px rgba(0, 0, 0, 0.12) !important',
   color: 'white',
   display: 'block',
   fontFamily: 'sans-serif',
   fontSize: '14px',
-  textTransform: 'uppercase',
-  lineHeight: '44px',
-  textAlign: 'center',
   fontWeight: 'bold',
-  textDecoration: 'none',
-  width: '90%',
+  lineHeight: '44px',
+  marginBottom: 20,
   maxWidth: '350px',
+  textAlign: 'center',
+  textDecoration: 'none',
   textSizeAdjust: 'none',
+  textTransform: 'uppercase',
   whiteSpace: 'nowrap',
-  boxShadow: 'inset 0 -1.2px rgba(0, 0, 0, 0.12) !important',
+  width: '90%',
 };
 
 export const buttonWrapperStyle = {
-  textAlign: 'center',
   paddingBottom: 10,
+  textAlign: 'center',
 };
