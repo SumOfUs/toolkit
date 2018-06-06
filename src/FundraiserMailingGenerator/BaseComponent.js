@@ -6,7 +6,7 @@ import { Route } from 'react-router';
 import { Field, Input } from 'reactbulma';
 import { fetchRates } from './utils/exchange-rates';
 import { hydrate, save } from './state/localStorage';
-import Basic from './components/Basic';
+import SuggestedAmountsBasic from './components/SuggestedAmountsBasic';
 import SuggestedAmountsDonors from './components/SuggestedAmountsDonors';
 import FixedAmountBox from './components/FixedAmountBox';
 import Menu from './components/Menu';
@@ -74,7 +74,7 @@ class Generator extends Component<null, State> {
             exact
             path="/fundraiser-mailing"
             component={props => (
-              <Basic
+              <SuggestedAmountsBasic
                 url={this.state.url}
                 rates={this.state.rates}
                 lang={this.state.lang}
