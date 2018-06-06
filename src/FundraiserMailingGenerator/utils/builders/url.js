@@ -37,7 +37,7 @@ export default class UrlBuilder {
     if (config) this.config = config;
   }
 
-  amount = (currency: string): string => {
+  amount = (currency?: string): string => {
     if (!currency || !this.config || !this.config.rates[currency]) return '';
     const rate = this.config.rates[currency];
     return [

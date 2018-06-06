@@ -1,4 +1,18 @@
+// @flow
 import UrlBuilder from './url';
+
+const config = {
+  amount: 10,
+  rates: {
+    AUD: 1.3,
+    CAD: 1.29,
+    CHF: 0.99,
+    EUR: 0.85,
+    GBP: 0.74,
+    NZD: 1.42,
+    USD: 1,
+  },
+};
 
 describe('UrlBuilder', () => {
   test('has default value', () => {
@@ -35,23 +49,22 @@ describe('UrlBuilder', () => {
     });
 
     test('can also build with an amount and a currency', () => {
-      const url = new UrlBuilder({
-        config: {
-          amount: 10,
-          rates: {
-            AUD: 1.3,
-            CAD: 1.29,
-            CHF: 0.99,
-            EUR: 0.85,
-            GBP: 0.74,
-            NZD: 1.42,
-            USD: 1,
-          },
-        },
-      }).build();
+      const url = new UrlBuilder({ config }).build();
       expect(url).not.toEqual(expect.stringContaining('suggested_ask_via_usd'));
       expect(url).toEqual(expect.stringContaining('amount={% if'));
       expect(url).toEqual(expect.stringContaining('currency='));
+    });
+
+    test('supports adding a recurring_default, value', () => {
+      let url = new UrlBuilder({
+        config: { ...config, recurringDefault: 'default' },
+      }).build();
+      expect(url).toEqual(expect.stringContaining('recurring_default=default'));
+
+      url = new UrlBuilder({
+        config: { ...config, recurringDefault: 'one_off' },
+      }).build();
+      expect(url).toEqual(expect.stringContaining('recurring_default=one_off'));
     });
   });
 
@@ -67,38 +80,12 @@ describe('UrlBuilder', () => {
     });
 
     test(`is an empty string if the instance doesn't have an exchange rate for the given currency`, () => {
-      const url = new UrlBuilder({
-        config: {
-          amount: 10,
-          rates: {
-            AUD: 1.3,
-            CAD: 1.29,
-            CHF: 0.99,
-            EUR: 0.85,
-            GBP: 0.74,
-            NZD: 1.42,
-            USD: 1,
-          },
-        },
-      });
+      const url = new UrlBuilder({ config });
       expect(url.amount('YEN')).toEqual('');
     });
 
     test('is a jinja template with an amount, a multiplier, and a floatformat', () => {
-      const url = new UrlBuilder({
-        config: {
-          amount: 10,
-          rates: {
-            AUD: 1.3,
-            CAD: 1.29,
-            CHF: 0.99,
-            EUR: 0.85,
-            GBP: 0.74,
-            NZD: 1.42,
-            USD: 1,
-          },
-        },
-      });
+      const url = new UrlBuilder({ config });
       expect(url.amount('AUD')).toEqual(
         '{{10|multiplier:1.3|floatformat:0}}&currency=AUD'
       );
