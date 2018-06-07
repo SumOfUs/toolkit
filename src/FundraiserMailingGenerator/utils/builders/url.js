@@ -27,7 +27,7 @@ export default class UrlBuilder {
   config: ?UrlBuilderConfig = null;
 
   static defaultQuery = qs
-    .stringify({ donation_band: 'DONATION_BANDS' })
+    .stringify({ donation_band: 'DONATION_BANDS', source: 'fwd' })
     .replace('DONATION_BANDS', UrlBuilder.donationBandSnippet());
 
   static donationBandSnippet(): string {
