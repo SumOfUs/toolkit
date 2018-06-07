@@ -59,6 +59,7 @@ export default class UrlBuilder {
       amount: 'AMOUNT',
       recurring_default: recurringDefault,
       one_click: oneClick || undefined,
+      source: 'fwd',
     };
 
     return qs.stringify(query).replace('AMOUNT', groupByCurrency(this.amount));
