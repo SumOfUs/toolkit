@@ -1,5 +1,5 @@
 // @flow
-import queryString from 'query-string';
+import qs from 'querystringify';
 import { groupByCurrency } from './helpers';
 import type { Rates } from '../exchange-rates';
 
@@ -26,12 +26,9 @@ export default class UrlBuilder {
   url: string = 'https://actions.sumofus.org/a/donate';
   config: ?UrlBuilderConfig = null;
 
-  static defaultQuery = queryString.stringify(
-    {
-      donation_band: UrlBuilder.donationBandSnippet(),
-    },
-    { encode: false }
-  );
+  static defaultQuery = qs
+    .stringify({ donation_band: 'DONATION_BANDS' })
+    .replace('DONATION_BANDS', UrlBuilder.donationBandSnippet());
 
   static donationBandSnippet(): string {
     return [
@@ -59,12 +56,12 @@ export default class UrlBuilder {
     if (!this.config) return UrlBuilder.defaultQuery;
     let { recurringDefault, oneClick } = this.config;
     const query = {
-      amount: groupByCurrency(this.amount),
+      amount: 'AMOUNT',
       recurring_default: recurringDefault,
       one_click: oneClick || undefined,
     };
 
-    return queryString.stringify(query, { encode: false });
+    return qs.stringify(query).replace('AMOUNT', groupByCurrency(this.amount));
   }
 
   build = () => `${this.url}?${this.query}`;
