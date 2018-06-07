@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button, Control, Field, Icon, Input } from 'reactbulma';
-import { debounce, includes } from 'lodash';
+import classnames from 'classnames';
+import { debounce } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import CopyButton from '../components/CopyButton';
 import UrlBuilder from '../utils/builders/url';
@@ -13,16 +14,18 @@ import type { RecurringDefault } from '../utils/builders/url';
 
 type Translations = { [lang: string]: string };
 type State = {
-  amounts: Array<number | void>,
+  multipliers: Array<string | number | void>,
   recurringDefault: RecurringDefault,
+  oneClick: boolean,
   buttonTemplate: Translations,
   otherLinkTemplate: Translations,
 };
 export default class SuggestedAmountsDonors extends Component<Props, State> {
   _debouncedSave: any;
   static defaultState: State = {
-    amounts: [4, 8, 20, undefined, undefined],
+    multipliers: [1, 1.5, 2, undefined, undefined],
     recurringDefault: 'default',
+    oneClick: false,
     buttonTemplate: {
       en: `Donate {{amount}} now`,
       fr: `Donner {{amount}}`,
@@ -70,10 +73,11 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     });
   };
 
-  updateAmount = (value: string, index: number) => {
-    const amounts = [...this.state.amounts];
-    amounts[index] = Number(value) || undefined;
-    this.setState({ amounts });
+  updateMultipliers = (value: string, index: number) => {
+    const multipliers = [...this.state.multipliers];
+    if (value && !Number(value)) return;
+    multipliers[index] = value;
+    this.setState({ multipliers });
   };
 
   updateRecurringDefault = (e: SyntheticInputEvent<HTMLSelectElement>) => {
@@ -92,34 +96,34 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
 
   resetState = () => this.setState(SuggestedAmountsDonors.defaultState);
 
-  link = (amount: number): string => {
+  link = (multiplier: number): string => {
     const { lang, rates, url } = this.props;
-    const { recurringDefault } = this.state;
+    const { recurringDefault, oneClick } = this.state;
     if (!rates) return url;
     return new UrlBuilder({
       url,
-      config: { amount, locale: lang, rates, recurringDefault },
+      config: { multiplier, locale: lang, rates, recurringDefault, oneClick },
     }).build();
   };
 
-  text = (amount: number): string => {
+  text = (multiplier: number): string => {
     const { lang, rates } = this.props;
     if (!rates) return '';
     return new TextBuilder({
-      amount,
+      multiplier,
       locale: lang,
       rates,
       template: this.state.buttonTemplate[this.props.lang],
     }).build();
   };
 
-  button = (amount?: number): string => {
-    if (!amount) return '';
+  button = (multiplier?: number): string => {
+    if (!multiplier) return '';
     return renderToStaticMarkup(
       <a style={buttonStyle} href="{{link}}">{`{{text}}`}</a>
     )
-      .replace('{{link}}', this.link(amount))
-      .replace('{{text}}', this.text(amount));
+      .replace('{{link}}', this.link(multiplier))
+      .replace('{{text}}', this.text(multiplier));
   };
 
   otherAmountButton = () => {
@@ -133,69 +137,120 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   };
 
   copy = () => {
-    const { url, rates, lang } = this.props;
-    if (!rates) return '';
-    return this.state.amounts
+    if (!this.props.rates) return '';
+    const buttons = this.state.multipliers
+      .map(number => Number(number))
       .map(this.button)
       .concat([this.otherAmountButton()])
       .join('');
+    return `<div>${buttons}</div>`;
   };
 
   render() {
     return (
       <div className="SuggestedAmountsDonors tool-section">
-        <Field>
-          <label className="label">Link and button copy</label>
-          <Input
-            type="text"
-            small
-            value={this.state.buttonTemplate[this.props.lang]}
-            onChange={this.updateButtonTemplate}
-          />
+        <Field className="is-horizontal is-grouped">
+          <div className="field-label">
+            <label className="label">Button copy</label>
+          </div>
+          <div className="field-body">
+            <Input
+              type="text"
+              small
+              value={this.state.buttonTemplate[this.props.lang]}
+              onChange={this.updateButtonTemplate}
+            />
+          </div>
         </Field>
-        <Field>
-          <label className="label">Other amount copy</label>
-          <Input
-            type="text"
-            small
-            value={this.state.otherLinkTemplate[this.props.lang]}
-            onChange={this.updateOtherLinkTemplate}
-          />
+        <Field className="is-horizontal is-grouped">
+          <div className="field-label">
+            <label className="label">Other amount copy</label>
+          </div>
+          <div className="field-body">
+            <Input
+              type="text"
+              small
+              value={this.state.otherLinkTemplate[this.props.lang]}
+              onChange={this.updateOtherLinkTemplate}
+            />
+          </div>
         </Field>
 
-        <label className="label">
-          Enter your amounts here. 4 and 5 are optional. Each will create a
-          button.
-        </label>
-
-        <Field className="is-grouped is-grouped-multiline">
-          {this.state.amounts.map((amount, index) => (
-            <Control key={`amount-${index}`}>
-              <Input
-                small
-                name={`amount-${index}`}
-                value={amount || ''}
-                className="is-info"
-                placeholder={`Amount ${index + 1}`}
-                type="text"
-                onChange={e => this.updateAmount(e.target.value, index)}
-              />
-            </Control>
-          ))}
+        <Field className="is-horizontal">
+          <div className="field-label">
+            <label className="label">Multipliers</label>
+          </div>
+          <div className="field-body">
+            {this.state.multipliers.map((amount, index) => (
+              <Control key={`amount-${index}`} className="field">
+                <Input
+                  small
+                  name={`amount-${index}`}
+                  value={amount || ''}
+                  className="is-info"
+                  placeholder={`Amount ${index + 1}`}
+                  type="text"
+                  onChange={e => this.updateMultipliers(e.target.value, index)}
+                />
+              </Control>
+            ))}
+          </div>
         </Field>
-        <Field>
-          <label className="label">Recurring default</label>
-          <div className="select">
-            <select
-              name="recurringDefault"
-              value={this.state.recurringDefault}
-              onChange={this.updateRecurringDefault}
+        <Field className="is-horizontal is-grouped">
+          <div className="field-label" />
+          <div className="field-body">
+            <p className="field has-text-right">
+              Enter your multipliers here. 4 and 5 are optional.
+            </p>
+          </div>
+        </Field>
+
+        <Field className="is-horizontal is-grouped">
+          <div className="field-label">
+            <label className="label">Recurring</label>
+          </div>
+          <div className="field-body">
+            <div className="select is-small">
+              <select
+                className="is-small"
+                name="recurringDefault"
+                value={this.state.recurringDefault}
+                onChange={this.updateRecurringDefault}
+              >
+                <option value="default">Use page default</option>
+                <option value="recurring">Recurring</option>
+                <option value="only_recurring">Only recurring</option>
+                <option value="one_off">One off</option>
+              </select>
+            </div>
+          </div>
+        </Field>
+
+        <Field className="is-horizontal is-grouped">
+          <div className="field-label">
+            <label className="label" htmlFor="oneClick">
+              One click?
+            </label>
+          </div>
+          <div className="field-body">
+            <div
+              className={classnames('select', 'is-small', {
+                'is-success': this.state.oneClick,
+                'is-danger': !this.state.oneClick,
+              })}
             >
-              <option value="default">Use page default</option>
-              <option value="recurring">Recurring</option>
-              <option value="only_recurring">Only recurring</option>
-              <option value="one_off">One off</option>
-            </select>
+              <select
+                className="is-small"
+                name="oneClick"
+                value={this.state.oneClick}
+                onChange={e =>
+                  this.setState({ oneClick: e.target.value === 'true' })
+                }
+              >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
+              </select>
+            </div>
           </div>
         </Field>
         <div className="level">

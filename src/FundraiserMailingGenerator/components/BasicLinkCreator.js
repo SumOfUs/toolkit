@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { isEqual, debounce } from 'lodash';
-import { buildLink } from '../utils';
+import LinkBuilder from '../utils/builders/link';
 import InputWithActions from './InputWithActions';
 import { hydrate, save } from '../state/localStorage';
 import type { State as Props } from '../BaseComponent';
@@ -50,7 +50,8 @@ export default class LinkCreator extends Component<Props, State> {
   build = (): string => {
     const { url, rates, lang } = this.props;
     const template = this.state.template[this.props.lang];
-    if (rates) return buildLink({ url, template, rates, lang });
+    if (rates)
+      return new LinkBuilder({ url, template, rates, locale: lang }).build();
 
     throw new Error('Rates not loaded');
   };

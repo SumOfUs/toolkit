@@ -1,10 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import CopyButton from './CopyButton';
 import InputWithActions from './InputWithActions';
 import { debounce, isEqual } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
-import { buildButton } from '../utils';
+import ButtonBuilder from '../utils/builders/button';
 
 import type { State as Props } from '../BaseComponent';
 
@@ -59,7 +58,8 @@ export default class ButtonCreator extends Component<Props, State> {
   build = (): string => {
     const { url, rates, lang } = this.props;
     const template = this.state.template[this.props.lang];
-    if (rates) return buildButton({ url, template, rates, lang });
+    if (rates)
+      return new ButtonBuilder({ url, template, rates, locale: lang }).build();
 
     throw new Error('Rates not loaded');
   };

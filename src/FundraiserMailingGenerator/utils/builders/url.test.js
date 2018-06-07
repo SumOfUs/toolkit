@@ -55,7 +55,7 @@ describe('UrlBuilder', () => {
       expect(url).toEqual(expect.stringContaining('currency='));
     });
 
-    test('supports adding a recurring_default, value', () => {
+    test('supports adding a recurring_default value', () => {
       let url = new UrlBuilder({
         config: { ...config, recurringDefault: 'default' },
       }).build();
@@ -65,6 +65,16 @@ describe('UrlBuilder', () => {
         config: { ...config, recurringDefault: 'one_off' },
       }).build();
       expect(url).toEqual(expect.stringContaining('recurring_default=one_off'));
+    });
+
+    test('supports adding a one_click value', () => {
+      let url = new UrlBuilder({
+        config: { ...config, oneClick: true },
+      });
+      expect(url.build()).toEqual(expect.stringContaining('one_click=true'));
+      expect(new UrlBuilder({ config }).build()).not.toEqual(
+        expect.stringContaining('one_click=true')
+      );
     });
   });
 

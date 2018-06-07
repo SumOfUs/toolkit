@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import InputWithActions from './InputWithActions';
 import { debounce, isEqual } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
-import { buildPlainText } from '../utils';
+import TextBuilder from '../utils/builders/text';
 
 import type { State as Props } from '../BaseComponent';
 
@@ -50,9 +50,12 @@ export default class PlainTextCreator extends Component<Props, State> {
   resetTemplate = () => this.setState(PlainTextCreator.defaultState);
 
   build = (): string => {
-    const { rates, lang } = this.props;
-    const template = this.state.template[this.props.lang];
-    if (rates) return buildPlainText({ template, rates, lang });
+    if (this.props.rates)
+      return new TextBuilder({
+        template: this.state.template[this.props.lang],
+        locale: this.props.lang,
+        rates: this.props.rates,
+      }).build();
 
     throw new Error('Rates not loaded');
   };

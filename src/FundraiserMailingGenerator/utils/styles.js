@@ -4,7 +4,7 @@ export const linkStyle = {
   fontSize: '14px',
   fontWeight: 'bold',
   lineHeight: '44px',
-  marginBottom: 20,
+  marginBottom: 15,
 };
 
 export const buttonStyle = {
@@ -17,8 +17,8 @@ export const buttonStyle = {
   fontSize: '14px',
   fontWeight: 'bold',
   lineHeight: '44px',
-  marginBottom: 20,
-  maxWidth: '350px',
+  marginBottom: 15,
+  maxWidth: '300px',
   textAlign: 'center',
   textDecoration: 'none',
   textSizeAdjust: 'none',

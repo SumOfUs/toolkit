@@ -2,7 +2,7 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import Currency from '../../components/Currency';
-import { groupByCurrency } from '../templateSnippets';
+import { groupByCurrency, suggestedAsk, fixedAsk } from './helpers';
 import type { Rates } from '../exchange-rates';
 
 type TextBuilderConfig = {
@@ -11,6 +11,7 @@ type TextBuilderConfig = {
   rates: Rates,
   // if no amount is passed, it will used `suggested_ask_via_usd`
   amount?: number,
+  multiplier?: number,
 };
 
 export default class TextBuilder {
@@ -34,21 +35,10 @@ export default class TextBuilder {
     return tail;
   }
 
-  suggestedAsk(): string {
-    return groupByCurrency(currency => {
-      const rate = this.config.rates[currency];
-      if (!rate) return '';
-      const ask = `{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}`;
-      return renderToStaticMarkup(
-        <Currency amount={0} currency={currency} locale={this.config.locale} />
-      ).replace('0', ask);
-    });
-  }
-
   get amount(): string {
     const { amount, rates, locale } = this.config;
     return groupByCurrency(currency => {
-      const rate = rates[currency];
+      const rate = rates[currency] * (this.config.multiplier || 1);
       if (!rate) return '';
       const convertedAmount = amount ? Math.round(amount * rate) : 0;
       return renderToStaticMarkup(
@@ -62,10 +52,11 @@ export default class TextBuilder {
   }
 
   build = () => {
-    if (!this.config.template.match(/{{amount}}/)) return this.config.template;
-    if (!this.config.amount) {
-      return `${this.head}${this.suggestedAsk()}${this.tail}`;
-    }
-    return `${this.head}${this.amount}${this.tail}`;
+    const { amount, rates, multiplier, template, locale } = this.config;
+    if (!template.match(/{{amount}}/)) return template;
+    const ask = amount
+      ? fixedAsk(amount, rates, multiplier, locale)
+      : suggestedAsk(rates, multiplier, locale);
+    return `${this.head}${ask}${this.tail}`;
   };
 }
