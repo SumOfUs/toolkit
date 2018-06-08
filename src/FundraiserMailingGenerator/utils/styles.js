@@ -17,7 +17,7 @@ export const buttonStyle = {
   fontSize: '14px',
   fontWeight: 'bold',
   lineHeight: '44px',
-  margin: 'auto auto 15px auto',
+  margin: '10px 0',
   maxWidth: '300px',
   textAlign: 'center',
   textDecoration: 'none',
