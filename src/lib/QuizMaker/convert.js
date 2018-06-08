@@ -3,26 +3,28 @@ import countries from './countrySelect';
 
 const template = `
   {{={{{ }}}=}}
+
   <script id='template-answers-table' type='javascript/template'>
     <table class='table is-fullwidth is-centered'>
       <thead>
         <tr>
           <td></td>
           <td>You answered</td>
-          <td>correct answer</td>
+          <td>Correct answer</td>
         </tr>
       </thead>
       <tbody>
         {{#each questions}}
-          <tr>
-            <td>{{question}}</td>
-            <td>Paris</td>
-            <td>Madrid</td>
+          <tr class="correct-{{correct}}">
+            <td>{{text}}</td>
+            <td>{{theyAnsweredText}}</td>
+            <td>{{correctAnswerText}}</td>
           </tr>
         {{/each}}
       </tbody>
     </table>
   </script>
+
 
   {{{={{ }}=}}}
   <div class="section qz-question" id="qz-intro">

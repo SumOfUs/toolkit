@@ -24,10 +24,31 @@ var Game = function() {
 
 	return {
 		questions: quiz.questions,
+
 		buildReviewTable: function() {
 			var content = $('#template-answers-table').html();
 			var template = Handlebars.compile(content);
-			var table    = template(quiz);
+
+
+			var templateData = [];
+
+			var answers = this.showAnswers();
+			var questions = this.questions;
+
+			templateData = Object.keys(answers).map(function(questionId){
+				var question = questions.filter(function(question){ return question.id === questionId; })[0];
+				var answer = answers[questionId];
+				var correctAnswer = question.answers.filter(function(answer){ return answer.correct; })[0];
+
+				return {
+					text: question.question,
+					correct: answers[questionId].correct,
+					theyAnsweredText: question.answers[answer.answerIndex].text,
+					correctAnswerText: correctAnswer.text
+				}
+			});
+
+			var table    = template({questions: templateData});
 			return table;
 		},
 
@@ -62,11 +83,13 @@ var Game = function() {
 			});
 
 			if(question.length){
-				var correct = question[0].answers[answerIndex].correct;
+				var answer = question[0].answers[answerIndex];
+				var correct = answer.correct;
 
 				answers[question[0].id] = {
-					correct: correct
-				}
+					correct: correct,
+					answerIndex: answerIndex
+				};
 			}
 			this.endOfQuiz();
       currentQuestionIndex += 1;
@@ -160,6 +183,7 @@ $(document).ready(function() {
 		}, {});
 
 		data.form_id = __QUIZ_FORM_ID;
+		data.source = 'quiz';
 
 		$.post('/api/pages/' + quiz.actionSlug + '/actions', data, function(resp){
 			console.log(resp);
@@ -187,10 +211,12 @@ $(document).ready(function() {
 
 
 	  var url = window.location.href.split('?')[0];
-	  var shareUrl = encodeURIComponent('http://share.sumofus.org/?url='+url+'&title='+title+'&description='+description+'&image='+image);
+	  var shareUrl = encodeURIComponent('http://share.sumofus.org/?url='+url+'&title='+title+'&source=quiz&description='+description+'&image='+image);
 	  window.open('https://facebook.com/sharer.php?u='+shareUrl, '_blank', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250,top=300,left=300');
 	});
 
+
+	// Display score breakdown.
 	$('.qz-score-breakdown').on('click', function(e){
 			e.preventDefault();
 			var html = game.buildReviewTable();
