@@ -17,14 +17,13 @@ export const buttonStyle = {
   fontSize: '14px',
   fontWeight: 'bold',
   lineHeight: '44px',
-  marginBottom: 15,
+  margin: 'auto auto 15px auto',
   maxWidth: '300px',
   textAlign: 'center',
   textDecoration: 'none',
   textSizeAdjust: 'none',
   textTransform: 'uppercase',
   whiteSpace: 'nowrap',
-  width: '90%',
 };
 
 export const buttonWrapperStyle = {
