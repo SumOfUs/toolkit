@@ -91,6 +91,20 @@ const template = `
                 <p class="help is-danger postcode"></p>
               </div>
             </div>
+            <div class='field js-consent-control' style='display:none;'>
+              <div class="control">
+                <p class='is-size-6'>Want to help us <strong>win more campaigns to curb corporate power</strong>? Sign up now to get emails about our latest campaigns, events and fundraising. Just <strong>click 'Yes'</strong> below to opt in:</p>
+                <label class="radio">
+                  <input type="radio" name="consented" value='true'>
+                  <strong>Yes</strong>
+                </label>
+                <label class="radio">
+                  <input type="radio" name="consented" value='false'>
+                  <strong>No</strong>
+                </label>
+                <p class='is-size-7'>You can opt out of receiving our messages at any time. Just go to our <a href='https://www.sumofus.org/unsubscribe/'>unsubscribe page</a>.</p>
+              </div>
+            </div>
             <div class="field">
               <div class="control">
                 <button class='button is-large'>Sign the Petition</button>
