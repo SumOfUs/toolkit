@@ -3,7 +3,6 @@ export const linkStyle = {
   fontFamily: 'sans-serif',
   fontSize: '14px',
   fontWeight: 'bold',
-  lineHeight: '44px',
   marginBottom: 15,
 };
 
