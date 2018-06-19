@@ -3,7 +3,6 @@ export const linkStyle = {
   fontFamily: 'sans-serif',
   fontSize: '14px',
   fontWeight: 'bold',
-  marginBottom: 15,
 };
 
 export const buttonStyle = {
