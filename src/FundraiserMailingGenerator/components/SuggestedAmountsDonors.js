@@ -102,7 +102,14 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     if (!rates) return url;
     return new UrlBuilder({
       url,
-      config: { multiplier, locale: lang, rates, recurringDefault, oneClick },
+      config: {
+        multiplier,
+        locale: lang,
+        rates,
+        recurringDefault,
+        oneClick,
+        correctLowAsks: true,
+      },
     }).build();
   };
 
@@ -114,6 +121,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
       locale: lang,
       rates,
       template: this.state.buttonTemplate[this.props.lang],
+      correctLowAsks: true,
     }).build();
   };
 

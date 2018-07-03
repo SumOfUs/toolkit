@@ -4,11 +4,13 @@ import { isEqual, debounce } from 'lodash';
 import LinkBuilder from '../utils/builders/link';
 import InputWithActions from './InputWithActions';
 import { hydrate, save } from '../state/localStorage';
-import type { State as Props } from '../BaseComponent';
+import type { State as BaseState } from '../BaseComponent';
 
 type State = {
   template: { [lang: string]: string },
 };
+
+type Props = BaseState & { correctLowAsks?: boolean };
 
 export default class LinkCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -48,10 +50,16 @@ export default class LinkCreator extends Component<Props, State> {
   resetTemplate = () => this.setState(LinkCreator.defaultState);
 
   build = (): string => {
-    const { url, rates, lang } = this.props;
+    const { url, rates, lang, correctLowAsks } = this.props;
     const template = this.state.template[this.props.lang];
     if (rates)
-      return new LinkBuilder({ url, template, rates, locale: lang }).build();
+      return new LinkBuilder({
+        url,
+        template,
+        rates,
+        locale: lang,
+        correctLowAsks,
+      }).build();
 
     throw new Error('Rates not loaded');
   };

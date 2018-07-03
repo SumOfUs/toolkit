@@ -6,13 +6,14 @@ import TextBuilder from './text';
 import UrlBuilder from './url';
 import { buttonStyle } from '../styles';
 
-type Config = {
+export type Config = {
   url: string,
   template: string,
   locale: string,
   rates: Rates,
   amount?: number,
   multiplier?: number,
+  correctLowAsks?: boolean,
 };
 
 export default class ButtonBuilder {
@@ -25,9 +26,31 @@ export default class ButtonBuilder {
   }
 
   build = () => {
-    const { url, template, locale, rates, amount, multiplier } = this.config;
-    const urlConfig = { url, locale, rates, amount, multiplier };
-    const textConfig = { template, locale, rates, amount, multiplier };
+    const {
+      url,
+      template,
+      locale,
+      rates,
+      amount,
+      multiplier,
+      correctLowAsks,
+    } = this.config;
+    const urlConfig = {
+      url,
+      locale,
+      rates,
+      amount,
+      multiplier,
+      correctLowAsks,
+    };
+    const textConfig = {
+      template,
+      locale,
+      rates,
+      amount,
+      multiplier,
+      correctLowAsks,
+    };
     return renderToStaticMarkup(
       <a style={this.style} href="{{link}}">{`{{text}}`}</a>
     )

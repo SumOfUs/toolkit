@@ -20,13 +20,16 @@ export function groupByCurrency(fn: (currency: string) => string) {
 export const suggestedAsk = (
   rates: Rates,
   multiplier: number = 1,
-  locale: string
+  locale: string = 'en',
+  correctLowAsks: boolean = true
 ) =>
   groupByCurrency(currency => {
     const rate = rates[currency] * multiplier;
     if (!rate) return '';
-    let ask = `{% if suggested_ask_via_usd >= 2.5 %}{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}`;
-    ask += `{% else %}{{3|multiply:${rate}|floatformat:0}}{% endif %}`;
+    let ask = `{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}`;
+    if (correctLowAsks) {
+      ask = `{% if suggested_ask_via_usd >= 2.5 %}${ask}{% else %}{{3|multiply:${rate}|floatformat:0}}{% endif %}`;
+    }
     return renderToStaticMarkup(
       <Currency amount={0} currency={currency} locale={locale} />
     ).replace('0', ask);

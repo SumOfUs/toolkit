@@ -5,12 +5,14 @@ import { debounce, isEqual } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import TextBuilder from '../utils/builders/text';
 
-import type { State as Props } from '../BaseComponent';
+import type { State as BaseState } from '../BaseComponent';
 
 type State = {
   template: { [lang: string]: string },
   recurring: string,
 };
+
+type Props = BaseState & { correctLowAsks?: boolean };
 
 export default class PlainTextCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -55,6 +57,7 @@ export default class PlainTextCreator extends Component<Props, State> {
         template: this.state.template[this.props.lang],
         locale: this.props.lang,
         rates: this.props.rates,
+        correctLowAsks: this.props.correctLowAsks,
       }).build();
 
     throw new Error('Rates not loaded');

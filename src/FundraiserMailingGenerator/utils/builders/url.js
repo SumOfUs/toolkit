@@ -15,6 +15,7 @@ type UrlBuilderConfig = {
   oneClick?: boolean,
   rates: Rates,
   recurringDefault?: RecurringDefault,
+  correctLowAsks?: boolean,
 };
 
 type UrlBuilderOptions = {
@@ -48,8 +49,16 @@ export default class UrlBuilder {
   amount = (currency?: string): string => {
     if (!currency || !this.config || !this.config.rates[currency]) return '';
     const rate = this.config.rates[currency] * (this.config.multiplier || 1);
-    const ask = this.config.amount || 'suggested_ask_via_usd';
-    return `{{${ask}|multiply:${rate}|floatformat:0}}&currency=${currency}`;
+    if (this.config.amount) {
+      return `{{${
+        this.config.amount
+      }|multiply:${rate}|floatformat:0}}&currency=${currency}`;
+    }
+    let ask = `{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}`;
+    if (this.config.correctLowAsks) {
+      ask = `{% if suggested_ask_via_usd >= 2.5 %}${ask}{% else %}{{3|multiply:${rate}|floatformat:0}}{% endif %}`;
+    }
+    return `${ask}&currency=${currency}`;
   };
 
   get query() {

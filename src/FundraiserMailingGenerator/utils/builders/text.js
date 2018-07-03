@@ -12,6 +12,7 @@ type TextBuilderConfig = {
   // if no amount is passed, it will used `suggested_ask_via_usd`
   amount?: number,
   multiplier?: number,
+  correctLowAsks?: boolean,
 };
 
 export default class TextBuilder {
@@ -52,11 +53,18 @@ export default class TextBuilder {
   }
 
   build = () => {
-    const { amount, rates, multiplier, template, locale } = this.config;
+    const {
+      amount,
+      rates,
+      multiplier,
+      template,
+      locale,
+      correctLowAsks,
+    } = this.config;
     if (!template.match(/{{amount}}/)) return template;
     const ask = amount
       ? fixedAsk(amount, rates, multiplier, locale)
-      : suggestedAsk(rates, multiplier, locale);
+      : suggestedAsk(rates, multiplier, locale, correctLowAsks);
     return `${this.head}${ask}${this.tail}`;
   };
 }

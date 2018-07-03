@@ -5,13 +5,16 @@ import { debounce, isEqual } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import ButtonBuilder from '../utils/builders/button';
 
-import type { State as Props } from '../BaseComponent';
+import type { State as BaseState } from '../BaseComponent';
 
 type State = {
   template: { [lang: string]: string },
   recurring: string,
 };
 
+type Props = BaseState & {
+  correctLowAsks?: boolean,
+};
 export default class ButtonCreator extends Component<Props, State> {
   _debouncedSave: any;
 
@@ -56,10 +59,16 @@ export default class ButtonCreator extends Component<Props, State> {
   // TODO: Refactor this. At the moment it's being duplicated in most
   // components but we should extract it.
   build = (): string => {
-    const { url, rates, lang } = this.props;
+    const { url, rates, lang, correctLowAsks } = this.props;
     const template = this.state.template[this.props.lang];
     if (rates)
-      return new ButtonBuilder({ url, template, rates, locale: lang }).build();
+      return new ButtonBuilder({
+        url,
+        template,
+        rates,
+        locale: lang,
+        correctLowAsks,
+      }).build();
 
     throw new Error('Rates not loaded');
   };
