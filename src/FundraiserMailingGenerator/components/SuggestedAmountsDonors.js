@@ -135,7 +135,10 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   };
 
   otherAmountButton = () => {
-    const link = new UrlBuilder({ url: this.props.url }).build();
+    const link = new UrlBuilder({
+      url: this.props.url,
+      config: { recurringDefault: this.state.recurringDefault },
+    }).build();
     const text = this.state.otherLinkTemplate[this.props.lang];
     return renderToStaticMarkup(
       <a style={linkStyle} href="{{link}}">{`{{text}}`}</a>

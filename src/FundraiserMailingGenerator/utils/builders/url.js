@@ -13,7 +13,7 @@ type UrlBuilderConfig = {
   amount?: number,
   multiplier?: number,
   oneClick?: boolean,
-  rates: Rates,
+  rates?: Rates,
   recurringDefault?: RecurringDefault,
   correctLowAsks?: boolean,
 };
@@ -47,7 +47,13 @@ export default class UrlBuilder {
   }
 
   amount = (currency?: string): string => {
-    if (!currency || !this.config || !this.config.rates[currency]) return '';
+    if (
+      !currency ||
+      !this.config ||
+      !this.config.rates ||
+      !this.config.rates[currency]
+    )
+      return '';
     const rate = this.config.rates[currency] * (this.config.multiplier || 1);
     if (this.config.amount) {
       return `{{${
