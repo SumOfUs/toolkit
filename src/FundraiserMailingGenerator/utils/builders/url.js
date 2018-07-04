@@ -1,5 +1,6 @@
 // @flow
 import qs from 'querystringify';
+import { omitBy, isUndefined } from 'lodash';
 import { groupByCurrency } from './helpers';
 import type { Rates } from '../exchange-rates';
 
@@ -69,15 +70,16 @@ export default class UrlBuilder {
 
   get query() {
     if (!this.config) return UrlBuilder.defaultQuery;
-    let { recurringDefault, oneClick } = this.config;
+    let { amount, recurringDefault, oneClick } = this.config;
     const query = {
-      amount: 'AMOUNT',
+      amount: this.config.amount ? 'AMOUNT' : undefined,
       recurring_default: recurringDefault,
       one_click: oneClick || undefined,
       source: 'fwd',
     };
-
-    return qs.stringify(query).replace('AMOUNT', groupByCurrency(this.amount));
+    return qs
+      .stringify(omitBy(query, isUndefined))
+      .replace('AMOUNT', groupByCurrency(this.amount));
   }
 
   build = () => `${this.url}?${this.query}`;
