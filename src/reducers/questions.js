@@ -62,19 +62,14 @@ const questions = function(state = [], action) {
   switch (action.type) {
     case LOAD_QUIZ:
       return action.payload.questions || [];
-      break;
-
     case DELETE_QUESTION:
       return state.filter(question => question.id !== action.payload);
-
     case SAVE_IMAGE:
       return state.map(question => {
         if (question.id === action.payload.id)
           question.image = action.payload.path;
-
         return question;
       });
-
     case CREATE_QUESTION:
       return [
         {
@@ -86,12 +81,10 @@ const questions = function(state = [], action) {
         },
         ...state,
       ];
-
     case SET_CORRECT_ANSWER:
       return state.map(q => question(q, action));
     case DELETE_ANSWER:
       return state.map(q => question(q, action));
-
     case CREATE_ANSWER:
       var questions = state.map(question => {
         if (question.id === action.payload.id) {
@@ -104,11 +97,10 @@ const questions = function(state = [], action) {
           return question;
         }
       });
-
       return questions;
     default:
+      return state;
   }
-  return state;
 };
 
 export default questions;

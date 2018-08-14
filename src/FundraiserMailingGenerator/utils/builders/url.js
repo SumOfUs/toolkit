@@ -72,14 +72,16 @@ export default class UrlBuilder {
     if (!this.config) return UrlBuilder.defaultQuery;
     let { amount, recurringDefault, oneClick } = this.config;
     const query = {
-      amount: this.config.amount ? 'AMOUNT' : undefined,
+      amount: amount ? 'AMOUNT' : undefined,
+      currency: !amount ? 'CURRENCY' : undefined,
       recurring_default: recurringDefault,
       one_click: oneClick || undefined,
       source: 'fwd',
     };
     return qs
       .stringify(omitBy(query, isUndefined))
-      .replace('AMOUNT', groupByCurrency(this.amount));
+      .replace('AMOUNT', groupByCurrency(this.amount))
+      .replace('CURRENCY', groupByCurrency(currency => currency));
   }
 
   build = () => `${this.url}?${this.query}`;

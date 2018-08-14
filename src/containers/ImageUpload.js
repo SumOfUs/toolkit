@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
-import { PhotoPicker } from 'aws-amplify-react';
 import S3 from 'aws-sdk/clients/s3';
-import {
-  saveQuiz,
- } from '../actions/index';
+import { saveQuiz } from '../actions/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -15,57 +12,71 @@ class ImageUpload extends Component {
     this.state = {
       progress: 0,
       uploading: false,
-    }
+    };
   }
 
-  upload(data){
+  upload(data) {
+    Auth.currentCredentials().then(credentials => {
+      const key = `quiz/${this.props.quizId}/${this.props.objectKey}/raw/${
+        data.name
+      }`;
 
-    Auth.currentCredentials()
-      .then(credentials => {
-        const key = `quiz/${this.props.quizId}/${this.props.objectKey}/raw/${data.name}`;
+      let params = {
+        Bucket: 'sumofus.org.quiz',
+        Key: key,
+        Body: data,
+      };
 
-        let params = {
-          Bucket: "sumofus.org.quiz",
-          Key: key,
-          Body: data
-        };
+      let s3 = new S3({
+        apiVersion: '2013-04-01',
+        region: 'us-west-2',
+        credentials: Auth.essentialCredentials(credentials),
+      });
 
-        let s3 = new S3({
-          apiVersion: '2013-04-01',
-          region: 'us-west-2',
-          credentials: Auth.essentialCredentials(credentials)
-        });
+      var request = s3.putObject(params);
 
-        var request = s3.putObject(params);
-
-        request.on('httpUploadProgress', function (progress) {
+      request.on(
+        'httpUploadProgress',
+        function(progress) {
           const { loaded, total } = progress;
 
-          let percentage = parseInt(loaded/total*100, 10);
+          let percentage = parseInt((loaded / total) * 100, 10);
 
           let newState = {
-            progress: percentage
+            progress: percentage,
           };
 
-          if(percentage >= 100){
+          if (percentage >= 100) {
             newState.uploading = false;
-            setTimeout( () => {
-              this.props.saveImage({section: this.props.section, id: this.props.id, path: data.name});
+            setTimeout(() => {
+              this.props.saveImage({
+                section: this.props.section,
+                id: this.props.id,
+                path: data.name,
+              });
               this.props.saveQuiz();
             }, 500);
           }
 
           this.setState(newState);
-        }.bind(this));
+        }.bind(this)
+      );
 
-        request.send();
-        this.setState({uploading: true});
-      });
+      request.send();
+      this.setState({ uploading: true });
+    });
   }
 
   uploading() {
-    return this.state.uploading ?
-      <progress className="progress is-small is-info" value={this.state.progress} max="100"></progress> : ''
+    return this.state.uploading ? (
+      <progress
+        className="progress is-small is-info"
+        value={this.state.progress}
+        max="100"
+      />
+    ) : (
+      ''
+    );
   }
 
   renderPicker() {
@@ -75,28 +86,37 @@ class ImageUpload extends Component {
       <div>
         {uploading}
         <div className="file is-boxed">
-        <label className="file-label">
-          <input onChange={ e => {
-              this.upload(e.target.files[0]);
-            }} className="file-input" type="file" name="resume" />
-          <span className="file-cta">
-            <span className="file-label">
-              Choose a photo
+          <label className="file-label">
+            <input
+              onChange={e => {
+                this.upload(e.target.files[0]);
+              }}
+              className="file-input"
+              type="file"
+              name="resume"
+            />
+            <span className="file-cta">
+              <span className="file-label">Choose a photo</span>
             </span>
-          </span>
-        </label>
+          </label>
         </div>
       </div>
-    )
+    );
   }
 
   renderImage() {
-    if(!this.props.image) return ''
+    if (!this.props.image) return '';
 
-    const key = `quiz/${this.props.quizId}/${this.props.objectKey}/raw/${this.props.image}`;
+    const key = `quiz/${this.props.quizId}/${this.props.objectKey}/raw/${
+      this.props.image
+    }`;
     const path = `https://s3-us-west-2.amazonaws.com/sumofus.org.quiz/${key}`;
 
-    return (<p><img alt='quiz' width='100' height='100' src={path} /></p>);
+    return (
+      <p>
+        <img alt="quiz" width="100" height="100" src={path} />
+      </p>
+    );
   }
 
   render() {
@@ -110,9 +130,15 @@ class ImageUpload extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    saveQuiz,
-  }, dispatch);
+  return bindActionCreators(
+    {
+      saveQuiz,
+    },
+    dispatch
+  );
 }
 
-export default connect(null, mapDispatchToProps)(ImageUpload);
+export default connect(
+  null,
+  mapDispatchToProps
+)(ImageUpload);
