@@ -12,6 +12,7 @@ export type RecurringDefault =
 
 type UrlBuilderConfig = {
   amount?: number,
+  omitAmount?: boolean,
   multiplier?: number,
   oneClick?: boolean,
   rates?: Rates,
@@ -70,9 +71,9 @@ export default class UrlBuilder {
 
   get query() {
     if (!this.config) return UrlBuilder.defaultQuery;
-    let { amount, recurringDefault, oneClick } = this.config;
+    let { amount, recurringDefault, omitAmount, oneClick } = this.config;
     const query = {
-      amount: amount ? 'AMOUNT' : undefined,
+      amount: !omitAmount ? 'AMOUNT' : undefined,
       currency: !amount ? 'CURRENCY' : undefined,
       recurring_default: recurringDefault,
       one_click: oneClick || undefined,
