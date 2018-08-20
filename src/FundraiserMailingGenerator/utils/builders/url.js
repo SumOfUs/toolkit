@@ -74,7 +74,7 @@ export default class UrlBuilder {
     let { amount, recurringDefault, omitAmount, oneClick } = this.config;
     const query = {
       amount: !omitAmount ? 'AMOUNT' : undefined,
-      currency: !amount ? 'CURRENCY' : undefined,
+      currency: omitAmount ? 'CURRENCY' : undefined,
       recurring_default: recurringDefault,
       one_click: oneClick || undefined,
       source: 'fwd',
