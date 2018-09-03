@@ -37,11 +37,13 @@ export default class ButtonBuilder {
     } = this.config;
     const urlConfig = {
       url,
-      locale,
-      rates,
-      amount,
-      multiplier,
-      correctLowAsks,
+      config: {
+        locale,
+        rates,
+        amount,
+        multiplier,
+        correctLowAsks,
+      },
     };
     const textConfig = {
       template,
