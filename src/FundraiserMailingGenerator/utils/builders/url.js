@@ -58,15 +58,14 @@ export default class UrlBuilder {
       return '';
     const rate = this.config.rates[currency] * (this.config.multiplier || 1);
     if (this.config.amount) {
-      return `{{${
-        this.config.amount
-      }|multiply:${rate}|floatformat:0}}&currency=${currency}`;
+      return `{{${this.config.amount}|multiply:${rate}|floatformat:0}}`;
+    } else {
+      let ask = `{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}`;
+      if (this.config.correctLowAsks) {
+        ask = `{% if suggested_ask_via_usd >= 2.5 %}${ask}{% else %}{{3|multiply:${rate}|floatformat:0}}{% endif %}`;
+      }
+      return ask;
     }
-    let ask = `{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}`;
-    if (this.config.correctLowAsks) {
-      ask = `{% if suggested_ask_via_usd >= 2.5 %}${ask}{% else %}{{3|multiply:${rate}|floatformat:0}}{% endif %}`;
-    }
-    return `${ask}&currency=${currency}`;
   };
 
   get query() {
@@ -74,7 +73,7 @@ export default class UrlBuilder {
     let { amount, recurringDefault, omitAmount, oneClick } = this.config;
     const query = {
       amount: !omitAmount ? 'AMOUNT' : undefined,
-      currency: omitAmount ? 'CURRENCY' : undefined,
+      currency: 'CURRENCY',
       recurring_default: recurringDefault,
       one_click: oneClick || undefined,
       source: 'fwd',
