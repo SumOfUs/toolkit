@@ -59,6 +59,7 @@ export default class LinkCreator extends Component<Props, State> {
         rates,
         locale: lang,
         correctLowAsks,
+        omitAmount: true,
       }).build();
 
     throw new Error('Rates not loaded');

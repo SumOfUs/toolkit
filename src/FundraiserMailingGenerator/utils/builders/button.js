@@ -14,6 +14,7 @@ export type Config = {
   amount?: number,
   multiplier?: number,
   correctLowAsks?: boolean,
+  omitAmount?: boolean,
 };
 
 export default class ButtonBuilder {
@@ -34,6 +35,7 @@ export default class ButtonBuilder {
       amount,
       multiplier,
       correctLowAsks,
+      omitAmount,
     } = this.config;
     const urlConfig = {
       url,
@@ -43,6 +45,7 @@ export default class ButtonBuilder {
         amount,
         multiplier,
         correctLowAsks,
+        omitAmount,
       },
     };
     const textConfig = {
