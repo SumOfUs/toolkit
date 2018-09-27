@@ -1,7 +1,6 @@
 export const linkStyle = {
   color: '#00abbd',
   fontFamily: 'sans-serif',
-  fontSize: '14px',
   fontWeight: 'bold',
 };
 
@@ -12,7 +11,6 @@ export const buttonStyle = {
   color: 'white',
   display: 'block',
   fontFamily: 'sans-serif',
-  fontSize: '14px',
   fontWeight: 'bold',
   lineHeight: '44px',
   margin: '10px 0',
