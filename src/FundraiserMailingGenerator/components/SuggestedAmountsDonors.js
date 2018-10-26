@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button, Control, Field, Icon, Input } from 'reactbulma';
 import classnames from 'classnames';
-import { debounce, pick, identity } from 'lodash';
+import { debounce, pickBy, identity } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import CopyButton from '../components/CopyButton';
 import UrlBuilder from '../utils/builders/url';
@@ -100,7 +100,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     if (!rates) return url;
     return new UrlBuilder({
       url,
-      config: pick(
+      config: pickBy(
         {
           multiplier,
           locale: lang,
@@ -138,7 +138,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   otherAmountButton = () => {
     const link = new UrlBuilder({
       url: this.props.url,
-      config: pick(
+      config: pickBy(
         {
           recurringDefault: this.state.recurringDefault,
           omitAmount: true,

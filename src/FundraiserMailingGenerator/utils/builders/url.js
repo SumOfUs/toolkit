@@ -4,11 +4,7 @@ import { omitBy, isUndefined } from 'lodash';
 import { groupByCurrency } from './helpers';
 import type { Rates } from '../exchange-rates';
 
-export type RecurringDefault =
-  | ''
-  | 'recurring'
-  | 'only_recurring'
-  | 'one_off';
+export type RecurringDefault = '' | 'recurring' | 'only_recurring' | 'one_off';
 
 type UrlBuilderConfig = {
   amount?: number,

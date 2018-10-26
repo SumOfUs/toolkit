@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button, Control, Field, Icon, Input } from 'reactbulma';
-import { debounce, pick, identity } from 'lodash';
+import { debounce, pickBy, identity } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import CopyButton from '../components/CopyButton';
 import UrlBuilder from '../utils/builders/url';
@@ -95,7 +95,10 @@ export default class FixedAmountCreator extends Component<Props, State> {
     if (!rates) return url;
     return new UrlBuilder({
       url,
-      config: { amount, locale: lang, rates, recurringDefault },
+      config: pickBy(
+        { amount, locale: lang, rates, recurringDefault },
+        identity
+      ),
     }).build();
   };
 
@@ -122,9 +125,9 @@ export default class FixedAmountCreator extends Component<Props, State> {
   otherAmountButton = () => {
     const link = new UrlBuilder({
       url: this.props.url,
-      config: pick(
+      config: pickBy(
         {
-          recurringDefault: this.state.recurringDefault || undefined,
+          recurringDefault: this.state.recurringDefault,
           omitAmount: true,
         },
         identity
