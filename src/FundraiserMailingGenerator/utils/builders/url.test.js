@@ -57,9 +57,11 @@ describe('UrlBuilder', () => {
 
     test('supports adding a recurring_default value', () => {
       let url = new UrlBuilder({
-        config: { ...config, recurringDefault: 'default' },
+        config: { ...config, recurringDefault: 'recurring' },
       }).build();
-      expect(url).toEqual(expect.stringContaining('recurring_default=default'));
+      expect(url).toEqual(
+        expect.stringContaining('recurring_default=recurring')
+      );
 
       url = new UrlBuilder({
         config: { ...config, recurringDefault: 'one_off' },

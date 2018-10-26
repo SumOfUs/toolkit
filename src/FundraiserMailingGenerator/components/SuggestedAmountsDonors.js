@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button, Control, Field, Icon, Input } from 'reactbulma';
 import classnames from 'classnames';
-import { debounce } from 'lodash';
+import { debounce, pick, identity } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import CopyButton from '../components/CopyButton';
 import UrlBuilder from '../utils/builders/url';
@@ -24,7 +24,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   _debouncedSave: any;
   static defaultState: State = {
     multipliers: [1, 1.5, 2, undefined, undefined],
-    recurringDefault: 'default',
+    recurringDefault: '',
     oneClick: false,
     buttonTemplate: {
       en: `Donate {{amount}} now`,
@@ -83,14 +83,12 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   updateRecurringDefault = (e: SyntheticInputEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     if (
-      value === 'default' ||
+      value === '' ||
       value === 'recurring' ||
       value === 'only_recurring' ||
       value === 'one_off'
     ) {
-      this.setState({
-        recurringDefault: value,
-      });
+      this.setState({ recurringDefault: value });
     }
   };
 
@@ -102,14 +100,17 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     if (!rates) return url;
     return new UrlBuilder({
       url,
-      config: {
-        multiplier,
-        locale: lang,
-        rates,
-        recurringDefault,
-        oneClick,
-        correctLowAsks: true,
-      },
+      config: pick(
+        {
+          multiplier,
+          locale: lang,
+          rates,
+          recurringDefault,
+          oneClick,
+          correctLowAsks: true,
+        },
+        identity
+      ),
     }).build();
   };
 
@@ -137,10 +138,13 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   otherAmountButton = () => {
     const link = new UrlBuilder({
       url: this.props.url,
-      config: {
-        recurringDefault: this.state.recurringDefault,
-        omitAmount: true,
-      },
+      config: pick(
+        {
+          recurringDefault: this.state.recurringDefault,
+          omitAmount: true,
+        },
+        identity
+      ),
     }).build();
     const text = this.state.otherLinkTemplate[this.props.lang];
     return renderToStaticMarkup(
@@ -231,7 +235,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
                 value={this.state.recurringDefault}
                 onChange={this.updateRecurringDefault}
               >
-                <option value="default">Use page default</option>
+                <option value="">Use page default</option>
                 <option value="recurring">Recurring</option>
                 <option value="only_recurring">Only recurring</option>
                 <option value="one_off">One off</option>

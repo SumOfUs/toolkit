@@ -5,7 +5,7 @@ import { groupByCurrency } from './helpers';
 import type { Rates } from '../exchange-rates';
 
 export type RecurringDefault =
-  | 'default'
+  | ''
   | 'recurring'
   | 'only_recurring'
   | 'one_off';

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button, Control, Field, Icon, Input } from 'reactbulma';
-import { debounce } from 'lodash';
+import { debounce, pick, identity } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import CopyButton from '../components/CopyButton';
 import UrlBuilder from '../utils/builders/url';
@@ -22,7 +22,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
   _debouncedSave: any;
   static defaultState: State = {
     amounts: [4, 8, 20, undefined, undefined],
-    recurringDefault: 'default',
+    recurringDefault: '',
     buttonTemplate: {
       en: `Donate {{amount}} now`,
       fr: `Donner {{amount}}`,
@@ -76,7 +76,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
   updateRecurringDefault = (e: SyntheticInputEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     if (
-      value === 'default' ||
+      value === '' ||
       value === 'recurring' ||
       value === 'only_recurring' ||
       value === 'one_off'
@@ -122,10 +122,13 @@ export default class FixedAmountCreator extends Component<Props, State> {
   otherAmountButton = () => {
     const link = new UrlBuilder({
       url: this.props.url,
-      config: {
-        recurringDefault: this.state.recurringDefault,
-        omitAmount: true,
-      },
+      config: pick(
+        {
+          recurringDefault: this.state.recurringDefault || undefined,
+          omitAmount: true,
+        },
+        identity
+      ),
     }).build();
     const text = this.state.otherLinkTemplate[this.props.lang];
     return renderToStaticMarkup(
@@ -194,7 +197,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
               value={this.state.recurringDefault}
               onChange={this.updateRecurringDefault}
             >
-              <option value="default">Use page default</option>
+              <option value="">Use page default</option>
               <option value="recurring">Recurring</option>
               <option value="only_recurring">Only recurring</option>
               <option value="one_off">One off</option>
