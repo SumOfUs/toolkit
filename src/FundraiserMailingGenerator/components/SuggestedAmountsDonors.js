@@ -25,7 +25,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   static defaultState: State = {
     multipliers: [1, 1.5, 2, undefined, undefined],
     recurringDefault: '',
-    oneClick: false,
+    oneClick: true,
     buttonTemplate: {
       en: `Donate {{amount}} now`,
       fr: `Donner {{amount}}`,
