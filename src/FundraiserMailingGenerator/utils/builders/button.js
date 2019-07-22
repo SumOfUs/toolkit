@@ -25,31 +25,24 @@ export default class ButtonBuilder {
   }
 
   build = () => {
-                  const {
-                    url,
-                    template,
-                    locale,
-                    rates,
-                    amount,
-                    multiplier,
-                  } = this.config;
-                  const urlConfig = { url, locale, rates, amount, multiplier };
-                  const textConfig = {
-                    template,
-                    locale,
-                    rates,
-                    amount,
-                    multiplier,
-                  };
-                  // Button Color picked from template
-                  const btnStyle = { ...this.style };
-                  btnStyle.backgroundColor =
-                    '#{% include_tmpl custom_fields.action_button_color %}';
+    const { url, template, locale, rates, amount, multiplier } = this.config;
+    const urlConfig = { url, locale, rates, amount, multiplier };
+    const textConfig = {
+      template,
+      locale,
+      rates,
+      amount,
+      multiplier,
+    };
+    // Button Color picked from template
+    const btnStyle = { ...this.style };
+    btnStyle.backgroundColor =
+      '#{% include_tmpl custom_fields.action_button_color %}';
 
-                  return renderToStaticMarkup(
-                    <a style={btnStyle} href="{{link}}">{`{{text}}`}</a>
-                  )
-                    .replace('{{link}}', new UrlBuilder(urlConfig).build())
-                    .replace('{{text}}', new TextBuilder(textConfig).build());
-                };
+    return renderToStaticMarkup(
+      <a style={btnStyle} href="{{link}}">{`{{text}}`}</a>
+    )
+      .replace('{{link}}', new UrlBuilder(urlConfig).build())
+      .replace('{{text}}', new TextBuilder(textConfig).build());
+  };
 }
