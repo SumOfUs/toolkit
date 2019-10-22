@@ -68,7 +68,7 @@ export default class ButtonCreator extends Component<Props, State> {
         rates,
         locale: lang,
         correctLowAsks,
-        omitAmount: true,
+        omitAmount: false,
         style: this.props.styles.buttonStyle,
       }).build();
 

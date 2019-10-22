@@ -76,7 +76,12 @@ export default class UrlBuilder {
     };
     return qs
       .stringify(omitBy(query, isUndefined))
-      .replace('AMOUNT', groupByCurrency(this.amount))
+      .replace(
+        'amount=AMOUNT&',
+        `{% if suggested_ask_via_usd > 1 %}amount=${groupByCurrency(
+          this.amount
+        )}&{% endif %}`
+      )
       .replace('CURRENCY', groupByCurrency(currency => currency));
   }
 

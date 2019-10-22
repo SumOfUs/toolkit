@@ -59,7 +59,7 @@ export default class LinkCreator extends Component<Props, State> {
         rates,
         locale: lang,
         correctLowAsks,
-        omitAmount: true,
+        omitAmount: false,
         style: this.props.styles.linkStyle,
       }).build();
 
