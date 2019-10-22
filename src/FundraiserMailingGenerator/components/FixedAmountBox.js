@@ -7,7 +7,6 @@ import { hydrate, save } from '../state/localStorage';
 import CopyButton from '../components/CopyButton';
 import UrlBuilder from '../utils/builders/url';
 import TextBuilder from '../utils/builders/text';
-import { buttonStyle, linkStyle } from '../utils/styles';
 import type { State as Props } from '../BaseComponent';
 import type { RecurringDefault } from '../utils/builders/url';
 
@@ -116,7 +115,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
   button = (amount?: number): string => {
     if (!amount) return '';
     return renderToStaticMarkup(
-      <a style={buttonStyle} href="{{link}}">{`{{text}}`}</a>
+      <a style={this.props.styles.buttonStyle} href="{{link}}">{`{{text}}`}</a>
     )
       .replace('{{link}}', this.link(amount))
       .replace('{{text}}', this.text(amount));
@@ -135,7 +134,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
     }).build();
     const text = this.state.otherLinkTemplate[this.props.lang];
     return renderToStaticMarkup(
-      <a style={linkStyle} href="{{link}}">{`{{text}}`}</a>
+      <a style={this.props.styles.linkStyle} href="{{link}}">{`{{text}}`}</a>
     )
       .replace('{{link}}', link)
       .replace('{{text}}', text);

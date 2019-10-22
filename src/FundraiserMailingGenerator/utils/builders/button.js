@@ -4,7 +4,6 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import type { Rates } from '../exchange-rates';
 import TextBuilder from './text';
 import UrlBuilder from './url';
-import { buttonStyle } from '../styles';
 
 export type Config = {
   url: string,
@@ -23,7 +22,7 @@ export default class ButtonBuilder {
 
   constructor(config: Config) {
     this.config = config;
-    this.style = buttonStyle;
+    this.style = config.style;
   }
 
   build = () => {

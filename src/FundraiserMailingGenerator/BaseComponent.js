@@ -11,7 +11,10 @@ import SuggestedAmountsDonors from './components/SuggestedAmountsDonors';
 import FixedAmountBox from './components/FixedAmountBox';
 import Menu from './components/Menu';
 import SwitchLanguage from './components/SwitchLanguage';
+import Toggle from 'react-toggle';
+import styles from './utils/styles';
 import './BaseComponent.css';
+import 'react-toggle/style.css';
 
 import type { Rates } from './utils/exchange-rates';
 
@@ -19,6 +22,7 @@ export type State = {
   url: string,
   rates: ?Rates,
   lang: string,
+  themeName: string,
 };
 
 class Generator extends Component<null, State> {
@@ -28,6 +32,7 @@ class Generator extends Component<null, State> {
     url: 'https://actions.sumofus.org/a/donate',
     rates: null,
     lang: 'en',
+    themeName: 'classic',
   };
 
   constructor() {
@@ -50,6 +55,13 @@ class Generator extends Component<null, State> {
     this.setState({ rates });
   }
 
+  handleThemeChange = event => {
+    if (!event) return;
+    const target = event.currentTarget;
+    const themeName = target.checked ? 'rebranding' : 'classic';
+    this.setState({ themeName });
+  };
+
   render() {
     return (
       <div className="BaseComponent section">
@@ -65,7 +77,11 @@ class Generator extends Component<null, State> {
             <Input
               type="text"
               name="pageUrl"
-              onChange={e => this.setState({ url: e.target.value })}
+              onChange={e =>
+                this.setState({
+                  url: e.target.value,
+                })
+              }
               value={this.state.url}
             />
           </Field>
@@ -78,6 +94,7 @@ class Generator extends Component<null, State> {
                 url={this.state.url}
                 rates={this.state.rates}
                 lang={this.state.lang}
+                styles={styles[this.state.themeName] || styles.classic}
               />
             )}
           />
@@ -90,6 +107,7 @@ class Generator extends Component<null, State> {
                 url={this.state.url}
                 rates={this.state.rates}
                 lang={this.state.lang}
+                styles={styles[this.state.themeName] || styles.classic}
               />
             )}
           />
@@ -102,9 +120,18 @@ class Generator extends Component<null, State> {
                 url={this.state.url}
                 rates={this.state.rates}
                 lang={this.state.lang}
+                styles={styles[this.state.themeName] || styles.classic}
               />
             )}
           />
+          <div className="theme-selector">
+            <label htmlFor="theme-toggle">Rebranding styles:</label>
+            <Toggle
+              id="theme-toggle"
+              defaultChecked={this.state.themeName === 'rebranding'}
+              onChange={this.handleThemeChange}
+            />
+          </div>
         </div>
       </div>
     );

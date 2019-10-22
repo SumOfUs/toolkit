@@ -11,7 +11,7 @@ type Props = {
 
 export default function SwitchLanguage({ currentLanguage, onChange }: Props) {
   return (
-    <nav>
+    <nav className="SwitchLanguage">
       <Button
         style={{ margin: 'auto .5em' }}
         className={buttonClass('en', currentLanguage)}
