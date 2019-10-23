@@ -115,7 +115,9 @@ export default class FixedAmountCreator extends Component<Props, State> {
   button = (amount?: number): string => {
     if (!amount) return '';
     return renderToStaticMarkup(
-      <a style={this.props.styles.buttonStyle} href="{{link}}">{`{{text}}`}</a>
+      <a style={this.props.styles.buttonStyle} href="{{link}}">
+        <p style={this.props.styles.buttonInnerStyle}>{`{{text}}`}</p>
+      </a>
     )
       .replace('{{link}}', this.link(amount))
       .replace('{{text}}', this.text(amount));

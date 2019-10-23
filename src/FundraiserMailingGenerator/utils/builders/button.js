@@ -56,7 +56,13 @@ export default class ButtonBuilder {
       correctLowAsks,
     };
     return renderToStaticMarkup(
-      <a style={this.style} href="{{link}}">{`{{text}}`}</a>
+      this.config.buttonType ? (
+        <a style={this.style.buttonStyle} href="{{link}}">
+          <p style={this.style.buttonInnerStyle}>{`{{text}}`}</p>
+        </a>
+      ) : (
+        <a style={this.style.linkStyle} href="{{link}}">{`{{text}}`}</a>
+      )
     )
       .replace('{{link}}', new UrlBuilder(urlConfig).build())
       .replace('{{text}}', new TextBuilder(textConfig).build());

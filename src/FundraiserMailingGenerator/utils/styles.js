@@ -27,11 +27,28 @@ export default {
     linkStyle: {
       color: '#00abbd',
       fontWeight: 'bold',
+      fontFamily: `Montserrat, Helvetica, Arial, sans-serif`,
     },
     buttonStyle: {
       color: 'white',
       display: 'block',
       textDecoration: 'none',
+      fontFamily: `Montserrat, Helvetica, Arial, sans-serif`,
+      fontSize: '14px', 
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      WebkitBorderRadius: '4px', 
+      MozBorderRadius: '4px', 
+      borderRadius: '4px',
+      background: '#f8492e',
+    },
+    buttonInnerStyle: {
+      textAlign: 'center',
+      borderTop: '15px solid #f8492e',
+      borderBottom: '15px solid #f8492e',
+      borderRight: '8px solid #f8492e',
+      borderLeft: '8px solid #f8492e',
+      maxWidth: `300px; Max-width: 300px;`, // For outlook Max-width is a hack to make it a medium sized button
     },
   },
-};
+}

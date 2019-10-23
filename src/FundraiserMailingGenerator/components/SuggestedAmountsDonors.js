@@ -128,7 +128,9 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   button = (multiplier?: number): string => {
     if (!multiplier) return '';
     return renderToStaticMarkup(
-      <a style={this.props.styles.buttonStyle} href="{{link}}">{`{{text}}`}</a>
+      <a style={this.props.styles.buttonStyle} href="{{link}}">
+        <p style={this.props.styles.buttonInnerStyle}>{`{{text}}`}</p>
+      </a>
     )
       .replace('{{link}}', this.link(multiplier))
       .replace('{{text}}', this.text(multiplier));
