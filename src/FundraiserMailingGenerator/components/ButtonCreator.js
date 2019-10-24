@@ -70,7 +70,7 @@ export default class ButtonCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles,
-        buttonType: true,
+        isButton: true,
       }).build();
 
     throw new Error('Rates not loaded');

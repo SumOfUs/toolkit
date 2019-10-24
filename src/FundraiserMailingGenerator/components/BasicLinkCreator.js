@@ -61,7 +61,7 @@ export default class LinkCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles,
-        buttonType: false,
+        isButton: false,
       }).build();
 
     throw new Error('Rates not loaded');

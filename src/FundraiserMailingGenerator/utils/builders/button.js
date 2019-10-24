@@ -56,7 +56,7 @@ export default class ButtonBuilder {
       correctLowAsks,
     };
     return renderToStaticMarkup(
-      this.config.buttonType ? (
+      this.config.isButton ? (
         <a style={this.style.buttonStyle} href="{{link}}">
           <p style={this.style.buttonInnerStyle}>{`{{text}}`}</p>
         </a>
