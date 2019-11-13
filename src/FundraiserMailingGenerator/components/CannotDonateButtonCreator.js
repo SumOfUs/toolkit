@@ -20,6 +20,10 @@ type Props = BaseState & {
 };
 
 let URL = 'https://homepage.staging.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}'
+let buttonStyle = {
+  backgroundColor: '#BEBEBE',
+  color: '#000'
+}
 
 export default class CannotDonateButtonCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -67,12 +71,12 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
   // components but we should extract it.
   build = (): string => {
     let content = renderToStaticMarkup(
-      <a style={this.state.buttonStyle} href={URL}>Can&quot;t Donate</a>
+    <a style={{...this.state.buttonStyle, ...buttonStyle}} href={URL}>{this.state.template[this.props.lang]}</a>
     )
     return [
-      `{% if user.custom_fields.opt_out_eoy_donation == "0" %}`,
+      `<span style='display:{% if user.custom_fields.opt_out_eoy_donation == "0" %}block{% else %}none{% endif %}'>`,
       content,
-      `{% endif %}`
+      `</span>`
     ].join(" ")
   };
 
