@@ -70,14 +70,9 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
   // TODO: Refactor this. At the moment it's being duplicated in most
   // components but we should extract it.
   build = (): string => {
-    let content = renderToStaticMarkup(
-    <a style={{...this.state.buttonStyle, ...buttonStyle}} href={URL}>{this.state.template[this.props.lang]}</a>
-    )
-    return [
-      `<span style='display:{% if user.custom_fields.opt_out_eoy_donation == "0" %}block{% else %}none{% endif %}'>`,
-      content,
-      `</span>`
-    ].join(" ")
+    return renderToStaticMarkup(<a style={{ ...this.state.buttonStyle, ...buttonStyle }} href={URL}>
+        {this.state.template[this.props.lang]}
+      </a>);
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
