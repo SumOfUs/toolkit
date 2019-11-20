@@ -20,7 +20,7 @@ type Props = BaseState & {
 };
 
 //let URL = 'https://homepage.staging.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}'
-let URL = 'https://sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}'
+let URL = 'https://www.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}'
 
 let buttonStyle = {
   backgroundColor: '#BEBEBE',
