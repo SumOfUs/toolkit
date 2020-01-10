@@ -28,71 +28,66 @@ let buttonStyle = {
 }
 
 export default class CannotDonateButtonCreator extends Component<Props, State> {
-  _debouncedSave: any;
+                 _debouncedSave: any;
 
-  static defaultState = {
-    template: {
-      en: "Can't Donate",
-      fr: "Can't Donate",
-      de: "Can't Donate",
-      es: "Can't Donate"
-    },
-  };
+                 static defaultState = { template: { en: "Can't Donate", fr: "Can't Donate", de: "Can't Donate", es: "Can't Donate" } };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = hydrate('CannotDonateButtonCreator', CannotDonateButtonCreator.defaultState);
-    this.state.buttonStyle = props.styles.buttonStyle
-  }
+                 constructor(props: Props) {
+                   super(props);
+                   this.state = hydrate('CannotDonateButtonCreator', CannotDonateButtonCreator.defaultState);
+                   this.state.buttonStyle = props.styles.buttonStyle;
+                 }
 
-  get template() {
-    return this.state.template[this.props.lang];
-  }
+                 get template() {
+                   return this.state.template[this.props.lang];
+                 }
 
-  componentDidUpdate() {
-    this._debouncedSave = this.saveState();
-  }
+                 componentDidUpdate() {
+                   this._debouncedSave = this.saveState();
+                 }
 
-  componentWillUnmount() {
-    if (this._debouncedSave) this._debouncedSave.flush();
-  }
+                 componentWillUnmount() {
+                   if (this._debouncedSave) this._debouncedSave.flush();
+                 }
 
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
-    if (!isEqual(this.state, nextState)) return true;
-    return this.props.lang !== nextProps.lang;
-  }
+                 shouldComponentUpdate(nextProps: Props, nextState: State) {
+                   if (!isEqual(this.state, nextState)) return true;
+                   return this.props.lang !== nextProps.lang;
+                 }
 
-  saveState = debounce(() => save('CannotDonateButtonCreator', this.state), 1500);
+                 saveState = debounce(() => save('CannotDonateButtonCreator', this.state), 1500);
 
-  updateTemplate = (data: { [string]: string }) => {
-    this.setState({ template: { ...this.state.template, ...data } });
-  };
+                 updateTemplate = (data: { [string]: string }) => {
+                   this.setState({
+                     template: {
+                       ...this.state.template,
+                       ...data,
+                     },
+                   });
+                 };
 
-  resetTemplate = () => this.setState(CannotDonateButtonCreator.defaultState);
+                 resetTemplate = () => this.setState(CannotDonateButtonCreator.defaultState);
 
-  // TODO: Refactor this. At the moment it's being duplicated in most
-  // components but we should extract it.
-  build = (): string => {
-    return renderToStaticMarkup(<a style={{ ...this.state.buttonStyle, ...buttonStyle }} href={URL}>
-        {this.state.template[this.props.lang]}
-      </a>);
-  };
+                 // TODO: Refactor this. At the moment it's being duplicated in most
+                 // components but we should extract it.
+                 build = (): string => {
+                   return renderToStaticMarkup(<a style={{ ...this.state.buttonStyle, ...buttonStyle }} href={URL}>
+                       {this.state.template[this.props.lang]}
+                     </a>);
+                 };
 
-  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.updateTemplate({ [this.props.lang]: e.target.value });
-  };
+                 onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+                   this.updateTemplate({
+                     [this.props.lang]: e.target.value,
+                   });
+                 };
 
-  render() {
-    return (
-      <div className="CannotDonateButtonCreator tool-section">
-      <label className="label">Can't Donate</label>
-        <InputWithActions
-          value={this.state.template[this.props.lang]}
-          onChange={this.onChange}
-          onReset={this.resetTemplate}
-          onSubmit={this.build}
-        />
-      </div>
-    );
-  }
-}
+                 render() {
+                   return <div className="CannotDonateButtonCreator tool-section">
+                       <label className="label">
+                         Can't Donate
+                       </label>
+                       <InputWithActions value={this.state.template[this.props.lang]} onChange={this.onChange} onReset={this.resetTemplate} onSubmit={this.build} />
+                     </div>;
+                 }
+               }

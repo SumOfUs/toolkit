@@ -29,7 +29,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
       en: `Donate {{amount}} now`,
       fr: `Donner {{amount}}`,
       de: `Jetzt {{amount}} Spenden`,
-      es: `Dona {{amount}} ahora`
+      es: `Dona {{amount}} ahora`,
     },
     otherLinkTemplate: {
       en: `Donate another amount`,
