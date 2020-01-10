@@ -20,6 +20,7 @@ export default class LinkCreator extends Component<Props, State> {
       en: 'Yes, I will chip in {{amount}} to help ...',
       fr: 'Oui, je vais donner {{amount}} pour aider ...',
       de: 'Ja, ich spende {{amount}}, um zu helfen ...',
+      es: 'Sí, aportaré {{amount}} para ayudar a...'
     },
   };
 
