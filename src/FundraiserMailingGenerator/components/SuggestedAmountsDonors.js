@@ -35,7 +35,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
       en: `Donate another amount`,
       fr: `Doner un autre montant`,
       de: `Spenden Sie einen anderen Betrag`,
-      es: `Dona otra cantidad`
+      es: `Dona otra cantidad`,
     },
   };
   constructor(props: Props) {
