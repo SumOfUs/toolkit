@@ -2,13 +2,14 @@
 
 import React, { Component } from 'react';
 import { debounce } from 'lodash';
-import { Route } from 'react-router';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Field, Input } from 'reactbulma';
 import { fetchRates } from './utils/exchange-rates';
 import { hydrate, save } from './state/localStorage';
 import SuggestedAmountsBasic from './components/SuggestedAmountsBasic';
 import SuggestedAmountsDonors from './components/SuggestedAmountsDonors';
 import FixedAmountBox from './components/FixedAmountBox';
+import BoxTextHTML from './components/BoxTextHTML';
 import Menu from './components/Menu';
 import SwitchLanguage from './components/SwitchLanguage';
 import Toggle from 'react-toggle';
@@ -25,6 +26,7 @@ export type State = {
   themeName: string,
 };
 
+console.log('box text html', BoxTextHTML)
 class Generator extends Component<null, State> {
   _debouncedSave: any;
 
@@ -86,44 +88,61 @@ class Generator extends Component<null, State> {
             />
           </Field>
 
-          <Route
-            exact
-            path="/fundraiser-mailing"
-            component={props => (
-              <SuggestedAmountsBasic
-                url={this.state.url}
-                rates={this.state.rates}
-                lang={this.state.lang}
-                styles={styles[this.state.themeName] || styles.classic}
-              />
-            )}
-          />
+          <Router>
+            <Route
+              exact
+              path="/fundraiser-mailing"
+              component={props => (
+                <SuggestedAmountsBasic
+                  url={this.state.url}
+                  rates={this.state.rates}
+                  lang={this.state.lang}
+                  styles={styles[this.state.themeName] || styles.classic}
+                />
+              )}
+            />
 
-          <Route
-            exact
-            path="/fundraiser-mailing/suggested-amounts-donors"
-            component={props => (
-              <SuggestedAmountsDonors
-                url={this.state.url}
-                rates={this.state.rates}
-                lang={this.state.lang}
-                styles={styles[this.state.themeName] || styles.classic}
-              />
-            )}
-          />
+            <Route
+              exact
+              path="/fundraiser-mailing/box-text-html"
+              component={props => (
+                <BoxTextHTML 
+                  url={this.state.url}
+                  rates={this.state.rates}
+                  lang={this.state.lang}
+                  styles={styles[this.state.themeName] || styles.classic}
+                />
+              )}
+            />
 
-          <Route
-            exact
-            path="/fundraiser-mailing/fixed-amount"
-            component={props => (
-              <FixedAmountBox
-                url={this.state.url}
-                rates={this.state.rates}
-                lang={this.state.lang}
-                styles={styles[this.state.themeName] || styles.classic}
-              />
-            )}
-          />
+            <Route
+              exact
+              path="/fundraiser-mailing/suggested-amounts-donors"
+              component={props => (
+                <SuggestedAmountsDonors
+                  url={this.state.url}
+                  rates={this.state.rates}
+                  lang={this.state.lang}
+                  styles={styles[this.state.themeName] || styles.classic}
+                />
+              )}
+            />
+
+            <Route
+              exact
+              path="/fundraiser-mailing/fixed-amount"
+              component={props => (
+                <FixedAmountBox
+                  url={this.state.url}
+                  rates={this.state.rates}
+                  lang={this.state.lang}
+                  styles={styles[this.state.themeName] || styles.classic}
+                />
+              )}
+            />
+
+          </Router>
+
           <div className="theme-selector">
             <label htmlFor="theme-toggle">Rebranding styles:</label>
             <Toggle
