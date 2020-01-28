@@ -17,39 +17,28 @@ const LINK_DEFAULTS = {
 };
 
 const DonorSidebarBuilder = props => {
-  const [buttonTemplate, updateButtonTemplate] = useState(
-    BUTTON_DEFAULTS[props.lang] || BUTTON_DEFAULTS.en
-  );
-  const [otherAmountTemplate, updateOtherAmountTemplate] = useState(
-    LINK_DEFAULTS[props.lang] || LINK_DEFAULTS.en
-  );
-
-  const [multipliers, setMultipliers] = useState([1, 1.5, 2, 0, 0]);
-  const [recurring, setRecurring] = useState('');
-  const [oneClick, setOneClick] = useState(true);
-
   const updateMultipliers = (value, index) => {
-    const result = [...multipliers];
+    const result = [...props.donorMultipliers];
     if (Number.isNaN(Number(value))) return;
     result[index] = Number(value);
-    setMultipliers(result);
+    props.onChange('donorMultipliers', result);
   };
 
   return (
     <div className="form">
       <GroupedInput
         label="Button"
-        value={buttonTemplate}
-        onChange={e => updateButtonTemplate(e.target.value)}
+        value={props.donorButtonTemplate}
+        onChange={e => props.onChange('donorButtonTemplate', e.target.value)}
       />
       <GroupedInput
         label="Another Amount"
-        value={otherAmountTemplate}
-        onChange={e => updateOtherAmountTemplate(e.target.value)}
+        value={props.donorOtherLinkTemplate}
+        onChange={e => props.onChange('donorOtherLinkTemplate', e.target.value)}
       />
 
       <GroupedWithChildren label="Multipliers">
-        {multipliers.map((amount, index) => (
+        {props.donorMultipliers.map((amount, index) => (
           <Control key={`amount-${index}`} className="field">
             <Input
               small
@@ -69,8 +58,8 @@ const DonorSidebarBuilder = props => {
           <select
             className="is-small"
             name="recurringDefault"
-            value={recurring}
-            onChange={e => setRecurring(e.target.value)}
+            value={props.donorRecurring}
+            onChange={e => props.onChange('donorRecurring', e.target.value)}
           >
             <option value="">Use page default</option>
             <option value="recurring">Recurring</option>
@@ -82,15 +71,17 @@ const DonorSidebarBuilder = props => {
       <GroupedWithChildren label="One click">
         <div
           className={classnames('select', 'is-small', {
-            'is-success': oneClick,
-            'is-danger': !oneClick,
+            'is-success': props.donorOneClick,
+            'is-danger': !props.donorOneClick,
           })}
         >
           <select
             className="is-small"
             name="oneClick"
-            value={oneClick}
-            onChange={e => setOneClick(e.target.value === 'true')}
+            value={props.donorOneClick}
+            onChange={e =>
+              props.onChange('donorOneClick', e.target.value === 'true')
+            }
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
