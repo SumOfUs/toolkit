@@ -1,19 +1,21 @@
 // @flow
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import type { Rates } from '../exchange-rates';
+import { Rates } from '../exchange-rates';
 import TextBuilder from './text';
 import UrlBuilder from './url';
+import * as CSS from 'csstype';
 
 export type Config = {
-  url: string,
-  template: string,
-  locale: string,
-  rates: Rates,
-  amount?: number,
-  multiplier?: number,
-  correctLowAsks?: boolean,
-  omitAmount?: boolean,
+  url: string;
+  template: string;
+  locale: string;
+  rates: Rates;
+  amount?: number;
+  multiplier?: number;
+  correctLowAsks?: boolean;
+  omitAmount?: boolean;
+  style: CSS.Properties;
 };
 
 export default class ButtonBuilder {

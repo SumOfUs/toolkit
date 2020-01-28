@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Control, Input } from 'reactbulma';
+import React from 'react';
+import { Form } from 'react-bulma-components';
 import { GroupedWithChildren, GroupedInput } from './forms';
 import classnames from 'classnames';
 
@@ -29,27 +29,31 @@ const DonorSidebarBuilder = props => {
       <GroupedInput
         label="Button"
         value={props.donorButtonTemplate}
-        onChange={e => props.onChange('donorButtonTemplate', e.target.value)}
+        onChange={e =>
+          props.onChange('donorButtonTemplate', e.currentTarget.value)
+        }
       />
       <GroupedInput
         label="Another Amount"
         value={props.donorOtherLinkTemplate}
-        onChange={e => props.onChange('donorOtherLinkTemplate', e.target.value)}
+        onChange={e =>
+          props.onChange('donorOtherLinkTemplate', e.currentTarget.value)
+        }
       />
 
       <GroupedWithChildren label="Multipliers">
         {props.donorMultipliers.map((amount, index) => (
-          <Control key={`amount-${index}`} className="field">
-            <Input
-              small
+          <Form.Control key={`amount-${index}`} className="field">
+            <Form.Input
+              size="small"
               name={`amount-${index}`}
               value={amount || ''}
               className="is-info"
               placeholder={`Amount ${index + 1}`}
               type="text"
-              onChange={e => updateMultipliers(e.target.value, index)}
+              onChange={e => updateMultipliers(e.currentTarget.value, index)}
             />
-          </Control>
+          </Form.Control>
         ))}
       </GroupedWithChildren>
 
@@ -59,7 +63,9 @@ const DonorSidebarBuilder = props => {
             className="is-small"
             name="recurringDefault"
             value={props.donorRecurring}
-            onChange={e => props.onChange('donorRecurring', e.target.value)}
+            onChange={e =>
+              props.onChange('donorRecurring', e.currentTarget.value)
+            }
           >
             <option value="">Use page default</option>
             <option value="recurring">Recurring</option>
@@ -80,7 +86,7 @@ const DonorSidebarBuilder = props => {
             name="oneClick"
             value={props.donorOneClick}
             onChange={e =>
-              props.onChange('donorOneClick', e.target.value === 'true')
+              props.onChange('donorOneClick', e.currentTarget.value === 'true')
             }
           >
             <option value={true}>Yes</option>

@@ -1,14 +1,14 @@
 import React from 'react';
-import { Field } from 'reactbulma';
+import { Form } from 'react-bulma-components';
 
 export const GroupedWithChildren = props => {
   return (
-    <Field className="is-horizontal is-grouped">
+    <Form.Field className="is-horizontal is-grouped">
       <div className="field-label">
         <label className="label">{props.label}</label>
       </div>
       <div className="field-body">{props.children}</div>
-    </Field>
+    </Form.Field>
   );
 };
 

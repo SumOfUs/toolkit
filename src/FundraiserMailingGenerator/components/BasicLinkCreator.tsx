@@ -1,16 +1,22 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import { isEqual, debounce } from 'lodash';
 import LinkBuilder from '../utils/builders/link';
 import InputWithActions from './InputWithActions';
 import { hydrate, save } from '../state/localStorage';
-import type { State as BaseState } from '../BaseComponent';
+import * as CSS from 'csstype';
+import { Rates } from '../utils/exchange-rates';
 
 type State = {
-  template: { [lang: string]: string },
+  template: { [lang: string]: string };
 };
 
-type Props = BaseState & { correctLowAsks?: boolean };
+type Props = {
+  lang: string;
+  url: string;
+  rates: Rates | null;
+  correctLowAsks?: boolean;
+  styles: { [key: string]: CSS.Properties };
+};
 
 export default class LinkCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -43,7 +49,7 @@ export default class LinkCreator extends Component<Props, State> {
 
   saveState = debounce(() => save('LinkCreator', this.state), 1500);
 
-  updateTemplate = (data: { [string]: string }) => {
+  updateTemplate = (data: { [key: string]: string }) => {
     this.setState({ template: { ...this.state.template, ...data } });
   };
 
@@ -66,8 +72,8 @@ export default class LinkCreator extends Component<Props, State> {
     throw new Error('Rates not loaded');
   };
 
-  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.updateTemplate({ [this.props.lang]: e.target.value });
+  onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.updateTemplate({ [this.props.lang]: e.currentTarget.value });
   };
 
   render() {

@@ -2,11 +2,11 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import { Button } from 'reactbulma';
+import { Button } from 'react-bulma-components';
 
 type Props = {
-  currentLanguage: string,
-  onChange: (lang: string) => void,
+  currentLanguage: string;
+  onChange: (lang: string) => void;
 };
 
 export default function SwitchLanguage({ currentLanguage, onChange }: Props) {
@@ -37,7 +37,7 @@ export default function SwitchLanguage({ currentLanguage, onChange }: Props) {
   );
 }
 
-function buttonClass(language: string, currentLanguage: string): boolean {
+function buttonClass(language: string, currentLanguage: string): string {
   return classnames({
     'is-small': true,
     'is-white': true,

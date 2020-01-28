@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import { Button, Icon } from 'reactbulma';
+import { Button, Icon } from 'react-bulma-components';
 import copy from 'copy-to-clipboard';
 
 type Props = {
-  textFn: () => string,
-  disabled?: boolean,
-  children?: typeof React.Children,
+  textFn: () => string;
+  disabled?: boolean;
+  children?: typeof React.Children;
 };
 
 type State = { hasCopied: boolean };
@@ -33,7 +33,7 @@ export default class CopyButton extends Component<Props, State> {
     const { hasCopied } = this.state;
     return (
       <Button onClick={this.copy} disabled={disabled}>
-        <Icon small>
+        <Icon size="small">
           <i className="far fa-copy" />
         </Icon>
         {children}

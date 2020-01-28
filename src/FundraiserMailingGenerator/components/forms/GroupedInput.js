@@ -1,21 +1,21 @@
-import { Input, Field } from 'reactbulma';
 import React from 'react';
+import { Form } from 'react-bulma-components';
 
 export const GroupedInput = props => {
   return (
-    <Field className="is-horizontal is-grouped">
+    <Form.Field className="is-horizontal is-grouped">
       <div className="field-label">
         <label className="label">{props.label}</label>
       </div>
       <div className="field-body">
-        <Input
+        <Form.Input
           type="text"
-          small
+          size="small"
           value={props.value}
           onChange={props.onChange}
         />
       </div>
-    </Field>
+    </Form.Field>
   );
 };
 

@@ -1,19 +1,19 @@
 import React from 'react';
-import { Content, Icon, Box, Media, Level } from 'reactbulma';
+import { Content, Icon, Box, Media, Level } from 'react-bulma-components';
 
-const Tweet = (props) => (
+const Tweet = props => (
   <Box>
     <Media>
       <Media.Content>
         <Content>
-          <p>
-            {props.text}
-          </p>
+          <p>{props.text}</p>
         </Content>
         <Level mobile>
           <Level.Left>
             <Level.Item onClick={props.handleDelete.bind(this, props.index)}>
-              <Icon small><i className="fa fa-trash"/></Icon>
+              <Icon small>
+                <i className="fa fa-trash" />
+              </Icon>
             </Level.Item>
           </Level.Left>
         </Level>

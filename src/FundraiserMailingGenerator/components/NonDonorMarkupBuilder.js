@@ -7,12 +7,16 @@ const NonDonorMarkupBuilder = props => {
       <GroupedInput
         label="Sidebar Button"
         value={props.nonDonorButtonTemplate}
-        onChange={e => props.onChange('nonDonorButtonTemplate', e.target.value)}
+        onChange={e =>
+          props.onChange('nonDonorButtonTemplate', e.currentTarget.value)
+        }
       />
       <GroupedInput
         label="Body Link"
         value={props.nonDonorLinkTemplate}
-        onChange={e => props.onChange('nonDonorLinkTemplate', e.target.value)}
+        onChange={e =>
+          props.onChange('nonDonorLinkTemplate', e.currentTarget.value)
+        }
       />
     </div>
   );

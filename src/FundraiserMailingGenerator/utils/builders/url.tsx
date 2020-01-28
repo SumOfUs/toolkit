@@ -2,28 +2,28 @@
 import qs from 'querystringify';
 import { omitBy, isUndefined } from 'lodash';
 import { groupByCurrency } from './helpers';
-import type { Rates } from '../exchange-rates';
+import { Rates } from '../exchange-rates';
 
 export type RecurringDefault = '' | 'recurring' | 'only_recurring' | 'one_off';
 
 type UrlBuilderConfig = {
-  amount?: number,
-  omitAmount?: boolean,
-  multiplier?: number,
-  oneClick?: boolean,
-  rates?: Rates,
-  recurringDefault?: RecurringDefault,
-  correctLowAsks?: boolean,
+  amount?: number;
+  omitAmount?: boolean;
+  multiplier?: number;
+  oneClick?: boolean;
+  rates?: Rates;
+  recurringDefault?: RecurringDefault;
+  correctLowAsks?: boolean;
 };
 
 type UrlBuilderOptions = {
-  config?: UrlBuilderConfig,
-  url?: string,
+  config?: UrlBuilderConfig;
+  url?: string;
 };
 
 export default class UrlBuilder {
   url: string = 'https://actions.sumofus.org/a/donate';
-  config: ?UrlBuilderConfig = null;
+  config: UrlBuilderConfig | null = null;
 
   static defaultQuery = qs
     .stringify({ donation_band: 'DONATION_BANDS', source: 'fwd' })
@@ -77,7 +77,10 @@ export default class UrlBuilder {
     return qs
       .stringify(omitBy(query, isUndefined))
       .replace('AMOUNT', groupByCurrency(this.amount))
-      .replace('CURRENCY', groupByCurrency(currency => currency));
+      .replace(
+        'CURRENCY',
+        groupByCurrency(currency => currency)
+      );
   }
 
   build = () => `${this.url}?${this.query}`;

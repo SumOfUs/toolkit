@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Tabs } from 'reactbulma';
+import { Tabs } from 'react-bulma-components';
 import './Menu.css';
 
 export default () => (

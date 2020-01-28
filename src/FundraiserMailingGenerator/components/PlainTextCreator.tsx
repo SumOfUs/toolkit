@@ -1,18 +1,22 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import InputWithActions from './InputWithActions';
 import { debounce, isEqual } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import TextBuilder from '../utils/builders/text';
-
-import type { State as BaseState } from '../BaseComponent';
+import { Rates } from '../utils/exchange-rates';
 
 type State = {
-  template: { [lang: string]: string },
-  recurring: string,
+  template: { [lang: string]: string };
+  recurring: string;
 };
 
-type Props = BaseState & { correctLowAsks?: boolean };
+type Props = {
+  url: string;
+  rates: Rates | null;
+  lang: string;
+  correctLowAsks?: boolean;
+};
 
 export default class PlainTextCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -45,7 +49,7 @@ export default class PlainTextCreator extends Component<Props, State> {
 
   saveState = debounce(() => save('PlainTextCreator', this.state), 1500);
 
-  updateTemplate = (data: { [string]: string }) => {
+  updateTemplate = (data: { [key: string]: string }) => {
     this.setState({ template: { ...this.state.template, ...data } });
   };
 
@@ -63,8 +67,8 @@ export default class PlainTextCreator extends Component<Props, State> {
     throw new Error('Rates not loaded');
   };
 
-  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.updateTemplate({ [this.props.lang]: e.target.value });
+  onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.updateTemplate({ [this.props.lang]: e.currentTarget.value });
   };
 
   render() {

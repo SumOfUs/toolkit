@@ -1,14 +1,12 @@
 import React from 'react';
-import { Field, Input, Button, Textarea } from 'reactbulma'
+import { Field, Input, Button, Textarea } from 'react-bulma-components';
 
-const FbShare = (props) => {
-  return(
+const FbShare = props => {
+  return (
     <div>
-      <Field>
-
-      </Field>
+      <Form.Field></Form.Field>
     </div>
-  )
-}
+  );
+};
 
 export default FbShare;

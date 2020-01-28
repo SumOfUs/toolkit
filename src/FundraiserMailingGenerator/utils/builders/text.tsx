@@ -3,22 +3,20 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import Currency from '../../components/Currency';
 import { groupByCurrency, suggestedAsk, fixedAsk } from './helpers';
-import type { Rates } from '../exchange-rates';
+import { Rates } from '../exchange-rates';
 
 type TextBuilderConfig = {
-  template: string,
-  locale: string,
-  rates: Rates,
+  template: string;
+  locale: string;
+  rates: Rates;
   // if no amount is passed, it will used `suggested_ask_via_usd`
-  amount?: number,
-  multiplier?: number,
-  correctLowAsks?: boolean,
+  amount?: number;
+  multiplier?: number;
+  correctLowAsks?: boolean;
 };
 
 export default class TextBuilder {
   config: TextBuilderConfig;
-  head: string;
-  tail: string;
 
   constructor(config: TextBuilderConfig) {
     this.config = config;

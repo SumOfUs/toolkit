@@ -1,9 +1,9 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import { debounce } from 'lodash';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { Field, Input } from 'reactbulma';
+import { Form } from 'react-bulma-components';
 import { fetchRates } from './utils/exchange-rates';
 import { hydrate, save } from './state/localStorage';
 import SuggestedAmountsBasic from './components/SuggestedAmountsBasic';
@@ -16,18 +16,20 @@ import Toggle from 'react-toggle';
 import styles from './utils/styles';
 import './BaseComponent.css';
 import 'react-toggle/style.css';
+import * as CSS from 'csstype';
 
-import type { Rates } from './utils/exchange-rates';
+import { Rates } from './utils/exchange-rates';
+
+export type StyleList = { [key: string]: CSS.Properties };
 
 export type State = {
-  url: string,
-  rates: ?Rates,
-  lang: string,
-  themeName: string,
+  url: string;
+  rates: Rates | null;
+  lang: string;
+  themeName: 'classic' | 'rebranding';
 };
 
-console.log('box text html', BoxTextHTML)
-class Generator extends Component<null, State> {
+class Generator extends Component<void, State> {
   _debouncedSave: any;
 
   static defaultState: State = {
@@ -37,8 +39,8 @@ class Generator extends Component<null, State> {
     themeName: 'classic',
   };
 
-  constructor() {
-    super();
+  constructor(props: void) {
+    super(props);
     this.state = hydrate('BaseComponent', Generator.defaultState);
   }
 
@@ -57,7 +59,7 @@ class Generator extends Component<null, State> {
     this.setState({ rates });
   }
 
-  handleThemeChange = event => {
+  handleThemeChange = (event: SyntheticEvent<HTMLInputElement>) => {
     if (!event) return;
     const target = event.currentTarget;
     const themeName = target.checked ? 'rebranding' : 'classic';
@@ -74,25 +76,25 @@ class Generator extends Component<null, State> {
           />
           <Menu />
 
-          <Field className="BaseComponent-url">
+          <Form.Field className="BaseComponent-url">
             <label className="label">Page URL</label>
-            <Input
+            <Form.Input
               type="text"
               name="pageUrl"
               onChange={e =>
                 this.setState({
-                  url: e.target.value,
+                  url: e.currentTarget.value,
                 })
               }
               value={this.state.url}
             />
-          </Field>
+          </Form.Field>
 
           <Router>
             <Route
               exact
               path="/fundraiser-mailing"
-              component={props => (
+              component={() => (
                 <SuggestedAmountsBasic
                   url={this.state.url}
                   rates={this.state.rates}
@@ -105,8 +107,8 @@ class Generator extends Component<null, State> {
             <Route
               exact
               path="/fundraiser-mailing/box-text-html"
-              component={props => (
-                <BoxTextHTML 
+              component={() => (
+                <BoxTextHTML
                   url={this.state.url}
                   rates={this.state.rates}
                   lang={this.state.lang}
@@ -118,7 +120,7 @@ class Generator extends Component<null, State> {
             <Route
               exact
               path="/fundraiser-mailing/suggested-amounts-donors"
-              component={props => (
+              component={() => (
                 <SuggestedAmountsDonors
                   url={this.state.url}
                   rates={this.state.rates}
@@ -131,7 +133,7 @@ class Generator extends Component<null, State> {
             <Route
               exact
               path="/fundraiser-mailing/fixed-amount"
-              component={props => (
+              component={() => (
                 <FixedAmountBox
                   url={this.state.url}
                   rates={this.state.rates}
@@ -140,7 +142,6 @@ class Generator extends Component<null, State> {
                 />
               )}
             />
-
           </Router>
 
           <div className="theme-selector">

@@ -1,9 +1,9 @@
 import React, { Component, useState } from 'react';
-import { Button, Icon } from 'reactbulma';
+import { Button, Icon } from 'react-bulma-components';
 import CopyButton from './CopyButton';
 import DonorMarkupBuilder from './DonorMarkupBuilder';
 import NonDonorMarkupBuilder from './NonDonorMarkupBuilder';
-import utils from '../utils';
+import * as utils from '../utils';
 
 // FIXME: Move to translation file?
 const DONOR_BUTTON_DEFAULTS = {
@@ -67,7 +67,7 @@ class BoxTextHTML extends Component {
       buttonTemplate: this.state.donorButtonTemplate,
       otherAmountTemplate: this.state.donorOtherLinkTemplate,
     });
-    return buildMarkup(donorTemplate, nonDonorTemplate /*button*/);
+    return this.buildMarkup(donorTemplate /*, nonDonorTemplate (button) */);
   }
 
   buildBodyMarkup() {

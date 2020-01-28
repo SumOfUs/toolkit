@@ -3,11 +3,16 @@ import PlainTextCreator from './PlainTextCreator';
 import BasicLinkCreator from './BasicLinkCreator';
 import ButtonCreator from './ButtonCreator';
 import CannotDonateButtonCreator from './CannotDonateButtonCreator';
-
-import type { State as Props } from '../BaseComponent';
+import * as CSS from 'csstype';
+import { Rates } from '../utils/exchange-rates';
 
 type State = {};
-
+type Props = {
+  url: string;
+  rates: Rates | null;
+  lang: string;
+  styles: { [key: string]: CSS.Properties };
+};
 export default class Basic extends Component<Props, State> {
   render() {
     return (

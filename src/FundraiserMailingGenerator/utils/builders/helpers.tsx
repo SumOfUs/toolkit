@@ -3,7 +3,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import Currency from '../../components/Currency';
 import { currencyMap } from '../currencyMap';
-import type { Rates } from '../exchange-rates';
+import { Rates } from '../exchange-rates';
 
 export function groupByCurrency(fn: (currency: string) => string) {
   return Object.keys(currencyMap)
