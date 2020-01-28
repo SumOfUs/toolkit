@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Icon } from 'reactbulma';
-import CopyButton from './CopyButton'
-import DonorSidebarBuilder from './DonorSidebarBuilder'
+import CopyButton from './CopyButton';
+import DonorSidebarBuilder from './DonorSidebarBuilder';
 
 function BoxTextHTML(props) {
   const fn = (donorTemplate = 'XXXX', nonDonorTemplate = 'YYYY') => {
@@ -18,27 +18,30 @@ function BoxTextHTML(props) {
     return tpl;
   };
 
+  const [donorTemplate, updateDonorTemplate] = useState('');
+
   return (
     <div id="box-text-wrapper" className="tool-section">
       <div className="columns">
         <div className="column">
           Donors
-          <DonorSidebarBuilder lang={props.lang} />
+          <DonorSidebarBuilder
+            lang={props.lang}
+            onChange={updateDonorTemplate}
+          />
         </div>
-        <div className="column">
-          Non donors
-        </div>
+        <div className="column">Non donors</div>
       </div>
 
       <div className="level">
-          <CopyButton textFn={fn} />
-          <Button onClick={fn}>
-            <Icon small>
-              <i className="fas fa-sync" />
-            </Icon>
-            <span>Reset</span>
-          </Button>
-        </div>
+        <CopyButton textFn={fn} />
+        <Button onClick={fn}>
+          <Icon small>
+            <i className="fas fa-sync" />
+          </Icon>
+          <span>Reset</span>
+        </Button>
+      </div>
     </div>
   );
 }
