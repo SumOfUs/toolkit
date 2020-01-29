@@ -9,7 +9,7 @@ import { hydrate, save } from './state/localStorage';
 import SuggestedAmountsBasic from './components/SuggestedAmountsBasic';
 import SuggestedAmountsDonors from './components/SuggestedAmountsDonors';
 import FixedAmountBox from './components/FixedAmountBox';
-import BoxTextHTML from './components/BoxTextHTML';
+import BoxButtonHTML from './components/BoxTextHTML';
 import Menu from './components/Menu';
 import SwitchLanguage from './components/SwitchLanguage';
 import Toggle from 'react-toggle';
@@ -106,9 +106,9 @@ class Generator extends Component<void, State> {
 
             <Route
               exact
-              path="/fundraiser-mailing/box-text-html"
+              path="/fundraiser-mailing/box-button-html"
               component={() => (
-                <BoxTextHTML
+                <BoxButtonHTML
                   url={this.state.url}
                   rates={this.state.rates}
                   lang={this.state.lang}

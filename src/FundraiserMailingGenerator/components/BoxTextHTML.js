@@ -46,7 +46,9 @@ class BoxTextHTML extends Component {
   {% if donations_as_usd.highest_previous %}
   <!--- DONOR --->
   <p><strong><em>If you’ve saved your payment information with SumOfUs, your donation will go through immediately:</em></strong></p>
+
   ${donorTemplate}
+
   {% else %}
   <!--- NON-DONOR --->
   <p><em>Donating just takes a moment -- use Paypal or your card.</em></p>
@@ -55,7 +57,7 @@ class BoxTextHTML extends Component {
     return tpl;
   };
 
-  buildSidebarMarkup() {
+  buildSidebarMarkup = () => {
     const donorTemplate = utils.donorSuggestedAmountsMarkup({
       locale: this.props.lang,
       rates: this.props.rates,
@@ -68,7 +70,7 @@ class BoxTextHTML extends Component {
       otherAmountTemplate: this.state.donorOtherLinkTemplate,
     });
     return this.buildMarkup(donorTemplate /*, nonDonorTemplate (button) */);
-  }
+  };
 
   buildBodyMarkup() {
     // return buildMarkup(donorTemplate, nonDonorTemplate /*link*/);

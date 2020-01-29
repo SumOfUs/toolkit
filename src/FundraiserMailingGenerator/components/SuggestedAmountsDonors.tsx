@@ -8,10 +8,10 @@ import { hydrate, save } from '../state/localStorage';
 import CopyButton from './CopyButton';
 import UrlBuilder from '../utils/builders/url';
 import TextBuilder from '../utils/builders/text';
-import { State as ParentState } from '../BaseComponent';
 import { RecurringDefault } from '../utils/builders/url';
 import * as CSS from 'csstype';
 import { Rates } from '../utils/exchange-rates';
+
 type Translations = { [lang: string]: string };
 type State = {
   multipliers: Array<string | number>;
