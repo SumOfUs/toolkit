@@ -52,13 +52,15 @@ class BoxTextHTML extends Component {
   {% else %}
   <!--- NON-DONOR --->
   <p><em>Donating just takes a moment -- use Paypal or your card.</em></p>
+
   ${nonDonorTemplate}
+
   {% endif %}`;
     return tpl;
   };
 
-  buildSidebarMarkup = () => {
-    const donorTemplate = utils.donorSuggestedAmountsMarkup({
+  donorTemplate = () => {
+    return utils.donorSuggestedAmountsMarkup({
       locale: this.props.lang,
       rates: this.props.rates,
       url: this.props.url,
@@ -69,19 +71,46 @@ class BoxTextHTML extends Component {
       buttonTemplate: this.state.donorButtonTemplate,
       otherAmountTemplate: this.state.donorOtherLinkTemplate,
     });
-    return this.buildMarkup(donorTemplate /*, nonDonorTemplate (button) */);
   };
 
-  buildBodyMarkup() {
-    // return buildMarkup(donorTemplate, nonDonorTemplate /*link*/);
-  }
+  nonDonorTemplate = (options = {}) => {
+    return utils.nonDonorSuggestedAmountsMarkup({
+      correctLowAsks: options.correctLowAsks || true,
+      isButton: options.isButton || false,
+      locale: this.props.lang,
+      rates: this.props.rates,
+      styles: this.props.styles,
+      template: options.template || this.state.nonDonorButtonTemplate,
+      url: this.props.url,
+    });
+  };
+
+  buildSidebarMarkup = () => {
+    return this.buildMarkup(
+      this.donorTemplate(),
+      this.nonDonorTemplate({
+        isButton: true,
+        template: this.state.nonDonorButtonTemplate,
+      })
+    );
+  };
+
+  buildBodyMarkup = () => {
+    return this.buildMarkup(
+      this.donorTemplate(),
+      this.nonDonorTemplate({
+        isButton: false,
+        template: this.state.nonDonorLinkTemplate,
+      })
+    );
+  };
 
   render() {
     return (
       <div id="box-text-wrapper" className="tool-section">
         <div className="columns">
           <div className="column">
-            <center>Donors</center>
+            <h1 className="subtitle">Donors</h1>
             <DonorMarkupBuilder
               donorButtonTemplate={this.state.donorButtonTemplate}
               donorOtherLinkTemplate={this.state.donorOtherLinkTemplate}
@@ -92,7 +121,7 @@ class BoxTextHTML extends Component {
             />
           </div>
           <div className="column">
-            <h2>Non-donors</h2>
+            <h2 className="subtitle">Non-donors</h2>
             <NonDonorMarkupBuilder
               nonDonorButtonTemplate={this.state.donorButtonTemplate}
               nonDonorLinkTemplate={this.state.nonDonorLinkTemplate}
@@ -101,14 +130,15 @@ class BoxTextHTML extends Component {
           </div>
         </div>
 
-        <div className="level">
-          <CopyButton textFn={this.buildSidebarMarkup} />
-          <Button onClick={this.buildMarkup}>
-            <Icon small>
-              <i className="fas fa-sync" />
-            </Icon>
-            <span>Reset</span>
-          </Button>
+        <div className="columns">
+          <div className="column">
+            <CopyButton textFn={this.buildSidebarMarkup}>
+              Copy <strong>sidebar</strong> html
+            </CopyButton>{' '}
+            <CopyButton textFn={this.buildBodyMarkup}>
+              Copy <strong>body</strong> html
+            </CopyButton>
+          </div>
         </div>
       </div>
     );

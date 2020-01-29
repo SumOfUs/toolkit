@@ -5,6 +5,7 @@ import copy from 'copy-to-clipboard';
 
 type Props = {
   textFn: () => string;
+  label?: string;
   disabled?: boolean;
   children?: typeof React.Children;
 };
@@ -28,20 +29,25 @@ export default class CopyButton extends Component<Props, State> {
     console.log(text);
   };
 
+  buttonText() {
+    if (this.state.hasCopied) {
+      return <span style={{ color: 'red' }}>Copied</span>;
+    } else {
+      if (this.props.children) {
+        return <span>{this.props.children}</span>;
+      }
+      return <span>Copy to clipboard</span>;
+    }
+  }
+
   render() {
-    const { children, disabled } = this.props;
-    const { hasCopied } = this.state;
+    const { disabled } = this.props;
     return (
       <Button onClick={this.copy} disabled={disabled}>
         <Icon size="small">
           <i className="far fa-copy" />
         </Icon>
-        {children}
-        {hasCopied ? (
-          <span style={{ color: 'red' }}>Copied</span>
-        ) : (
-          <span>Copy to clipboard</span>
-        )}
+        {this.buttonText()}
       </Button>
     );
   }

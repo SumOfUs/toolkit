@@ -25,7 +25,7 @@ const DonorSidebarBuilder = props => {
   };
 
   return (
-    <div className="form">
+    <>
       <GroupedInput
         label="Button"
         value={props.donorButtonTemplate}
@@ -34,7 +34,7 @@ const DonorSidebarBuilder = props => {
         }
       />
       <GroupedInput
-        label="Another Amount"
+        label="Other"
         value={props.donorOtherLinkTemplate}
         onChange={e =>
           props.onChange('donorOtherLinkTemplate', e.currentTarget.value)
@@ -94,7 +94,7 @@ const DonorSidebarBuilder = props => {
           </select>
         </div>
       </GroupedWithChildren>
-    </div>
+    </>
   );
 };
 

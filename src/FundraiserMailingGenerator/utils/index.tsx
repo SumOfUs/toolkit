@@ -3,8 +3,19 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { identity, pickBy } from 'lodash';
 import UrlBuilder from './builders/url';
 import TextBuilder from './builders/text';
+import LinkBuilder from './builders/link';
 import { Rates } from '../utils/exchange-rates';
 import styles from './styles';
+
+interface NonDonorSuggestedAmountsMarkup {
+  url: string;
+  locale: string;
+  rates: Rates;
+  template: string;
+  correctLowAsks?: boolean;
+  isButton?: boolean;
+  styles?: any;
+}
 
 interface DonorSuggestedAmountsMarkup {
   url: string;
@@ -17,6 +28,7 @@ interface DonorSuggestedAmountsMarkup {
   otherAmountTemplate: string;
   styles?: any;
 }
+
 export const donorSuggestedAmountsMarkup = (
   options: DonorSuggestedAmountsMarkup
 ) => {
@@ -101,4 +113,27 @@ export const textMarkup = (
     template: options.buttonTemplate,
     correctLowAsks: true,
   }).build();
+};
+
+export const nonDonorSuggestedAmountsMarkup = (
+  options: NonDonorSuggestedAmountsMarkup
+) => {
+  const { url, rates, locale, correctLowAsks, template } = options;
+  let style = options.isButton
+    ? options.styles?.buttonStyle || styles.classic.buttonStyle
+    : options.styles?.linkStyle || styles.classic.linkStyle;
+  console.log('isButton:', options.isButton);
+  console.log('style:', style);
+  if (rates)
+    return new LinkBuilder({
+      url,
+      template,
+      rates,
+      locale,
+      correctLowAsks: correctLowAsks || true,
+      omitAmount: false,
+      style,
+    }).build();
+
+  throw new Error('Rates not loaded');
 };
