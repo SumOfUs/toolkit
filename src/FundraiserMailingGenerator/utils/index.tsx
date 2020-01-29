@@ -130,7 +130,7 @@ export const nonDonorSuggestedAmountsMarkup = (
       template,
       rates,
       locale,
-      correctLowAsks: correctLowAsks || true,
+      correctLowAsks: correctLowAsks || false,
       omitAmount: false,
       style,
     }).build();

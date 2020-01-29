@@ -75,7 +75,7 @@ class BoxTextHTML extends Component {
 
   nonDonorTemplate = (options = {}) => {
     return utils.nonDonorSuggestedAmountsMarkup({
-      correctLowAsks: options.correctLowAsks || true,
+      correctLowAsks: options.correctLowAsks || false,
       isButton: options.isButton || false,
       locale: this.props.lang,
       rates: this.props.rates,
