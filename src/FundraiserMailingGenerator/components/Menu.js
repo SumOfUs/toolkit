@@ -29,6 +29,18 @@ export default () => (
           Fixed Amounts (Monthly)
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          exact
+          to="/fundraiser-mailing/conditional-cta"
+          activeClassName="is-active"
+        >
+          <span>
+            <strong className="standout">[Preview]</strong> Conditional CTA for
+            full list
+          </span>
+        </NavLink>
+      </li>
     </ul>
   </Tabs>
 );
