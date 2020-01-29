@@ -133,7 +133,7 @@ class BoxTextHTML extends Component {
         <div className="columns">
           <div className="column">
             <CopyButton textFn={this.buildSidebarMarkup}>
-              Copy <strong>sidebar</strong> html
+              Copy <strong>box button</strong> html
             </CopyButton>{' '}
             <CopyButton textFn={this.buildBodyMarkup}>
               Copy <strong>body</strong> html
