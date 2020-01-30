@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Hero } from 'reactbulma';
+import { Hero } from 'react-bulma-components/dist';
 import Loadable from 'react-loadable';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
 import LoadingAnimation from './components/LoadingAnimation';

@@ -1,19 +1,22 @@
-// @flow
-import React, { Component } from 'react';
-import InputWithActions from './InputWithActions';
+import React, { Component, SyntheticEvent } from 'react';
 import { debounce, isEqual } from 'lodash';
+import * as CSS from 'csstype';
+import InputWithActions from './InputWithActions';
 import { hydrate, save } from '../state/localStorage';
 import ButtonBuilder from '../utils/builders/button';
-
-import type { State as BaseState } from '../BaseComponent';
+import { Rates } from '../utils/exchange-rates';
 
 type State = {
-  template: { [lang: string]: string },
-  recurring: string,
+  template: { [lang: string]: string };
+  recurring: string;
 };
 
-type Props = BaseState & {
-  correctLowAsks?: boolean,
+type Props = {
+  correctLowAsks?: boolean;
+  url: string;
+  rates: Rates | null;
+  lang: string;
+  styles: { [key: string]: CSS.Properties };
 };
 export default class ButtonCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -50,7 +53,7 @@ export default class ButtonCreator extends Component<Props, State> {
 
   saveState = debounce(() => save('ButtonCreator', this.state), 1500);
 
-  updateTemplate = (data: { [string]: string }) => {
+  updateTemplate = (data: { [key: string]: string }) => {
     this.setState({ template: { ...this.state.template, ...data } });
   };
 
@@ -75,8 +78,8 @@ export default class ButtonCreator extends Component<Props, State> {
     throw new Error('Rates not loaded');
   };
 
-  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.updateTemplate({ [this.props.lang]: e.target.value });
+  onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.updateTemplate({ [this.props.lang]: e.currentTarget.value });
   };
 
   render() {

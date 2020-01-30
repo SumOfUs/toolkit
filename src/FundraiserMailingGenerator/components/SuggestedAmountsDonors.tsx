@@ -1,28 +1,36 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Button, Control, Field, Icon, Input } from 'reactbulma';
+import { Button, Form, Icon } from 'react-bulma-components';
 import classnames from 'classnames';
 import { debounce, pickBy, identity } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
-import CopyButton from '../components/CopyButton';
+import CopyButton from './CopyButton';
 import UrlBuilder from '../utils/builders/url';
 import TextBuilder from '../utils/builders/text';
-import type { State as Props } from '../BaseComponent';
-import type { RecurringDefault } from '../utils/builders/url';
+import { RecurringDefault } from '../utils/builders/url';
+import * as CSS from 'csstype';
+import { Rates } from '../utils/exchange-rates';
 
 type Translations = { [lang: string]: string };
 type State = {
-  multipliers: Array<string | number | void>,
-  recurringDefault: RecurringDefault,
-  oneClick: boolean,
-  buttonTemplate: Translations,
-  otherLinkTemplate: Translations,
+  multipliers: Array<string | number>;
+  recurringDefault: RecurringDefault;
+  oneClick: boolean;
+  buttonTemplate: Translations;
+  otherLinkTemplate: Translations;
+};
+
+type Props = {
+  url: string;
+  rates: Rates | null;
+  lang: string;
+  styles: { [key: string]: CSS.Properties };
 };
 export default class SuggestedAmountsDonors extends Component<Props, State> {
   _debouncedSave: any;
   static defaultState: State = {
-    multipliers: [1, 1.5, 2, undefined, undefined],
+    multipliers: [1, 1.5, 2, 0, 0],
     recurringDefault: '',
     oneClick: true,
     buttonTemplate: {
@@ -54,20 +62,20 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
 
   saveState = debounce(() => save('SuggestedAmountsDonors', this.state), 500);
 
-  updateButtonTemplate = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  updateButtonTemplate = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
       buttonTemplate: {
         ...this.state.buttonTemplate,
-        [this.props.lang]: e.target.value,
+        [this.props.lang]: e.currentTarget.value,
       },
     });
   };
 
-  updateOtherLinkTemplate = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  updateOtherLinkTemplate = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
       otherLinkTemplate: {
         ...this.state.otherLinkTemplate,
-        [this.props.lang]: e.target.value,
+        [this.props.lang]: e.currentTarget.value,
       },
     });
   };
@@ -79,8 +87,8 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     this.setState({ multipliers });
   };
 
-  updateRecurringDefault = (e: SyntheticInputEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
+  updateRecurringDefault = (e: SyntheticEvent<HTMLSelectElement>) => {
+    const value = e.currentTarget.value;
     if (
       value === '' ||
       value === 'recurring' ||
@@ -166,63 +174,65 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   render() {
     return (
       <div className="SuggestedAmountsDonors tool-section">
-        <Field className="is-horizontal is-grouped">
+        <Form.Field className="is-horizontal is-grouped">
           <div className="field-label">
             <label className="label">Button copy</label>
           </div>
           <div className="field-body">
-            <Input
+            <Form.Input
               type="text"
-              small
+              size="small"
               value={this.state.buttonTemplate[this.props.lang]}
               onChange={this.updateButtonTemplate}
             />
           </div>
-        </Field>
-        <Field className="is-horizontal is-grouped">
+        </Form.Field>
+        <Form.Field className="is-horizontal is-grouped">
           <div className="field-label">
             <label className="label">Other amount copy</label>
           </div>
           <div className="field-body">
-            <Input
+            <Form.Input
               type="text"
-              small
+              size="small"
               value={this.state.otherLinkTemplate[this.props.lang]}
               onChange={this.updateOtherLinkTemplate}
             />
           </div>
-        </Field>
+        </Form.Field>
 
-        <Field className="is-horizontal">
+        <Form.Field className="is-horizontal">
           <div className="field-label">
             <label className="label">Multipliers</label>
           </div>
           <div className="field-body">
             {this.state.multipliers.map((amount, index) => (
-              <Control key={`amount-${index}`} className="field">
-                <Input
-                  small
+              <Form.Control key={`amount-${index}`} className="field">
+                <Form.Input
+                  size="small"
                   name={`amount-${index}`}
-                  value={amount || ''}
+                  value={amount?.toString() || ''}
                   className="is-info"
                   placeholder={`Amount ${index + 1}`}
                   type="text"
-                  onChange={e => this.updateMultipliers(e.target.value, index)}
+                  onChange={e =>
+                    this.updateMultipliers(e.currentTarget.value, index)
+                  }
                 />
-              </Control>
+              </Form.Control>
             ))}
           </div>
-        </Field>
-        <Field className="is-horizontal is-grouped">
+        </Form.Field>
+        <Form.Field className="is-horizontal is-grouped">
           <div className="field-label" />
           <div className="field-body">
             <p className="field has-text-right">
               Enter your multipliers here. 4 and 5 are optional.
             </p>
           </div>
-        </Field>
+        </Form.Field>
 
-        <Field className="is-horizontal is-grouped">
+        <Form.Field className="is-horizontal is-grouped">
           <div className="field-label">
             <label className="label">Recurring</label>
           </div>
@@ -241,9 +251,9 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
               </select>
             </div>
           </div>
-        </Field>
+        </Form.Field>
 
-        <Field className="is-horizontal is-grouped">
+        <Form.Field className="is-horizontal is-grouped">
           <div className="field-label">
             <label className="label" htmlFor="oneClick">
               One click?
@@ -259,21 +269,21 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
               <select
                 className="is-small"
                 name="oneClick"
-                value={this.state.oneClick}
+                value={this.state.oneClick ? 'true' : 'false'}
                 onChange={e =>
-                  this.setState({ oneClick: e.target.value === 'true' })
+                  this.setState({ oneClick: e.currentTarget.value === 'true' })
                 }
               >
-                <option value={true}>Yes</option>
-                <option value={false}>No</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
               </select>
             </div>
           </div>
-        </Field>
+        </Form.Field>
         <div className="level">
           <CopyButton textFn={this.copy} disabled={!this.props.rates} />
           <Button onClick={this.resetState}>
-            <Icon small>
+            <Icon size="small">
               <i className="fas fa-sync" />
             </Icon>
             <span>Reset</span>

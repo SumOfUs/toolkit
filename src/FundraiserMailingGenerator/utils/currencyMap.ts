@@ -1,7 +1,5 @@
-// @flow
-
 export type CurrencyMap = {
-  [currency: string]: string[],
+  [currency: string]: string[];
 };
 
 export const currencyMap: CurrencyMap = {

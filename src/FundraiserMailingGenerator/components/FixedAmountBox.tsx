@@ -1,26 +1,32 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Button, Control, Field, Icon, Input } from 'reactbulma';
+import { Button, Form, Icon } from 'react-bulma-components';
 import { debounce, pickBy, identity } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
-import CopyButton from '../components/CopyButton';
+import CopyButton from './CopyButton';
 import UrlBuilder from '../utils/builders/url';
 import TextBuilder from '../utils/builders/text';
-import type { State as Props } from '../BaseComponent';
-import type { RecurringDefault } from '../utils/builders/url';
+import { RecurringDefault } from '../utils/builders/url';
+import { Rates } from '../utils/exchange-rates';
+import * as CSS from 'csstype';
 
 type Translations = { [lang: string]: string };
 type State = {
-  amounts: Array<number | void>,
-  recurringDefault: RecurringDefault,
-  buttonTemplate: Translations,
-  otherLinkTemplate: Translations,
+  amounts: number[];
+  recurringDefault: RecurringDefault;
+  buttonTemplate: Translations;
+  otherLinkTemplate: Translations;
+};
+type Props = {
+  url: string;
+  rates: Rates | null;
+  lang: string;
+  styles: { [key: string]: CSS.Properties };
 };
 export default class FixedAmountCreator extends Component<Props, State> {
   _debouncedSave: any;
   static defaultState: State = {
-    amounts: [4, 8, 20, undefined, undefined],
+    amounts: [4, 8, 20, 0, 0],
     recurringDefault: '',
     buttonTemplate: {
       en: `Donate {{amount}} now`,
@@ -48,32 +54,32 @@ export default class FixedAmountCreator extends Component<Props, State> {
 
   saveState = debounce(() => save('FixedAmountCreator', this.state), 500);
 
-  updateButtonTemplate = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  updateButtonTemplate = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
       buttonTemplate: {
         ...this.state.buttonTemplate,
-        [this.props.lang]: e.target.value,
+        [this.props.lang]: e.currentTarget.value,
       },
     });
   };
 
-  updateOtherLinkTemplate = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  updateOtherLinkTemplate = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
       otherLinkTemplate: {
         ...this.state.otherLinkTemplate,
-        [this.props.lang]: e.target.value,
+        [this.props.lang]: e.currentTarget.value,
       },
     });
   };
 
   updateAmount = (value: string, index: number) => {
     const amounts = [...this.state.amounts];
-    amounts[index] = Number(value) || undefined;
+    amounts[index] = Number(value) || 0;
     this.setState({ amounts });
   };
 
-  updateRecurringDefault = (e: SyntheticInputEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
+  updateRecurringDefault = (e: SyntheticEvent<HTMLSelectElement>) => {
+    const value = e.currentTarget.value;
     if (
       value === '' ||
       value === 'recurring' ||
@@ -144,7 +150,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
     const { rates } = this.props;
     if (!rates) return '';
     return this.state.amounts
-      .map(this.button)
+      .map(amount => this.button(amount))
       .concat([this.otherAmountButton()])
       .join('');
   };
@@ -152,46 +158,46 @@ export default class FixedAmountCreator extends Component<Props, State> {
   render() {
     return (
       <div className="FixedAmountCreator tool-section">
-        <Field>
+        <Form.Field>
           <label className="label">Button copy</label>
-          <Input
+          <Form.Input
             type="text"
-            small
+            size="small"
             value={this.state.buttonTemplate[this.props.lang]}
             onChange={this.updateButtonTemplate}
           />
-        </Field>
-        <Field>
+        </Form.Field>
+        <Form.Field>
           <label className="label">Other amount copy</label>
-          <Input
+          <Form.Input
             type="text"
-            small
+            size="small"
             value={this.state.otherLinkTemplate[this.props.lang]}
             onChange={this.updateOtherLinkTemplate}
           />
-        </Field>
+        </Form.Field>
 
         <label className="label">
           Enter your amounts here. 4 and 5 are optional. Each will create a
           button.
         </label>
 
-        <Field className="is-grouped is-grouped-multiline">
+        <Form.Field className="is-grouped is-grouped-multiline">
           {this.state.amounts.map((amount, index) => (
-            <Control key={`amount-${index}`}>
-              <Input
-                small
+            <Form.Control key={`amount-${index}`}>
+              <Form.Input
+                size="small"
                 name={`amount-${index}`}
-                value={amount || ''}
+                value={amount ? amount.toString() : ''}
                 className="is-info"
                 placeholder={`Amount ${index + 1}`}
                 type="text"
-                onChange={e => this.updateAmount(e.target.value, index)}
+                onChange={e => this.updateAmount(e.currentTarget.value, index)}
               />
-            </Control>
+            </Form.Control>
           ))}
-        </Field>
-        <Field>
+        </Form.Field>
+        <Form.Field>
           <label className="label">Recurring default</label>
           <div className="select">
             <select
@@ -205,11 +211,11 @@ export default class FixedAmountCreator extends Component<Props, State> {
               <option value="one_off">One off</option>
             </select>
           </div>
-        </Field>
+        </Form.Field>
         <div className="level">
           <CopyButton textFn={this.copy} disabled={!this.props.rates} />
           <Button onClick={this.resetState}>
-            <Icon small>
+            <Icon size="small">
               <i className="fas fa-sync" />
             </Icon>
             <span>Reset</span>

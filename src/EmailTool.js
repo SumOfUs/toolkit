@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Section } from 'reactbulma'
+import { Section } from 'react-bulma-components';
 import './App.css';
 import EmailForm from './components/EmailForm';
 import EmailPreview from './components/EmailPreview';
@@ -10,7 +10,7 @@ class EmailTool extends Component {
     super(props);
 
     const emails = JSON.parse(
-      window.localStorage.getItem('email-storm:emails') || "[]"
+      window.localStorage.getItem('email-storm:emails') || '[]'
     );
 
     this.state = { emails };
@@ -26,8 +26,8 @@ class EmailTool extends Component {
     this.setState((state, props) => {
       return {
         ...state,
-        emails: emails
-      }
+        emails: emails,
+      };
     });
 
     window.localStorage.setItem('email-storm:emails', JSON.stringify(emails));
@@ -39,7 +39,7 @@ class EmailTool extends Component {
     });
 
     this.setState({
-      emails: emails
+      emails: emails,
     });
 
     window.localStorage.setItem('email-storm:emails', JSON.stringify(emails));
@@ -50,17 +50,16 @@ class EmailTool extends Component {
     const text = target.value;
     const name = target.name;
 
-    this.setState( (state, props) => {
+    this.setState((state, props) => {
       return {
         ...state,
-        [name]: text
-      }
+        [name]: text,
+      };
     });
   }
 
   output() {
-    let outputText =
-`<script>
+    let outputText = `<script>
 var emails = ${JSON.stringify(this.state.emails)};
 </script>`;
 
@@ -68,34 +67,42 @@ var emails = ${JSON.stringify(this.state.emails)};
   }
 
   handleOnCopy() {
-    this.setState({copied: true});
+    this.setState({ copied: true });
   }
 
   render() {
-    const emails = this.state.emails.map( (email, i) => {
-      return <EmailPreview {...email} index={i} key={i} handleDelete={this.handleDelete.bind(this, i)} />;
+    const emails = this.state.emails.map((email, i) => {
+      return (
+        <EmailPreview
+          {...email}
+          index={i}
+          key={i}
+          handleDelete={this.handleDelete.bind(this, i)}
+        />
+      );
     });
 
     return (
       <div>
-          <Section>
-            <h1 className="title">Email Maker</h1>
-            <form className='form' onSubmit={this.handleSubmit.bind(this)} >
-              <EmailForm handleChange={this.handleChange.bind(this)} {...this.state.current} />
-            </form>
-          </Section>
-          <Section>
-            {emails}
-          </Section>
-          <Section className='raw'>
-            <h2>When you're done, click below to copy your Emails...</h2>
-            <CopyContent
-              dataAsJSON={ this.output.bind(this) }
-              handleOnCopy={ this.handleOnCopy.bind(this) }
-              handleDelete={ this.handleDelete.bind(this) }
-              copied={ this.state.copied }
+        <Section>
+          <h1 className="title">Email Maker</h1>
+          <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+            <EmailForm
+              handleChange={this.handleChange.bind(this)}
+              {...this.state.current}
             />
-          </Section>
+          </form>
+        </Section>
+        <Section>{emails}</Section>
+        <Section className="raw">
+          <h2>When you're done, click below to copy your Emails...</h2>
+          <CopyContent
+            dataAsJSON={this.output.bind(this)}
+            handleOnCopy={this.handleOnCopy.bind(this)}
+            handleDelete={this.handleDelete.bind(this)}
+            copied={this.state.copied}
+          />
+        </Section>
       </div>
     );
   }

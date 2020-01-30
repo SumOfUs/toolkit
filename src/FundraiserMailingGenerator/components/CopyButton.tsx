@@ -1,12 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { Button, Icon } from 'reactbulma';
+import { Button, Icon } from 'react-bulma-components';
 import copy from 'copy-to-clipboard';
 
 type Props = {
-  textFn: () => string,
-  disabled?: boolean,
-  children?: typeof React.Children,
+  textFn: () => string;
+  label?: string;
+  disabled?: boolean;
+  children?: typeof React.Children;
 };
 
 type State = { hasCopied: boolean };
@@ -25,23 +26,27 @@ export default class CopyButton extends Component<Props, State> {
     this.setState({ hasCopied: true }, () => {
       window.setTimeout(() => this.setState({ hasCopied: false }), 3000);
     });
-    console.log(text);
   };
 
+  buttonText() {
+    if (this.state.hasCopied) {
+      return <span style={{ color: 'red' }}>Copied</span>;
+    } else {
+      if (this.props.children) {
+        return <span>{this.props.children}</span>;
+      }
+      return <span>Copy to clipboard</span>;
+    }
+  }
+
   render() {
-    const { children, disabled } = this.props;
-    const { hasCopied } = this.state;
+    const { disabled } = this.props;
     return (
       <Button onClick={this.copy} disabled={disabled}>
-        <Icon small>
+        <Icon size="small">
           <i className="far fa-copy" />
         </Icon>
-        {children}
-        {hasCopied ? (
-          <span style={{ color: 'red' }}>Copied</span>
-        ) : (
-          <span>Copy to clipboard</span>
-        )}
+        {this.buttonText()}
       </Button>
     );
   }

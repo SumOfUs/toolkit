@@ -1,4 +1,13 @@
-export default {
+import * as CSS from 'csstype';
+
+type StyleList = {
+  [key: string]: CSS.Properties;
+};
+type Styles = {
+  classic: StyleList;
+  rebranding: StyleList;
+};
+const styles: Styles = {
   classic: {
     linkStyle: {
       color: '#00abbd',
@@ -26,16 +35,15 @@ export default {
   rebranding: {
     linkStyle: {
       color: '#00abbd',
-      fontWeight: 'bold',
       fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
+      fontWeight: 'bold',
     },
     buttonStyle: {
+      backgroundColor: '#f8492e',
+      borderRadius: '0px',
       color: 'white',
       display: 'block',
-      backgroundColor: '#f8492e',
       fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
-      textDecoration: 'none',
-      borderRadius: '0px',
       fontWeight: 'bold',
       lineHeight: '44px',
       margin: '10px 0',
@@ -48,3 +56,5 @@ export default {
     },
   },
 };
+
+export default styles;

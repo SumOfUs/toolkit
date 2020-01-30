@@ -1,23 +1,31 @@
 import React from 'react';
-import { Field, Input, Button, Textarea } from 'reactbulma'
+import { Form, Button, Textarea } from 'react-bulma-components';
 
-const EmailForm = (props) => {
-  return(
+const EmailForm = props => {
+  return (
     <div>
-      <Field>
-        <Input name='to' onChange={props.handleChange} placeholder='To' />
-      </Field>
-      <Field>
-        <Input name='subject' onChange={props.handleChange} placeholder='Subject' />
-      </Field>
-      <Field>
-        <Textarea name='body' onChange={props.handleChange} placeholder='Message' />
-      </Field>
-      <Field>
+      <Form.Field>
+        <Form.Input name="to" onChange={props.handleChange} placeholder="To" />
+      </Form.Field>
+      <Form.Field>
+        <Form.Input
+          name="subject"
+          onChange={props.handleChange}
+          placeholder="Subject"
+        />
+      </Form.Field>
+      <Form.Field>
+        <Textarea
+          name="body"
+          onChange={props.handleChange}
+          placeholder="Message"
+        />
+      </Form.Field>
+      <Form.Field>
         <Button>Add</Button>
-      </Field>
+      </Form.Field>
     </div>
-  )
-}
+  );
+};
 
 export default EmailForm;
