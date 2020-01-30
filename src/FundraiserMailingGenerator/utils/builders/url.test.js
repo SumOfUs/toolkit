@@ -98,24 +98,12 @@ describe('UrlBuilder', () => {
 
     test('is a jinja template with an amount, a multiplier, and a floatformat', () => {
       const url = new UrlBuilder({ config });
-      expect(url.amount('AUD')).toEqual(
-        '{{10|multiply:1.3|floatformat:0}}&currency=AUD'
-      );
-      expect(url.amount('CAD')).toEqual(
-        '{{10|multiply:1.29|floatformat:0}}&currency=CAD'
-      );
-      expect(url.amount('CHF')).toEqual(
-        '{{10|multiply:0.99|floatformat:0}}&currency=CHF'
-      );
-      expect(url.amount('EUR')).toEqual(
-        '{{10|multiply:0.85|floatformat:0}}&currency=EUR'
-      );
-      expect(url.amount('GBP')).toEqual(
-        '{{10|multiply:0.74|floatformat:0}}&currency=GBP'
-      );
-      expect(url.amount('USD')).toEqual(
-        '{{10|multiply:1|floatformat:0}}&currency=USD'
-      );
+      expect(url.amount('AUD')).toEqual('{{10|multiply:1.3|floatformat:0}}');
+      expect(url.amount('CAD')).toEqual('{{10|multiply:1.29|floatformat:0}}');
+      expect(url.amount('CHF')).toEqual('{{10|multiply:0.99|floatformat:0}}');
+      expect(url.amount('EUR')).toEqual('{{10|multiply:0.85|floatformat:0}}');
+      expect(url.amount('GBP')).toEqual('{{10|multiply:0.74|floatformat:0}}');
+      expect(url.amount('USD')).toEqual('{{10|multiply:1|floatformat:0}}');
     });
   });
 });

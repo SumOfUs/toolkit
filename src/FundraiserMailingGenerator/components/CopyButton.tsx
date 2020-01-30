@@ -26,7 +26,6 @@ export default class CopyButton extends Component<Props, State> {
     this.setState({ hasCopied: true }, () => {
       window.setTimeout(() => this.setState({ hasCopied: false }), 3000);
     });
-    console.log(text);
   };
 
   buttonText() {

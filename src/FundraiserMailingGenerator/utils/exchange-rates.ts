@@ -11,5 +11,6 @@ export type Rates = { [currency: string]: number };
 
 export async function fetchRates(): Promise<Rates> {
   const resp = await axios.get(`${OXR_XR_URL}?app_id=${OXR_APP_ID}`);
+  console.log('rates:', pick(resp.data.rates, SUPPORTED_CURRENCIES));
   return pick(resp.data.rates, SUPPORTED_CURRENCIES);
 }

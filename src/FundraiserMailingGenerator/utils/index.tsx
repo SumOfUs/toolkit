@@ -122,8 +122,6 @@ export const nonDonorSuggestedAmountsMarkup = (
   let style = options.isButton
     ? options.styles?.buttonStyle || styles.classic.buttonStyle
     : options.styles?.linkStyle || styles.classic.linkStyle;
-  console.log('isButton:', options.isButton);
-  console.log('style:', style);
   if (rates)
     return new LinkBuilder({
       url,

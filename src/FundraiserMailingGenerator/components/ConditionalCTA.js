@@ -1,5 +1,4 @@
 import React, { Component, useState } from 'react';
-import { Button, Icon } from 'react-bulma-components';
 import CopyButton from './CopyButton';
 import DonorMarkupBuilder from './DonorMarkupBuilder';
 import NonDonorMarkupBuilder from './NonDonorMarkupBuilder';
@@ -42,6 +41,10 @@ class BoxTextHTML extends Component {
   };
 
   buildMarkup = (donorTemplate = 'XXXX', nonDonorTemplate = 'YYYY') => {
+    // Note: We are doing snapshot testing. If we modify this template,
+    //       we should also update the snapshot. Make sure the snapshot
+    //       test is passing, before updating the snapshot, otherwise
+    //       you'll have no guarantee that the output is what's expected.
     const tpl = `
   {% if donations_as_usd.highest_previous %}
   <!--- DONOR --->
@@ -136,7 +139,9 @@ class BoxTextHTML extends Component {
               Copy <strong>box button</strong> html
             </CopyButton>{' '}
             <CopyButton textFn={this.buildBodyMarkup}>
-              Copy <strong>body</strong> html
+              <span data-testid="body-button">
+                Copy <strong>body</strong> html
+              </span>
             </CopyButton>
           </div>
         </div>
