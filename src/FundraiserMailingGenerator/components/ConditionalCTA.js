@@ -126,7 +126,7 @@ class BoxTextHTML extends Component {
           <div className="column">
             <h2 className="subtitle">Non-donors</h2>
             <NonDonorMarkupBuilder
-              nonDonorButtonTemplate={this.state.donorButtonTemplate}
+              nonDonorButtonTemplate={this.state.nonDonorButtonTemplate}
               nonDonorLinkTemplate={this.state.nonDonorLinkTemplate}
               onChange={this.updateKey}
             />
@@ -136,7 +136,9 @@ class BoxTextHTML extends Component {
         <div className="columns">
           <div className="column">
             <CopyButton textFn={this.buildSidebarMarkup}>
-              Copy <strong>box button</strong> html
+              <span data-testid="box-button">
+                Copy <strong>box button</strong> html
+              </span>
             </CopyButton>{' '}
             <CopyButton textFn={this.buildBodyMarkup}>
               <span data-testid="body-button">

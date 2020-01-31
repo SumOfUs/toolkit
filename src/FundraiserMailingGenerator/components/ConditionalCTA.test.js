@@ -66,4 +66,18 @@ describe('ConditionalCTA Component', () => {
     const snapshot = copy.mock.calls[0][0];
     expect(snapshot).toMatchSnapshot();
   });
+
+  test('#donorTemplate', () => {
+    const { getByTestId } = render(
+      <ConditionalCTA
+        url="https://actions.sumofus.org/a/donate"
+        rates={TEST_RATES}
+        lang="en"
+        styles={styles.rebranding}
+      />
+    );
+    fireEvent.click(getByTestId('box-button'));
+    const snapshot = copy.mock.calls[0][0];
+    expect(snapshot).toMatchSnapshot();
+  });
 });

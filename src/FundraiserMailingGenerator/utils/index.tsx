@@ -1,10 +1,11 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { identity, pickBy } from 'lodash';
-import UrlBuilder from './builders/url';
+import UrlBuilder, { RecurringDefault } from './builders/url';
 import TextBuilder from './builders/text';
 import LinkBuilder from './builders/link';
 import { Rates } from '../utils/exchange-rates';
+import * as CSS from 'csstype';
 import styles from './styles';
 
 interface NonDonorSuggestedAmountsMarkup {
@@ -22,7 +23,7 @@ interface DonorSuggestedAmountsMarkup {
   locale: string;
   rates: Rates;
   multipliers: number[];
-  recurringDefault: boolean;
+  recurringDefault: RecurringDefault;
   oneClick: boolean;
   buttonTemplate: string;
   otherAmountTemplate: string;
@@ -35,8 +36,9 @@ export const donorSuggestedAmountsMarkup = (
   if (!options.rates) return '';
   const markup = options.multipliers
     .map(multiplier => Number(multiplier))
-    .map(multiplier => createButton(multiplier, options))
-    .concat([createButtonWithoutAmount(options)])
+    .filter(multiplier => multiplier > 0)
+    .map(m => createButton(m, options))
+    .concat([createLinkWithoutAmount(options)])
     .join('');
   return markup;
 };
@@ -45,21 +47,46 @@ export const createButton = (
   multiplier: number,
   options: DonorSuggestedAmountsMarkup
 ) => {
-  if (!multiplier) return '';
-  let css = options.styles || styles.classic;
-  return renderToStaticMarkup(
-    <a style={css.buttonStyle} href="{{href}}">{`{{text}}`}</a>
-  )
-    .replace('{{href}}', hrefMarkup(multiplier, options))
-    .replace('{{text}}', textMarkup(multiplier, options));
+  // Donate {{amount}} now
+  // Donate another amount
+  const css = options.styles || styles.classic;
+
+  const href = new UrlBuilder({
+    url: options.url,
+    config: pickBy(
+      {
+        multiplier: multiplier,
+        locale: options.locale,
+        rates: options.rates,
+        recurringDefault: options.recurringDefault,
+        oneClick: options.oneClick,
+        correctLowAsks: true,
+      },
+      identity
+    ),
+  }).build();
+
+  const text = new TextBuilder({
+    multiplier,
+    locale: options.locale,
+    rates: options.rates,
+    template: options.buttonTemplate,
+    correctLowAsks: true,
+  }).build();
+
+  return renderLinkOrButtonStatic({
+    style: css.buttonStyle,
+    href,
+    text,
+  });
 };
 
-export const createButtonWithoutAmount = (
+export const createLinkWithoutAmount = (
   options: DonorSuggestedAmountsMarkup
 ) => {
   const { url, recurringDefault, otherAmountTemplate } = options;
   const css = options.styles || styles.classic;
-  const link = new UrlBuilder({
+  const href = new UrlBuilder({
     url,
     config: pickBy(
       {
@@ -70,49 +97,11 @@ export const createButtonWithoutAmount = (
     ),
   }).build();
 
-  const text = otherAmountTemplate;
-  return renderToStaticMarkup(
-    <a style={css.linkStyle} href="{{link}}">{`{{text}}`}</a>
-  )
-    .replace('{{link}}', link)
-    .replace('{{text}}', text);
-};
-
-export const hrefMarkup = (
-  multiplier: number,
-  options: DonorSuggestedAmountsMarkup
-): string => {
-  const { recurringDefault, oneClick, locale, rates, url } = options;
-  if (!rates) return url;
-  return new UrlBuilder({
-    url,
-    config: pickBy(
-      {
-        multiplier,
-        locale,
-        rates,
-        recurringDefault,
-        oneClick,
-        correctLowAsks: true,
-      },
-      identity
-    ),
-  }).build();
-};
-
-export const textMarkup = (
-  multiplier: number,
-  options: DonorSuggestedAmountsMarkup
-): string => {
-  const { locale, rates } = options;
-  if (!rates) return '';
-  return new TextBuilder({
-    multiplier,
-    locale,
-    rates,
-    template: options.buttonTemplate,
-    correctLowAsks: true,
-  }).build();
+  return renderLinkOrButtonStatic({
+    style: css.linkStyle,
+    href,
+    text: otherAmountTemplate,
+  });
 };
 
 export const nonDonorSuggestedAmountsMarkup = (
@@ -134,4 +123,17 @@ export const nonDonorSuggestedAmountsMarkup = (
     }).build();
 
   throw new Error('Rates not loaded');
+};
+
+interface LinkOptions {
+  href: string;
+  text: string;
+  style: CSS.Properties;
+}
+const renderLinkOrButtonStatic = (options: LinkOptions): string => {
+  return renderToStaticMarkup(
+    <a style={options.style} href="{{href}}">{`{{text}}`}</a>
+  )
+    .replace('{{href}}', options.href)
+    .replace('{{text}}', options.text);
 };

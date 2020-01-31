@@ -6,7 +6,7 @@ import { Rates } from '../exchange-rates';
 
 export type RecurringDefault = '' | 'recurring' | 'only_recurring' | 'one_off';
 
-type UrlBuilderConfig = {
+export type UrlBuilderConfig = {
   amount?: number;
   omitAmount?: boolean;
   multiplier?: number;
@@ -45,13 +45,7 @@ export default class UrlBuilder {
   }
 
   amount = (currency?: string): string => {
-    if (
-      !currency ||
-      !this.config ||
-      !this.config.rates ||
-      !this.config.rates[currency]
-    )
-      return '';
+    if (!currency || !this.config?.rates?.[currency]) return '';
     const rate = this.config.rates[currency] * (this.config.multiplier || 1);
     if (this.config.amount) {
       return `{{${this.config.amount}|multiply:${rate}|floatformat:0}}`;
@@ -66,7 +60,7 @@ export default class UrlBuilder {
 
   get query() {
     if (!this.config) return UrlBuilder.defaultQuery;
-    let { amount, recurringDefault, omitAmount, oneClick } = this.config;
+    let { recurringDefault, omitAmount, oneClick } = this.config;
     const query = {
       amount: !omitAmount ? 'AMOUNT' : undefined,
       currency: 'CURRENCY',

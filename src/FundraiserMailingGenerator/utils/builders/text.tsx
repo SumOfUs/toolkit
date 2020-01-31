@@ -5,7 +5,7 @@ import Currency from '../../components/Currency';
 import { groupByCurrency, suggestedAsk, fixedAsk } from './helpers';
 import { Rates } from '../exchange-rates';
 
-type TextBuilderConfig = {
+export type TextBuilderConfig = {
   template: string;
   locale: string;
   rates: Rates;
