@@ -40,6 +40,7 @@ export default class TextBuilder {
       const rate = rates[currency] * (this.config.multiplier || 1);
       if (!rate) return '';
       const convertedAmount = amount ? Math.round(amount * rate) : 0;
+
       return renderToStaticMarkup(
         <Currency
           amount={convertedAmount}
