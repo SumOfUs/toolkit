@@ -42,6 +42,7 @@ export default class UrlBuilder {
   constructor(options: UrlBuilderOptions = {}) {
     if (options.url) this.url = options.url;
     if (options.config) this.config = options.config;
+    console.log("Config in URL builder:", options.config);
   }
 
   amount = (currency?: string): string => {
@@ -50,7 +51,7 @@ export default class UrlBuilder {
     if (this.config.amount) {
       return `{{${this.config.amount}|multiply:${rate}|floatformat:0}}`;
     } else {
-      let ask = `{% if suggested_ask_via_usd > 1 %}{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}{% else %}1{% endif %}`;
+      let ask = `{% if suggested_ask_via_usd >= 1 %}{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}{% else %}1{% endif %}`;
       if (this.config.correctLowAsks) {
         ask = `{% if suggested_ask_via_usd >= 2.5 %}${ask}{% else %}{{3|multiply:${rate}|floatformat:0}}{% endif %}`;
       }

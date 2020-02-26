@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import CopyButton from './CopyButton';
 import DonorMarkupBuilder from './DonorMarkupBuilder';
 import NonDonorMarkupBuilder from './NonDonorMarkupBuilder';
