@@ -42,7 +42,6 @@ export default class UrlBuilder {
   constructor(options: UrlBuilderOptions = {}) {
     if (options.url) this.url = options.url;
     if (options.config) this.config = options.config;
-    console.log("Config in URL builder:", options.config);
   }
 
   amount = (currency?: string): string => {
