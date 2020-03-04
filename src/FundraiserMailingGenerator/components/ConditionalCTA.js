@@ -3,51 +3,20 @@ import CopyButton from './CopyButton';
 import DonorMarkupBuilder from './DonorMarkupBuilder';
 import NonDonorMarkupBuilder from './NonDonorMarkupBuilder';
 import * as utils from '../utils';
-
-// FIXME: Move to translation file?
-const DONOR_BUTTON_DEFAULTS = {
-  en: `Donate {{amount}} now`,
-  fr: `Donner {{amount}}`,
-  de: `Jetzt {{amount}} Spenden`,
-};
-
-const DONOR_LINK_DEFAULTS = {
-  en: `Donate another amount`,
-  fr: `Doner un autre montant`,
-  de: `Spenden Sie einen anderen Betrag`,
-};
-
-const NON_DONOR_LINK_DEFAULTS = {
-  en: `Will you chip in {{amount}} to help [EDIT]?`,
-  fr: `Oui, je vais donner {{amount}} pour aider [EDIT]`,
-  de: `Ja, ich spende {{amount}}, um zu helfen [EDIT]`,
-};
-
-const ONE_CLICK_COPY = {
-  en: `If you’ve saved your payment information with SumOfUs, your donation will go through immediately:`,
-  fr: `Si vous avez enregistré votre moyen de paiement avec SumOfUs, votre don sera pris en compte automatiquement.`,
-  de: `Fall Sie Ihre Kontoinformationen schon hinterlegt haben, spenden Sie mit nur einem Klick`,
-};
-
-const PAYMENT_METHODS_COPY = {
-  en: 'Donating just takes a moment -- use Paypal or your card.',
-  fr:
-    'Donner ne prend que deux minutes — utilisez votre carte bancaire ou PayPal.',
-  de:
-    'Spenden dauert keine 2 Minuten - nutzen Sie einfach PayPal oder Lastschrift.',
-};
+import locales from '../locales';
 
 class BoxTextHTML extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      donorButtonTemplate: DONOR_BUTTON_DEFAULTS[props.lang],
-      donorOtherLinkTemplate: DONOR_LINK_DEFAULTS[props.lang],
+      donorButtonTemplate: locales[props.lang].donorButtonDefaults,
+      donorOtherLinkTemplate: locales[props.lang].donorLinkDefaults,
       donorMultipliers: [1, 1.5, 2, 0, 0],
       donorRecurring: '',
       donorOneClick: true,
-      nonDonorButtonTemplate: DONOR_BUTTON_DEFAULTS[props.lang],
-      nonDonorLinkTemplate: NON_DONOR_LINK_DEFAULTS[props.lang],
+      nonDonorButtonTemplate: locales[props.lang].donorButtonDefaults,
+      nonDonorLinkTemplate: locales[props.lang].nonDonorLinkDefaults,
     };
   }
 
@@ -63,13 +32,13 @@ class BoxTextHTML extends Component {
     const tpl = `
     {% if donations_as_usd.highest_previous %}
     <!--- DONOR --->
-    <p><strong><em>${ONE_CLICK_COPY[this.props.lang]}</em></strong></p>
+    <p><strong><em>${locales[this.props.lang].oneClickCopy}</em></strong></p>
   
     ${donorTemplate}
   
     {% else %}
     <!--- NON-DONOR --->
-    <p><em>${PAYMENT_METHODS_COPY[this.props.lang]}</em></p>
+    <p><em>${locales[this.props.lang].paymentMethodsCopy}</em></p>
   
     ${nonDonorTemplate}
   

@@ -12,3 +12,9 @@ export const monthlyAmount4 = '';
 export const monthlyAmount5 = '';
 export const recurringDefault = '';
 export const amounts = [];
+export const donorButtonDefaults = `Donate {{amount}} now`;
+export const donorLinkDefaults = `Donate another amount`;
+export const nonDonorLinkDefaults = `Will you chip in {{amount}} to help [EDIT]?`;
+export const oneClickCopy = `If you’ve saved your payment information with SumOfUs, your donation will go through immediately:`;
+export const paymentMethodsCopy =
+  'Donating just takes a moment -- use Paypal or your card.';
