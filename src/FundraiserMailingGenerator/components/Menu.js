@@ -35,10 +35,7 @@ export default () => (
           to="/fundraiser-mailing/conditional-cta"
           activeClassName="is-active"
         >
-          <span>
-            <strong className="standout">[Preview]</strong> Conditional CTA for
-            full list
-          </span>
+          <span>Conditional CTA for full list</span>
         </NavLink>
       </li>
     </ul>
