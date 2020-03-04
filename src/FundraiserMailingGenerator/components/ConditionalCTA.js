@@ -16,10 +16,25 @@ const DONOR_LINK_DEFAULTS = {
   fr: `Doner un autre montant`,
   de: `Spenden Sie einen anderen Betrag`,
 };
+
 const NON_DONOR_LINK_DEFAULTS = {
   en: `Will you chip in {{amount}} to help [EDIT]?`,
   fr: `Oui, je vais donner {{amount}} pour aider [EDIT]`,
   de: `Ja, ich spende {{amount}}, um zu helfen [EDIT]`,
+};
+
+const ONE_CLICK_COPY = {
+  en: `If you’ve saved your payment information with SumOfUs, your donation will go through immediately:`,
+  fr: `Si vous avez enregistré votre moyen de paiement avec SumOfUs, votre don sera pris en compte automatiquement.`,
+  de: `Fall Sie Ihre Kontoinformationen schon hinterlegt haben, spenden Sie mit nur einem Klick`,
+};
+
+const PAYMENT_METHODS_COPY = {
+  en: 'Donating just takes a moment -- use Paypal or your card.',
+  fr:
+    'Donner ne prend que deux minutes — utilisez votre carte bancaire ou PayPal.',
+  de:
+    'Spenden dauert keine 2 Minuten - nutzen Sie einfach PayPal oder Lastschrift.',
 };
 
 class BoxTextHTML extends Component {
@@ -46,19 +61,19 @@ class BoxTextHTML extends Component {
     //       test is passing, before updating the snapshot, otherwise
     //       you'll have no guarantee that the output is what's expected.
     const tpl = `
-  {% if donations_as_usd.highest_previous %}
-  <!--- DONOR --->
-  <p><strong><em>If you’ve saved your payment information with SumOfUs, your donation will go through immediately:</em></strong></p>
-
-  ${donorTemplate}
-
-  {% else %}
-  <!--- NON-DONOR --->
-  <p><em>Donating just takes a moment -- use Paypal or your card.</em></p>
-
-  ${nonDonorTemplate}
-
-  {% endif %}`;
+    {% if donations_as_usd.highest_previous %}
+    <!--- DONOR --->
+    <p><strong><em>${ONE_CLICK_COPY[this.props.lang]}</em></strong></p>
+  
+    ${donorTemplate}
+  
+    {% else %}
+    <!--- NON-DONOR --->
+    <p><em>${PAYMENT_METHODS_COPY[this.props.lang]}</em></p>
+  
+    ${nonDonorTemplate}
+  
+    {% endif %}`;
     return tpl;
   };
 
