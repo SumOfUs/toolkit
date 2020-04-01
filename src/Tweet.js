@@ -8,14 +8,14 @@ const Tweet = props => (
         <Content>
           <p>{props.text}</p>
         </Content>
-        <Level mobile>
-          <Level.Left>
+        <Level small="true">
+          <Level.Side align="left">
             <Level.Item onClick={props.handleDelete.bind(this, props.index)}>
               <Icon small>
                 <i className="fa fa-trash" />
               </Icon>
             </Level.Item>
-          </Level.Left>
+          </Level.Side>
         </Level>
       </Media.Content>
     </Media>

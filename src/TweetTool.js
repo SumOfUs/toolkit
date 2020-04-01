@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import {
-  Tag,
-  Form,
-  Section,
-  Textarea,
-  Button,
-  Level,
-} from 'react-bulma-components';
+import { Tag, Form, Section, Button, Level } from 'react-bulma-components';
+
+import Textarea from 'react-bulma-components/lib/components/form/components/textarea';
+
 import './App.css';
 import Tweet from './Tweet';
 import twitter from 'twitter-text';
@@ -67,7 +63,7 @@ class TweetTool extends Component {
   handleChange(e) {
     const text = e.currentTarget.value;
     const result = twitter.parseTweet(text);
-
+    console.log('result =>', result);
     this.setState({
       current: text,
       currentLength: result.weightedLength,
@@ -147,7 +143,7 @@ class TweetTool extends Component {
               >
                 <Form.Field>
                   <Level>
-                    <Level.Left>
+                    <Level.Side align="left">
                       <Level.Item>
                         <Button>Copy to clipboard</Button>
                       </Level.Item>
@@ -158,7 +154,7 @@ class TweetTool extends Component {
                           ''
                         )}
                       </Level.Item>
-                    </Level.Left>
+                    </Level.Side>
                   </Level>
                 </Form.Field>
               </CopyToClipboard>
