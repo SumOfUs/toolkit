@@ -89,7 +89,7 @@ var emails = ${JSON.stringify(this.state.emails)};
           <form className="form" onSubmit={this.handleSubmit.bind(this)}>
             <EmailForm
               handleChange={this.handleChange.bind(this)}
-              {...this.state.current}
+              {...this.state}
             />
           </form>
         </Section>

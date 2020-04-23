@@ -6,14 +6,14 @@ const CopyContent = props => (
   <CopyToClipboard text={props.dataAsJSON()} onCopy={props.handleOnCopy}>
     <Form.Field>
       <Level>
-        <Level.Left>
+        <Level.Side align="left">
           <Level.Item>
             <Button>Copy to clipboard</Button>
           </Level.Item>
           <Level.Item>
             {props.copied ? <Tag className="is-success">Copied.</Tag> : ''}
           </Level.Item>
-        </Level.Left>
+        </Level.Side>
       </Level>
     </Form.Field>
   </CopyToClipboard>
