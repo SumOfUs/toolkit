@@ -5,6 +5,7 @@ import InputWithActions from './InputWithActions';
 import { hydrate, save } from '../state/localStorage';
 import ButtonBuilder from '../utils/builders/button';
 import { Rates } from '../utils/exchange-rates';
+import { RecurringDefault } from '../utils/builders/url';
 
 type State = {
   template: { [lang: string]: string };
@@ -17,6 +18,7 @@ type Props = {
   rates: Rates | null;
   lang: string;
   styles: { [key: string]: CSS.Properties };
+  recurringDefault?: RecurringDefault | undefined;
 };
 export default class ButtonCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -62,8 +64,10 @@ export default class ButtonCreator extends Component<Props, State> {
   // TODO: Refactor this. At the moment it's being duplicated in most
   // components but we should extract it.
   build = (): string => {
-    const { url, rates, lang, correctLowAsks } = this.props;
+    const { url, rates, lang, correctLowAsks, recurringDefault } = this.props;
     const template = this.state.template[this.props.lang];
+    const recurringDef =  (recurringDefault && recurringDefault.length < 2 || !recurringDefault) ? undefined : recurringDefault;
+
     if (rates)
       return new ButtonBuilder({
         url,
@@ -73,6 +77,7 @@ export default class ButtonCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles.buttonStyle,
+        recurringDefault: recurringDef
       }).build();
 
     throw new Error('Rates not loaded');
