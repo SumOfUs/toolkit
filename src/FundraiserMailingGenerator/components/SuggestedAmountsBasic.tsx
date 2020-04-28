@@ -42,11 +42,13 @@ export default class Basic extends Component<Props, State> {
 
         <div className=" tool-section">
           <label htmlFor="oneoff-only-donation">Donation Type &nbsp;</label>
-          <select name="recurringDefault" className='select' onChange={this.handleChange }>
-            <option value="">Default</option>
-            <option value="only_one_off">Only One-off Donation </option>
-            <option value="only_recurring">Only Recurring Donation</option>
-          </select>
+          <span className="select is-small">
+            <select name="recurringDefault" className='is-small' onChange={this.handleChange }>
+              <option value="">Default</option>
+              <option value="only_one_off">Only One-off Donation </option>
+              <option value="only_recurring">Only Recurring Donation</option>
+            </select>
+          </span>
         </div>
       </div>
     );
