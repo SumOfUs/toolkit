@@ -71,6 +71,7 @@ const DonorSidebarBuilder = props => {
             <option value="recurring">Recurring</option>
             <option value="only_recurring">Only recurring</option>
             <option value="one_off">One off</option>
+            <option value="only_one_off">Only One off</option>
           </select>
         </div>
       </GroupedWithChildren>
