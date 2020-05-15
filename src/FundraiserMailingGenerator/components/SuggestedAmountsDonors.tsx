@@ -93,6 +93,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
       value === '' ||
       value === 'recurring' ||
       value === 'only_recurring' ||
+      value === 'only_one_off' ||
       value === 'one_off'
     ) {
       this.setState({ recurringDefault: value });
@@ -248,6 +249,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
                 <option value="recurring">Recurring</option>
                 <option value="only_recurring">Only recurring</option>
                 <option value="one_off">One off</option>
+                <option value="only_one_off">Only One off</option>
               </select>
             </div>
           </div>
