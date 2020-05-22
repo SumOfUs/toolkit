@@ -5,12 +5,10 @@ import ButtonCreator from './ButtonCreator';
 import CannotDonateButtonCreator from './CannotDonateButtonCreator';
 import * as CSS from 'csstype';
 import { Rates } from '../utils/exchange-rates';
-import Toggle from 'react-toggle';
-import { isUndefined } from 'lodash';
 import { RecurringDefault } from '../utils/builders/url';
 
 type State = {
-  recurringDefault: RecurringDefault | undefined;
+  recurringDefault: RecurringDefault;
 };
 
 type Props = {

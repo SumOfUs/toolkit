@@ -18,8 +18,9 @@ type Props = {
   rates: Rates | null;
   lang: string;
   styles: { [key: string]: CSS.Properties };
-  recurringDefault?: RecurringDefault | undefined;
+  recurringDefault: RecurringDefault;
 };
+
 export default class ButtonCreator extends Component<Props, State> {
   _debouncedSave: any;
 
@@ -66,7 +67,6 @@ export default class ButtonCreator extends Component<Props, State> {
   build = (): string => {
     const { url, rates, lang, correctLowAsks, recurringDefault } = this.props;
     const template = this.state.template[this.props.lang];
-    const recurringDef =  (recurringDefault && recurringDefault.length < 2 || !recurringDefault) ? undefined : recurringDefault;
 
     if (rates)
       return new ButtonBuilder({
@@ -77,7 +77,7 @@ export default class ButtonCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles.buttonStyle,
-        recurringDefault: recurringDef
+        recurringDefault: recurringDefault
       }).build();
 
     throw new Error('Rates not loaded');

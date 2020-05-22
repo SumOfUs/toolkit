@@ -17,7 +17,7 @@ type Props = {
   rates: Rates | null;
   correctLowAsks?: boolean;
   styles: { [key: string]: CSS.Properties };
-  recurringDefault?: RecurringDefault | undefined;
+  recurringDefault: RecurringDefault;
 };
 
 export default class LinkCreator extends Component<Props, State> {
@@ -60,7 +60,6 @@ export default class LinkCreator extends Component<Props, State> {
   build = (): string => {
     const { url, rates, lang, correctLowAsks, recurringDefault } = this.props;
     const template = this.state.template[this.props.lang];
-    const recurringDef =  (recurringDefault && recurringDefault.length < 2 || !recurringDefault) ? undefined : recurringDefault;
 
     if (rates) {
       return new LinkBuilder({
@@ -71,7 +70,7 @@ export default class LinkCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles.linkStyle,
-        recurringDefault: recurringDef
+        recurringDefault: recurringDefault
       }).build();
     }
 
