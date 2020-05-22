@@ -17,13 +17,13 @@ export type Config = {
   correctLowAsks?: boolean;
   omitAmount?: boolean;
   style: CSS.Properties;
-  recurringDefault?: RecurringDefault;
+  recurringDefault: RecurringDefault;
 };
 
 export default class ButtonBuilder {
   config: Config;
   style: any;
-  recurringDefault: RecurringDefault | undefined;
+  recurringDefault: RecurringDefault;
 
   constructor(config: Config) {
     this.config = config;
