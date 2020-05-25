@@ -5,6 +5,7 @@ import { Rates } from '../exchange-rates';
 import TextBuilder from './text';
 import UrlBuilder from './url';
 import * as CSS from 'csstype';
+import { RecurringDefault } from './url';
 
 export type Config = {
   url: string;
@@ -16,15 +17,18 @@ export type Config = {
   correctLowAsks?: boolean;
   omitAmount?: boolean;
   style: CSS.Properties;
+  recurringDefault: RecurringDefault;
 };
 
 export default class ButtonBuilder {
   config: Config;
   style: any;
+  recurringDefault: RecurringDefault;
 
   constructor(config: Config) {
     this.config = config;
     this.style = config.style;
+    this.recurringDefault = config.recurringDefault;
   }
 
   build = () => {
@@ -37,6 +41,7 @@ export default class ButtonBuilder {
       multiplier,
       correctLowAsks,
       omitAmount,
+      recurringDefault,
     } = this.config;
     const urlConfig = {
       url,
@@ -47,6 +52,7 @@ export default class ButtonBuilder {
         multiplier,
         correctLowAsks,
         omitAmount,
+        recurringDefault
       },
     };
     const textConfig = {
@@ -57,6 +63,7 @@ export default class ButtonBuilder {
       multiplier,
       correctLowAsks,
     };
+
     return renderToStaticMarkup(
       <a style={this.style} href="{{link}}">{`{{text}}`}</a>
     )

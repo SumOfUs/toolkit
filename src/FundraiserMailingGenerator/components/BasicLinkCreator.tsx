@@ -5,6 +5,7 @@ import InputWithActions from './InputWithActions';
 import { hydrate, save } from '../state/localStorage';
 import * as CSS from 'csstype';
 import { Rates } from '../utils/exchange-rates';
+import { RecurringDefault } from '../utils/builders/url';
 
 type State = {
   template: { [lang: string]: string };
@@ -16,6 +17,7 @@ type Props = {
   rates: Rates | null;
   correctLowAsks?: boolean;
   styles: { [key: string]: CSS.Properties };
+  recurringDefault: RecurringDefault;
 };
 
 export default class LinkCreator extends Component<Props, State> {
@@ -56,9 +58,10 @@ export default class LinkCreator extends Component<Props, State> {
   resetTemplate = () => this.setState(LinkCreator.defaultState);
 
   build = (): string => {
-    const { url, rates, lang, correctLowAsks } = this.props;
+    const { url, rates, lang, correctLowAsks, recurringDefault } = this.props;
     const template = this.state.template[this.props.lang];
-    if (rates)
+
+    if (rates) {
       return new LinkBuilder({
         url,
         template,
@@ -67,7 +70,9 @@ export default class LinkCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles.linkStyle,
+        recurringDefault: recurringDefault
       }).build();
+    }
 
     throw new Error('Rates not loaded');
   };
