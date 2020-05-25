@@ -69,6 +69,7 @@ class BoxTextHTML extends Component {
       styles: this.props.styles,
       template: options.template || this.state.nonDonorButtonTemplate,
       url: this.props.url,
+      recurringDefault: this.state.donorRecurring,
     });
   };
 

@@ -16,6 +16,7 @@ interface NonDonorSuggestedAmountsMarkup {
   correctLowAsks?: boolean;
   isButton?: boolean;
   styles?: any;
+  recurringDefault: RecurringDefault;
 }
 
 interface DonorSuggestedAmountsMarkup {
@@ -34,11 +35,12 @@ export const donorSuggestedAmountsMarkup = (
   options: DonorSuggestedAmountsMarkup
 ) => {
   if (!options.rates) return '';
+  const linkWithoutAmount = createLinkWithoutAmount(options);
   const markup = options.multipliers
     .map(multiplier => Number(multiplier))
     .filter(multiplier => multiplier > 0)
     .map(m => createButton(m, options))
-    .concat([createLinkWithoutAmount(options)])
+    .concat([linkWithoutAmount])
     .join('');
   return markup;
 };
@@ -66,6 +68,7 @@ export const createButton = (
     ),
   }).build();
 
+
   const text = new TextBuilder({
     multiplier,
     locale: options.locale,
@@ -86,6 +89,7 @@ export const createLinkWithoutAmount = (
 ) => {
   const { url, recurringDefault, otherAmountTemplate } = options;
   const css = options.styles || styles.classic;
+  
   const href = new UrlBuilder({
     url,
     config: pickBy(
@@ -96,6 +100,7 @@ export const createLinkWithoutAmount = (
       identity
     ),
   }).build();
+  
 
   return renderLinkOrButtonStatic({
     style: css.linkStyle,
@@ -107,7 +112,7 @@ export const createLinkWithoutAmount = (
 export const nonDonorSuggestedAmountsMarkup = (
   options: NonDonorSuggestedAmountsMarkup
 ) => {
-  const { url, rates, locale, correctLowAsks, template } = options;
+  const { url, rates, locale, correctLowAsks, template, recurringDefault } = options;
   let style = options.isButton
     ? options.styles?.buttonStyle || styles.classic.buttonStyle
     : options.styles?.linkStyle || styles.classic.linkStyle;
@@ -120,6 +125,7 @@ export const nonDonorSuggestedAmountsMarkup = (
       correctLowAsks: correctLowAsks || false,
       omitAmount: false,
       style,
+      recurringDefault
     }).build();
 
   throw new Error('Rates not loaded');
