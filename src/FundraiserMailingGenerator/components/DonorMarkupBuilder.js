@@ -95,6 +95,26 @@ const DonorSidebarBuilder = props => {
           </select>
         </div>
       </GroupedWithChildren>
+      <GroupedWithChildren label="Allow Weekly">
+        <div
+          className={classnames('select', 'is-small', {
+            'is-success': props.donorOneClick,
+            'is-danger': !props.donorOneClick,
+          })}
+        >
+          <select
+            className="is-small"
+            name="weekly"
+            value={props.donorWeekly}
+            onChange={e =>
+              props.onChange('donorWeekly', e.currentTarget.value === 'true')
+            }
+          >
+            <option value={true}>Yes</option>
+            <option value={false}>No</option>
+          </select>
+        </div>
+      </GroupedWithChildren>
     </>
   );
 };

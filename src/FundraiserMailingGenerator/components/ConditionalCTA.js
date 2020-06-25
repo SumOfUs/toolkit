@@ -15,6 +15,7 @@ class BoxTextHTML extends Component {
       donorMultipliers: [1, 1.5, 2, 0, 0],
       donorRecurring: '',
       donorOneClick: true,
+      donorWeekly: false,
       nonDonorButtonTemplate: locales[props.lang].donorButtonDefaults,
       nonDonorLinkTemplate: locales[props.lang].nonDonorLinkDefaults,
     };
@@ -55,6 +56,7 @@ class BoxTextHTML extends Component {
       multipliers: this.state.donorMultipliers,
       recurringDefault: this.state.donorRecurring,
       oneClick: this.state.donorOneClick,
+      weekly: this.state.donorWeekly,
       buttonTemplate: this.state.donorButtonTemplate,
       otherAmountTemplate: this.state.donorOtherLinkTemplate,
     });
@@ -70,6 +72,7 @@ class BoxTextHTML extends Component {
       template: options.template || this.state.nonDonorButtonTemplate,
       url: this.props.url,
       recurringDefault: this.state.donorRecurring,
+      weekly: this.state.donorWeekly,
     });
   };
 
@@ -105,6 +108,7 @@ class BoxTextHTML extends Component {
               donorMultipliers={this.state.donorMultipliers}
               donorRecurring={this.state.donorRecurring}
               donorOneClick={this.state.donorOneClick}
+              donorWeekly={this.state.donorWeekly}
               onChange={this.updateKey}
             />
           </div>

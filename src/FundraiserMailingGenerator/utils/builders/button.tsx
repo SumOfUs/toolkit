@@ -18,6 +18,7 @@ export type Config = {
   omitAmount?: boolean;
   style: CSS.Properties;
   recurringDefault: RecurringDefault;
+  weekly: boolean;
 };
 
 export default class ButtonBuilder {
@@ -42,6 +43,7 @@ export default class ButtonBuilder {
       correctLowAsks,
       omitAmount,
       recurringDefault,
+      weekly
     } = this.config;
     const urlConfig = {
       url,
@@ -52,7 +54,8 @@ export default class ButtonBuilder {
         multiplier,
         correctLowAsks,
         omitAmount,
-        recurringDefault
+        recurringDefault,
+        weekly
       },
     };
     const textConfig = {
