@@ -18,6 +18,7 @@ type Props = {
   correctLowAsks?: boolean;
   styles: { [key: string]: CSS.Properties };
   recurringDefault: RecurringDefault;
+  weekly: boolean;
 };
 
 export default class LinkCreator extends Component<Props, State> {
@@ -58,7 +59,7 @@ export default class LinkCreator extends Component<Props, State> {
   resetTemplate = () => this.setState(LinkCreator.defaultState);
 
   build = (): string => {
-    const { url, rates, lang, correctLowAsks, recurringDefault } = this.props;
+    const { url, rates, lang, correctLowAsks, recurringDefault, weekly } = this.props;
     const template = this.state.template[this.props.lang];
 
     if (rates) {
@@ -70,7 +71,8 @@ export default class LinkCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles.linkStyle,
-        recurringDefault: recurringDefault
+        recurringDefault: recurringDefault,
+        weekly: weekly
       }).build();
     }
 

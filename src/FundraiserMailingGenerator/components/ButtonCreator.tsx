@@ -19,6 +19,7 @@ type Props = {
   lang: string;
   styles: { [key: string]: CSS.Properties };
   recurringDefault: RecurringDefault;
+  weekly: boolean;
 };
 
 export default class ButtonCreator extends Component<Props, State> {
@@ -65,7 +66,7 @@ export default class ButtonCreator extends Component<Props, State> {
   // TODO: Refactor this. At the moment it's being duplicated in most
   // components but we should extract it.
   build = (): string => {
-    const { url, rates, lang, correctLowAsks, recurringDefault } = this.props;
+    const { url, rates, lang, correctLowAsks, recurringDefault, weekly } = this.props;
     const template = this.state.template[this.props.lang];
 
     if (rates)
@@ -77,7 +78,8 @@ export default class ButtonCreator extends Component<Props, State> {
         correctLowAsks,
         omitAmount: false,
         style: this.props.styles.buttonStyle,
-        recurringDefault: recurringDefault
+        recurringDefault: recurringDefault,
+        weekly: weekly
       }).build();
 
     throw new Error('Rates not loaded');

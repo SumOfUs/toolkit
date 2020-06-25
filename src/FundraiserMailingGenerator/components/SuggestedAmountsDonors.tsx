@@ -19,6 +19,7 @@ type State = {
   oneClick: boolean;
   buttonTemplate: Translations;
   otherLinkTemplate: Translations;
+  weekly: boolean;
 };
 
 type Props = {
@@ -32,6 +33,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   static defaultState: State = {
     multipliers: [1, 1.5, 2, 0, 0],
     recurringDefault: '',
+    weekly: false,
     oneClick: true,
     buttonTemplate: {
       en: `Donate {{amount}} now`,
@@ -100,11 +102,17 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     }
   };
 
+  handleWeeklyDonation = (event: SyntheticEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const value = event.currentTarget.value === "true" ? true : false;
+    this.setState({weekly: value });
+  };
+
   resetState = () => this.setState(SuggestedAmountsDonors.defaultState);
 
   link = (multiplier: number): string => {
     const { lang, rates, url } = this.props;
-    const { recurringDefault, oneClick } = this.state;
+    const { recurringDefault, oneClick, weekly } = this.state;
     if (!rates) return url;
     return new UrlBuilder({
       url,
@@ -114,6 +122,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
           locale: lang,
           rates,
           recurringDefault,
+          weekly,
           oneClick,
           correctLowAsks: true,
         },
@@ -149,6 +158,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
       config: pickBy(
         {
           recurringDefault: this.state.recurringDefault,
+          weekly: this.state.weekly,
           omitAmount: true,
         },
         identity
@@ -250,6 +260,25 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
                 <option value="only_recurring">Only recurring</option>
                 <option value="one_off">One off</option>
                 <option value="only_one_off">Only One off</option>
+              </select>
+            </div>
+          </div>
+        </Form.Field>
+
+        <Form.Field className="is-horizontal is-grouped">
+          <div className="field-label">
+            <label className="label">Allow Weekly</label>
+          </div>
+          <div className="field-body">
+            <div className="select is-small">
+              <select
+                className="is-small"
+                name="weekly"
+                value={this.state.weekly ? "true" : "false"}
+                onChange={this.handleWeeklyDonation}
+              >
+                <option value="false">No</option>
+                <option value="true">Yes</option>
               </select>
             </div>
           </div>

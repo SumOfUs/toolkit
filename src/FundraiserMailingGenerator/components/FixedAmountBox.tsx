@@ -16,6 +16,7 @@ type State = {
   recurringDefault: RecurringDefault;
   buttonTemplate: Translations;
   otherLinkTemplate: Translations;
+  weekly: boolean;
 };
 type Props = {
   url: string;
@@ -28,6 +29,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
   static defaultState: State = {
     amounts: [4, 8, 20, 0, 0],
     recurringDefault: '',
+    weekly: false,
     buttonTemplate: {
       en: `Donate {{amount}} now`,
       fr: `Donner {{amount}}`,
@@ -93,16 +95,22 @@ export default class FixedAmountCreator extends Component<Props, State> {
     }
   };
 
+  handleWeeklyDonation = (event: SyntheticEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const value = event.currentTarget.value === "true" ? true : false;
+    this.setState({weekly: value });
+  };
+
   resetState = () => this.setState(FixedAmountCreator.defaultState);
 
   link = (amount: number): string => {
     const { lang, rates, url } = this.props;
-    const { recurringDefault } = this.state;
+    const { recurringDefault, weekly } = this.state;
     if (!rates) return url;
     return new UrlBuilder({
       url,
       config: pickBy(
-        { amount, locale: lang, rates, recurringDefault },
+        { amount, locale: lang, rates, recurringDefault, weekly },
         identity
       ),
     }).build();
@@ -134,6 +142,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
       config: pickBy(
         {
           recurringDefault: this.state.recurringDefault,
+          weekly: this.state.weekly,
           omitAmount: true,
         },
         identity
@@ -211,6 +220,20 @@ export default class FixedAmountCreator extends Component<Props, State> {
               <option value="only_recurring">Only recurring</option>
               <option value="one_off">One off</option>
               <option value="only_one_off">Only One off</option>
+            </select>
+          </div>
+        </Form.Field>
+        <Form.Field>
+          <label className="label">Allow Weekly</label>
+          <div className="select">
+            <select
+              className="is-small"
+              name="weekly"
+              value={this.state.weekly ? "true" : "false"}
+              onChange={this.handleWeeklyDonation}
+            >
+              <option value="false">No</option>
+              <option value="true">Yes</option>
             </select>
           </div>
         </Form.Field>
