@@ -46,7 +46,7 @@ export default class Basic extends Component<Props, State> {
         <CannotDonateButtonCreator {...this.props} correctLowAsks={false} />
 
         <div className=" tool-section">
-          <label htmlFor="oneoff-only-donation">Donation Type &nbsp;</label>
+          <label htmlFor="oneoff-only-donation">Recurring &nbsp;</label>
           <span className="select is-small">
             <select name="recurringDefault" className='is-small' onChange={this.handleChange }>
               <option value="">Default</option>
