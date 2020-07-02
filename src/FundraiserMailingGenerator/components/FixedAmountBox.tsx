@@ -208,7 +208,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
           ))}
         </Form.Field>
         <Form.Field>
-          <label className="label">Recurring default</label>
+          <label className="label">Recurring</label>
           <div className="select">
             <select
               name="recurringDefault"
