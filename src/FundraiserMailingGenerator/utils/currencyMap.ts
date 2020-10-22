@@ -8,6 +8,8 @@ export const currencyMap: CurrencyMap = {
   GBP: ['United Kingdom'],
   NZD: ['New Zealand'],
   CHF: ['Switzerland'],
+  MXN: ['Mexico'],
+  ARS: ['Argentina'],
   EUR: [
     'Austria',
     'Belgium',
