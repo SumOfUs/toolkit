@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tag, Form, Section, Button, Level } from 'react-bulma-components';
 
 import Textarea from 'react-bulma-components/lib/components/form/components/textarea';
-
+import Input from 'react-bulma-components/lib/components/form/components/input';
 import './App.css';
 import Tweet from './Tweet';
 import twitter from 'twitter-text';
@@ -21,6 +21,7 @@ class TweetTool extends Component {
       current: '',
       valid: true,
       currentLength: 0,
+      replyToId: '',
     };
   }
 
@@ -71,9 +72,17 @@ class TweetTool extends Component {
     });
   }
 
+  handleIdChange(e) {
+    const id = e.currentTarget.value;
+    this.setState({
+      replyToId: id,
+    });
+  }
+
   tweetsArray() {
     let outputText = `<script>
   var tweets = ${JSON.stringify(this.state.tweets)};
+  var replyToId = "${this.state.replyToId}";
 </script>`;
 
     return outputText;
@@ -104,6 +113,18 @@ class TweetTool extends Component {
       <div>
         <Section>
           <h1 className="title">Tweet Maker</h1>
+          <h2>
+            Add a tweet's ID here if you want tweets to be posted as replies
+          </h2>
+          <Form.Field>
+            <Form.Control>
+              <Input
+                name="replyToId"
+                onChange={this.handleIdChange.bind(this)}
+                value={this.state.replyToId}
+              />
+            </Form.Control>
+          </Form.Field>
           <h2>
             Write a tweet and <strong>press enter</strong>.
           </h2>
