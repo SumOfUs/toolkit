@@ -5,7 +5,7 @@ import { pick } from 'lodash';
 
 const OXR_XR_URL = 'https://openexchangerates.org/api/latest.json';
 const OXR_APP_ID = 'b35691a10625439b84bd3638ee37b741';
-const SUPPORTED_CURRENCIES = ['AUD', 'CAD', 'CHF', 'EUR', 'GBP', 'NZD', 'USD', 'MXN', 'ARS'];
+const SUPPORTED_CURRENCIES = ['AUD', 'CAD', 'CHF', 'EUR', 'GBP', 'NZD', 'USD', 'MXN', 'ARS', 'BRL'];
 
 export type Rates = { [currency: string]: number };
 

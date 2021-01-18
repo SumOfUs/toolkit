@@ -10,6 +10,7 @@ export const currencyMap: CurrencyMap = {
   CHF: ['Switzerland'],
   MXN: ['Mexico'],
   ARS: ['Argentina'],
+  BRL: ['Brazil'],
   EUR: [
     'Austria',
     'Belgium',

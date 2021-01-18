@@ -8,12 +8,16 @@ const BUTTON_DEFAULTS = {
   en: `Donate {{amount}} now`,
   fr: `Donner {{amount}}`,
   de: `Jetzt {{amount}} Spenden`,
+  es: 'Dona {{amount}} ahora',
+  pt: 'Doe {{amount}} agora',
 };
 
 const LINK_DEFAULTS = {
   en: `Donate another amount`,
   fr: `Doner un autre montant`,
   de: `Spenden Sie einen anderen Betrag`,
+  es: `Dona otra cantidad`,
+  pt: 'Doe um outro valor',
 };
 
 const DonorSidebarBuilder = props => {
