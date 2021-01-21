@@ -34,9 +34,9 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
   static defaultState = {
     template: {
       en: "Can't Donate",
-      fr: "Can't Donate",
-      de: "Can't Donate",
-      es: "Can't Donate",
+      fr: 'Je ne peux pas faire de don',
+      de: 'Kann nicht spenden',
+      es: 'No puedo donar',
       pt: 'Não posso doar',
     },
   };
