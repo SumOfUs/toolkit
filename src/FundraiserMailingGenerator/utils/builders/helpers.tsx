@@ -25,7 +25,8 @@ export const suggestedAsk = (
 ) =>
   groupByCurrency(currency => {
     const rate = rates[currency] * multiplier;
-    const cutOffValue = 150;
+    const cutOffValue = Math.ceil(    (185 - (35 * rate)) / 10) * 10;
+
     if (!rate) return '';
     let cutOffAsk = `{{${cutOffValue}|floatformat:0}}`;
     let ask = `{% if suggested_ask_via_usd|multiply:${rate} >= ${cutOffValue} %}${cutOffAsk}{% else %}{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}{% endif %}`;
