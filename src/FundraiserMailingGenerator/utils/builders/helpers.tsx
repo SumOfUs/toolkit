@@ -25,7 +25,7 @@ export const suggestedAsk = (
 ) =>
   groupByCurrency(currency => {
     const rate = rates[currency] * multiplier;
-    const cutOffValue = Math.ceil(    (185 - (35 * rate)) / 10) * 10;
+    const cutOffValue = Math.ceil((185 - (35 * Math.min(5, rate))) / 10) * 10;
 
     if (!rate) return '';
     let cutOffAsk = `{{${cutOffValue}|floatformat:0}}`;

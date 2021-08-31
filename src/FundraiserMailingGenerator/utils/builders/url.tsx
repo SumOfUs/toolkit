@@ -46,12 +46,16 @@ export default class UrlBuilder {
   }
 
   amount = (currency?: string): string => {
+    
     if (!currency || !this.config?.rates?.[currency]) return '';
     const rate = this.config.rates[currency] * (this.config.multiplier || 1);
+    const cutOffValue = Math.ceil(    (185 - (35 * Math.min(5, rate))) / 10) * 10 ;
+    let cutOffAsk = `{{${cutOffValue}|floatformat:0}}`;
+    
     if (this.config.amount) {
       return `{{${this.config.amount}|multiply:${rate}|floatformat:0}}`;
     } else {
-      let ask = `{% if suggested_ask_via_usd >= 1 %}{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}{% else %}1{% endif %}`;
+      let ask = `{% if suggested_ask_via_usd|multiply:${rate} >= ${cutOffValue} %}${cutOffAsk}{% else %}{{suggested_ask_via_usd|multiply:${rate}|floatformat:0}}{% endif %}`;
       if (this.config.correctLowAsks) {
         ask = `{% if suggested_ask_via_usd >= 2.5 %}${ask}{% else %}{{3|multiply:${rate}|floatformat:0}}{% endif %}`;
       }
