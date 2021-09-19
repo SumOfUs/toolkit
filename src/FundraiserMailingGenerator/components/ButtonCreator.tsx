@@ -29,7 +29,7 @@ export default class ButtonCreator extends Component<Props, State> {
     template: {
       en: 'Donate {{amount}} now',
       fr: 'Donner {{amount}}',
-      de: 'Jetzt {{amount}} Spenden',
+      de: 'Doneer nu {{amount}}',
       es: 'Dona {{amount}} ahora',
       pt: 'Doe {{amount}} agora',
     },

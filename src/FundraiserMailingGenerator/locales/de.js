@@ -9,9 +9,9 @@ export const monthlyAmount4 = '';
 export const monthlyAmount5 = '';
 export const recurringDefault = '';
 export const amounts = [];
-export const donorButtonDefaults = `Jetzt {{amount}} Spenden`;
-export const donorLinkDefaults = `Spenden Sie einen anderen Betrag`;
-export const nonDonorLinkDefaults = `Ja, ich spende {{amount}}, um zu helfen [EDIT]`;
-export const oneClickCopy = `Fall Sie Ihre Kontoinformationen schon hinterlegt haben, spenden Sie mit nur einem Klick`;
+export const donorButtonDefaults = `Doneer nu {{amount}}`;
+export const donorLinkDefaults = `Doneer een ander bedrag`;
+export const nonDonorLinkDefaults = `Ja, Doneer jij {{amount}} om mee te helpen?`;
+export const oneClickCopy = `Als je je betaalgegevens hebt opgeslagen bij SumOfUs, wordt je donatie onmiddellijk verwerkt`;
 export const paymentMethodsCopy =
   'Spenden dauert keine 2 Minuten - nutzen Sie einfach PayPal oder Lastschrift.';

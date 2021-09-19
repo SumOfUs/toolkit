@@ -7,7 +7,7 @@ import classnames from 'classnames';
 const BUTTON_DEFAULTS = {
   en: `Donate {{amount}} now`,
   fr: `Donner {{amount}}`,
-  de: `Jetzt {{amount}} Spenden`,
+  de: `Doneer nu {{amount}}`,
   es: 'Dona {{amount}} ahora',
   pt: 'Doe {{amount}} agora',
 };
@@ -15,7 +15,7 @@ const BUTTON_DEFAULTS = {
 const LINK_DEFAULTS = {
   en: `Donate another amount`,
   fr: `Doner un autre montant`,
-  de: `Spenden Sie einen anderen Betrag`,
+  de: `Doneer een ander bedrag`,
   es: `Dona otra cantidad`,
   pt: 'Doe um outro valor',
 };

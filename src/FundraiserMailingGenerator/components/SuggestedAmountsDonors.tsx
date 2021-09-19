@@ -38,14 +38,14 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     buttonTemplate: {
       en: `Donate {{amount}} now`,
       fr: `Donner {{amount}}`,
-      de: `Jetzt {{amount}} Spenden`,
+      de: `Doneer nu {{amount}}`,
       es: `Dona {{amount}} ahora`,
       pt: `Doe {{amount}} agora`,
     },
     otherLinkTemplate: {
       en: `Donate another amount`,
       fr: `Doner un autre montant`,
-      de: `Spenden Sie einen anderen Betrag`,
+      de: `Doneer een ander bedrag`,
       es: `Dona otra cantidad`,
       pt: `Doe um outro valor`,
     },
@@ -109,7 +109,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
   handleWeeklyDonation = (event: SyntheticEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const value = event.currentTarget.value === "true" ? true : false;
-    this.setState({weekly: value });
+    this.setState({ weekly: value });
   };
 
   resetState = () => this.setState(SuggestedAmountsDonors.defaultState);
