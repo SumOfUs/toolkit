@@ -32,11 +32,13 @@ export default class FixedAmountCreator extends Component<Props, State> {
     weekly: false,
     buttonTemplate: {
       en: `Donate {{amount}} now`,
+      nl: 'Doneer nu {{amount}}',
       fr: `Donner {{amount}}`,
       de: `Jetzt {{amount}} Spenden`,
     },
     otherLinkTemplate: {
       en: `Donate another amount`,
+      nl: `Doneer een ander bedrag`,
       fr: `Doner un autre montant`,
       de: `Spenden Sie einen anderen Betrag`,
     },

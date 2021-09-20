@@ -24,6 +24,7 @@ export default class PlainTextCreator extends Component<Props, State> {
   static defaultState = {
     template: {
       en: 'Will you chip in {{amount}} to help ...?',
+      nl: 'Doneer jij {{amount}} om mee te helpen ...?',
       fr: 'Ferez-vous un don de {{amount}} pour aider ...?',
       de: 'Wirst du {{amount}} spenden um zu helfen ...?',
     },
