@@ -37,6 +37,7 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
       en: "Can't Donate",
       fr: "Can't Donate",
       de: "Can't Donate",
+      nl: "Can't Donate",
     },
   };
 

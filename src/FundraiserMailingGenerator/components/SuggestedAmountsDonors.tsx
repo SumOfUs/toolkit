@@ -37,11 +37,13 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
     oneClick: true,
     buttonTemplate: {
       en: `Donate {{amount}} now`,
+      nl: 'Doneer nu {{amount}}',
       fr: `Donner {{amount}}`,
       de: `Jetzt {{amount}} Spenden`,
     },
     otherLinkTemplate: {
       en: `Donate another amount`,
+      nl: `Doneer een ander bedrag`,
       fr: `Doner un autre montant`,
       de: `Spenden Sie einen anderen Betrag`,
     },

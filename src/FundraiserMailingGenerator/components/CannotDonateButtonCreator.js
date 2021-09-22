@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import InputWithActions from './InputWithActions';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Style } from '../utils/styles'
+import { Style } from '../utils/styles';
 import { debounce, isEqual } from 'lodash';
 import { hydrate, save } from '../state/localStorage';
 import ButtonBuilder from '../utils/builders/button';
@@ -12,20 +12,21 @@ import type { State as BaseState } from '../BaseComponent';
 type State = {
   template: { [lang: string]: string },
   recurring: string,
-  buttonStyle: any
+  buttonStyle: any,
 };
 
 type Props = BaseState & {
-  correctLowAsks?: boolean
+  correctLowAsks?: boolean,
 };
 
 //let URL = 'https://homepage.staging.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}'
-let URL = 'https://www.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}'
+let URL =
+  'https://www.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}';
 
 let buttonStyle = {
   backgroundColor: '#BEBEBE',
-  color: '#000'
-}
+  color: '#000',
+};
 
 export default class CannotDonateButtonCreator extends Component<Props, State> {
   _debouncedSave: any;
@@ -35,13 +36,17 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
       en: "Can't Donate",
       fr: "Can't Donate",
       de: "Can't Donate",
+      nl: "Can't Donate",
     },
   };
 
   constructor(props: Props) {
     super(props);
-    this.state = hydrate('CannotDonateButtonCreator', CannotDonateButtonCreator.defaultState);
-    this.state.buttonStyle = props.styles.buttonStyle
+    this.state = hydrate(
+      'CannotDonateButtonCreator',
+      CannotDonateButtonCreator.defaultState
+    );
+    this.state.buttonStyle = props.styles.buttonStyle;
   }
 
   get template() {
@@ -61,7 +66,10 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
     return this.props.lang !== nextProps.lang;
   }
 
-  saveState = debounce(() => save('CannotDonateButtonCreator', this.state), 1500);
+  saveState = debounce(
+    () => save('CannotDonateButtonCreator', this.state),
+    1500
+  );
 
   updateTemplate = (data: { [string]: string }) => {
     this.setState({ template: { ...this.state.template, ...data } });
@@ -72,9 +80,11 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
   // TODO: Refactor this. At the moment it's being duplicated in most
   // components but we should extract it.
   build = (): string => {
-    return renderToStaticMarkup(<a style={{ ...this.state.buttonStyle, ...buttonStyle }} href={URL}>
+    return renderToStaticMarkup(
+      <a style={{ ...this.state.buttonStyle, ...buttonStyle }} href={URL}>
         {this.state.template[this.props.lang]}
-      </a>);
+      </a>
+    );
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -84,7 +94,7 @@ export default class CannotDonateButtonCreator extends Component<Props, State> {
   render() {
     return (
       <div className="CannotDonateButtonCreator tool-section">
-      <label className="label">Can't Donate</label>
+        <label className="label">Can't Donate</label>
         <InputWithActions
           value={this.state.template[this.props.lang]}
           onChange={this.onChange}

@@ -6,12 +6,14 @@ import classnames from 'classnames';
 // FIXME: Move to translation file?
 const BUTTON_DEFAULTS = {
   en: `Donate {{amount}} now`,
+  nl: 'Doneer nu {{amount}}',
   fr: `Donner {{amount}}`,
   de: `Jetzt {{amount}} Spenden`,
 };
 
 const LINK_DEFAULTS = {
   en: `Donate another amount`,
+  nl: `Doneer een ander bedrag`,
   fr: `Doner un autre montant`,
   de: `Spenden Sie einen anderen Betrag`,
 };
