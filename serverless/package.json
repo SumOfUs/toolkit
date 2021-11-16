@@ -5,7 +5,7 @@
   "author": "Omar Sahyoun",
   "license": "MIT",
   "devDependencies": {
-    "aws-sdk": "^2.205.0"
+    "aws-sdk": "^2.814.0"
   },
   "dependencies": {
     "cloudinary": "^1.11.0",
