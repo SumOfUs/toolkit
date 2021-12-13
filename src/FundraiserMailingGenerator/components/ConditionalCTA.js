@@ -12,7 +12,7 @@ class BoxTextHTML extends Component {
     this.state = {
       donorButtonTemplate: locales[props.lang].donorButtonDefaults,
       donorOtherLinkTemplate: locales[props.lang].donorLinkDefaults,
-      donorMultipliers: [1, 1.5, 2, 0, 0],
+      donorMultipliers: [1, 0, 0, 0, 0],
       donorRecurring: '',
       donorOneClick: true,
       donorWeekly: false,
