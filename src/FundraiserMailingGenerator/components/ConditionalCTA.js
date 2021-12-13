@@ -33,7 +33,9 @@ class BoxTextHTML extends Component {
     const tpl = `
     {% if donations_as_usd.highest_previous %}
     <!--- DONOR --->
-    <p><strong><em>${locales[this.props.lang].oneClickCopy}</em></strong></p>
+    <p style="text-align: center; font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><em>${
+      locales[this.props.lang].oneClickCopy
+    }</em></p>
   
     ${donorTemplate}
   
