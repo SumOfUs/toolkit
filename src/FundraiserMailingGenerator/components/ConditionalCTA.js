@@ -41,8 +41,6 @@ class BoxTextHTML extends Component {
   
     {% else %}
     <!--- NON-DONOR --->
-    <p><em>${locales[this.props.lang].paymentMethodsCopy}</em></p>
-  
     ${nonDonorTemplate}
   
     {% endif %}`;
