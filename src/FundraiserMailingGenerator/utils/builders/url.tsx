@@ -48,8 +48,9 @@ export default class UrlBuilder {
   amount = (currency?: string): string => {
     
     if (!currency || !this.config?.rates?.[currency]) return '';
-    const rate = this.config.rates[currency] * (this.config.multiplier || 1);
-    const cutOffValue = Math.ceil(    (185 - (35 * Math.min(5, rate))) / 10) * 10 ;
+    const multiplier = this.config.multiplier || 1;
+    const rate = this.config.rates[currency] * multiplier;
+    const cutOffValue = 150 / multiplier;
     let cutOffAsk = `{{${cutOffValue}|floatformat:0}}`;
     
     if (this.config.amount) {
