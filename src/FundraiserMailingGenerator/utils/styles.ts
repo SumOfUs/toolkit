@@ -13,6 +13,7 @@ const styles: Styles = {
       color: '#00abbd',
       fontFamily: 'sans-serif',
       fontWeight: 'bold',
+      textAlign: 'center',
     },
     buttonStyle: {
       backgroundColor: '#ed3224',

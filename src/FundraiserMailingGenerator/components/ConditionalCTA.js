@@ -36,13 +36,15 @@ class BoxTextHTML extends Component {
     <p style="text-align: center; font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><em>${
       locales[this.props.lang].oneClickCopy
     }</em></p>
-  
-    ${donorTemplate}
+    <p style="text-align: center;">
+      ${donorTemplate}
+    </p>
   
     {% else %}
     <!--- NON-DONOR --->
-    ${nonDonorTemplate}
-  
+    <p style="text-align: center;">
+      ${donorTemplate}
+    </p>
     {% endif %}`;
     return tpl;
   };

@@ -14,6 +14,7 @@ export default function Currency({ locale, amount, currency }: Props) {
         value={amount}
         style="currency"
         currency={currency}
+        currencyDisplay='narrowSymbol'
         minimumFractionDigits={0}
         maximumFractionDigits={2}
       />
