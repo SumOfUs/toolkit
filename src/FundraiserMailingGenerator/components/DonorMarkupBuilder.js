@@ -71,10 +71,10 @@ const DonorSidebarBuilder = props => {
               props.onChange('donorRecurring', e.currentTarget.value)
             }
           >
-            <option value="">Use page default</option>
-            <option value="recurring">Recurring</option>
+            <option value="only_one_off">Use page default</option>
+            <option value="only_recurring">Recurring</option>
             <option value="only_recurring">Only recurring</option>
-            <option value="one_off">One off</option>
+            <option value="only_one_off">One off</option>
             <option value="only_one_off">Only One off</option>
           </select>
         </div>

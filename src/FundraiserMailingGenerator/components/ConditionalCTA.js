@@ -13,10 +13,10 @@ class BoxTextHTML extends Component {
       donorButtonTemplate: locales[props.lang].donorButtonDefaults,
       donorOtherLinkTemplate: locales[props.lang].donorLinkDefaults,
       donorMultipliers: [1, 0, 0, 0, 0],
-      donorRecurring: '',
+      donorRecurring: 'only_one_off',
       donorOneClick: true,
       donorWeekly: false,
-      nonDonorButtonTemplate: locales[props.lang].donorButtonDefaults,
+      nonDonorButtonTemplate: locales[props.lang].nonDonorButtonDefaults,
       nonDonorLinkTemplate: locales[props.lang].nonDonorLinkDefaults,
     };
   }
@@ -36,14 +36,14 @@ class BoxTextHTML extends Component {
     <p style="text-align: center; font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><em>${
       locales[this.props.lang].oneClickCopy
     }</em></p>
-    <p style="text-align: center;">
+    <p style="text-align: center; width: fit-content;">
       ${donorTemplate}
     </p>
   
     {% else %}
     <!--- NON-DONOR --->
-    <p style="text-align: center;">
-      ${donorTemplate}
+    <p style="text-align: center; width: fit-content;">
+      ${nonDonorTemplate}
     </p>
     {% endif %}`;
     return tpl;
@@ -64,17 +64,17 @@ class BoxTextHTML extends Component {
     });
   };
 
-  nonDonorTemplate = (options = {}) => {
-    return utils.nonDonorSuggestedAmountsMarkup({
-      correctLowAsks: options.correctLowAsks || false,
-      isButton: options.isButton || false,
+  nonDonorTemplate = () => {
+    return utils.donorSuggestedAmountsMarkup({
       locale: this.props.lang,
       rates: this.props.rates,
-      styles: this.props.styles,
-      template: options.template || this.state.nonDonorButtonTemplate,
       url: this.props.url,
+      styles: this.props.styles,
+      multipliers: this.state.donorMultipliers,
       recurringDefault: this.state.donorRecurring,
       weekly: this.state.donorWeekly,
+      buttonTemplate: this.state.nonDonorButtonTemplate,
+      otherAmountTemplate: this.state.nonDonorLinkTemplate,
     });
   };
 

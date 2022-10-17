@@ -1,16 +1,17 @@
 body {
   background: white;
   color: #424242;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .quiz .button {
   width: auto;
   text-transform: none;
-  padding-top: calc(.375em - 1px);
+  padding-top: calc(0.375em - 1px);
 }
 
-.quiz h1 span, .quiz h2 span {
+.quiz h1 span,
+.quiz h2 span {
   background-color: #30394f;
   line-height: 1.4;
   box-shadow: 7px 0 0 #30394f, -7px 0 0 #30394f;
@@ -37,21 +38,27 @@ body {
 
 .quiz .qz-section-wrapper {
   padding: 15px;
-  background: rgba(255, 255, 255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 5px;
   padding: 40px 15px;
 }
 
-button.button, a.button {
+button.button,
+a.button {
   color: white;
-  background-color: #f8492e;
-  border-color: #f8492e;
+  background-color: #ed3224;
+  border-color: #ed3224;
 }
 
-button.button:hover, a.button:hover, a.button:active, button.button:active, a.button:focus, button.button:focus {
-  background-color: rgba(0,192,207,0.85);
+button.button:hover,
+a.button:hover,
+a.button:active,
+button.button:active,
+a.button:focus,
+button.button:focus {
+  background-color: rgba(0, 192, 207, 0.85);
   color: white;
-  border-color: rgba(0,192,207,0.85);
+  border-color: rgba(0, 192, 207, 0.85);
 }
 
 .quiz .section-buttons {
@@ -64,10 +71,10 @@ button.button:hover, a.button:hover, a.button:active, button.button:active, a.bu
 }
 
 .quiz .qz-share-image img {
-
 }
 
-.quiz .qz-question, .quiz .section {
+.quiz .qz-question,
+.quiz .section {
   background-position: top;
   background-size: cover;
   background-repeat: no-repeat;
@@ -78,7 +85,8 @@ button.button:hover, a.button:hover, a.button:active, button.button:active, a.bu
   padding: 0 5%;
 }
 
-button.share-on-facebook, button.share-on-facebook:hover {
+button.share-on-facebook,
+button.share-on-facebook:hover {
   background-color: #597ac7;
   border-color: #597ac7;
   color: white;
