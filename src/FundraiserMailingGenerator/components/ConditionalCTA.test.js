@@ -7,7 +7,6 @@
 // - updating the TEST_RATES mocked rates
 // - changing the default values in the generator form.
 // - etc. (anything that would affect the resulting markup)
-
 jest.mock('copy-to-clipboard');
 import copy from 'copy-to-clipboard';
 import React from 'react';
