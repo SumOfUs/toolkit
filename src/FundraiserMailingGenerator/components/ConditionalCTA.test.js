@@ -44,7 +44,7 @@ describe('ConditionalCTA Component', () => {
   test('It renders', () => {
     const { container } = render(
       <ConditionalCTA
-        url="https://actions.sumofus.org/a/donate"
+        url="https://actions.eko.org/a/donate"
         rates={TEST_RATES}
         lang="en"
         styles={styles.rebranding}
@@ -56,7 +56,7 @@ describe('ConditionalCTA Component', () => {
   test('#nonDonorTemplate', () => {
     const { getByTestId } = render(
       <ConditionalCTA
-        url="https://actions.sumofus.org/a/donate"
+        url="https://actions.eko.org/a/donate"
         rates={TEST_RATES}
         lang="en"
         styles={styles.rebranding}
@@ -70,7 +70,7 @@ describe('ConditionalCTA Component', () => {
   test('#donorTemplate', () => {
     const { getByTestId } = render(
       <ConditionalCTA
-        url="https://actions.sumofus.org/a/donate"
+        url="https://actions.eko.org/a/donate"
         rates={TEST_RATES}
         lang="en"
         styles={styles.rebranding}
