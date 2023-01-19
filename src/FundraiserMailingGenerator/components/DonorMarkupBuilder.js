@@ -10,6 +10,7 @@ const BUTTON_DEFAULTS = {
   de: `Jetzt {{amount}} Spenden`,
   es: 'Dona {{amount}} ahora',
   pt: 'Doe {{amount}} agora',
+  nl: 'Doneer nu {{amount}}',
 };
 
 const LINK_DEFAULTS = {
@@ -18,6 +19,7 @@ const LINK_DEFAULTS = {
   de: `Spenden Sie einen anderen Betrag`,
   es: `Dona otra cantidad`,
   pt: 'Doe um outro valor',
+  nl: `Doneer een ander bedrag`,
 };
 
 const DonorSidebarBuilder = props => {

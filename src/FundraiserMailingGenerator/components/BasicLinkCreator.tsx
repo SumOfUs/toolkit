@@ -30,7 +30,8 @@ export default class LinkCreator extends Component<Props, State> {
       fr: 'Oui, je vais donner {{amount}} pour aider ...',
       de: 'Ja, ich spende {{amount}}, um zu helfen ...',
       es: 'Sí, aportaré {{amount}} para ayudar a...',
-      pt: 'Sim, vou doar {{amount}} para ajudar...'
+      pt: 'Sim, vou doar {{amount}} para ajudar...',
+      nl: 'Ja, ik doneer {{amount}}, om mee te helpen ...',
     },
   };
 

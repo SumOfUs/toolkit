@@ -28,6 +28,7 @@ export default class PlainTextCreator extends Component<Props, State> {
       de: 'Wirst du {{amount}} spenden um zu helfen ...?',
       es: '¿Puedes aportar {{amount}} para ayudar a ...?',
       pt: "Você pode doar {{amount}} para ajudar...?",
+      nl: 'Doneer jij {{amount}} om mee te helpen ...?',
     },
   };
 

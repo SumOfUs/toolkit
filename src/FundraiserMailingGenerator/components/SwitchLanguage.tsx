@@ -47,6 +47,13 @@ export default function SwitchLanguage({ currentLanguage, onChange }: Props) {
       >
         Pt
       </Button>
+      <Button
+        style={{ margin: 'auto .5em' }}
+        className={buttonClass('nl', currentLanguage)}
+        onClick={() => onChange('nl')}
+      >
+        Nl
+      </Button>
     </nav>
   );
 }

@@ -36,6 +36,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
       de: `Jetzt {{amount}} Spenden`,
       es: `Dona {{amount}} ahora`,
       pt: 'Doe {{amount}} agora',
+      nl: 'Doneer nu {{amount}}',
     },
     otherLinkTemplate: {
       en: `Donate another amount`,
@@ -43,6 +44,7 @@ export default class FixedAmountCreator extends Component<Props, State> {
       de: `Spenden Sie einen anderen Betrag`,
       es: `Dona otra cantidad`,
       pt: 'Doe um outro valor',
+      nl: 'Doneer nu {{amount}}',
     },
   };
   constructor(props: Props) {

@@ -32,6 +32,7 @@ export default class ButtonCreator extends Component<Props, State> {
       de: 'Jetzt {{amount}} Spenden',
       es: 'Dona {{amount}} ahora',
       pt: 'Doe {{amount}} agora',
+      nl: 'Doneer nu {{amount}}',
     },
   };
 

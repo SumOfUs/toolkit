@@ -41,6 +41,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
       de: `Jetzt {{amount}} Spenden`,
       es: `Dona {{amount}} ahora`,
       pt: `Doe {{amount}} agora`,
+      nl: 'Doneer nu {{amount}}',
     },
     otherLinkTemplate: {
       en: `Donate another amount`,
@@ -48,6 +49,7 @@ export default class SuggestedAmountsDonors extends Component<Props, State> {
       de: `Spenden Sie einen anderen Betrag`,
       es: `Dona otra cantidad`,
       pt: `Doe um outro valor`,
+      nl: `Doneer een ander bedrag`,
     },
   };
   constructor(props: Props) {
