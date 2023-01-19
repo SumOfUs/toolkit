@@ -17,14 +17,14 @@ const config = {
 describe('UrlBuilder', () => {
   test('has default value', () => {
     const url = new UrlBuilder();
-    expect(url.url).toEqual('https://actions.sumofus.org/a/donate');
+    expect(url.url).toEqual('https://actions.eko.org/a/donate');
   });
 
   test('can be passed a custom url', () => {
     const url = new UrlBuilder({
-      url: 'https://actions.sumofus.org/a/donate2',
+      url: 'https://actions.eko.org/a/donate2',
     });
-    expect(url.url).toEqual('https://actions.sumofus.org/a/donate2');
+    expect(url.url).toEqual('https://actions.eko.org/a/donate2');
   });
 
   describe('.query', () => {

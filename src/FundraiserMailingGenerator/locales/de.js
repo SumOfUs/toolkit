@@ -1,4 +1,4 @@
-export const pageUrl = 'https://actions.sumofus.org/a/donate';
+export const pageUrl = 'https://actions.eko.org/a/donate';
 export const plainText = `Helfen Sie uns mit einer Spende {{amount}} dabei?`;
 export const linkText = `Ja, ich spende {{amount}} um die Bienen zu retten.`;
 export const donateAnotherAmountText = 'DE Donate another amount';

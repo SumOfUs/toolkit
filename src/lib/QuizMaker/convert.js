@@ -102,7 +102,7 @@ const template = `
                   <input type="radio" name="consented" value='false'>
                   <strong>No</strong>
                 </label>
-                <p class='is-size-7'>You can opt out of receiving our messages at any time. Just go to our <a href='https://www.sumofus.org/unsubscribe/'>unsubscribe page</a>.</p>
+                <p class='is-size-7'>You can opt out of receiving our messages at any time. Just go to our <a href='https://www.eko.org/unsubscribe/'>unsubscribe page</a>.</p>
               </div>
             </div>
             <div class="field">
@@ -181,19 +181,19 @@ const template = `
   </style>
 `;
 
-const javascript = data => (`
+const javascript = data => `
 <script>
   window.quiz = ${JSON.stringify(data)};
 </script>
-`);
+`;
 
-const convert = (data) => {
+const convert = data => {
   const templateData = Object.assign({}, data, {
     json: function() {
-      return function (text, render) {
+      return function(text, render) {
         return render(JSON.stringify(data));
-      }
-    }
+      };
+    },
   });
 
   const html = Mustache.render(template, templateData);

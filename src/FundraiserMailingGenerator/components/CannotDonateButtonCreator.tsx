@@ -20,9 +20,8 @@ type Props = {
   styles: { [key: string]: CSS.Properties };
 };
 
-//let URL = 'https://homepage.staging.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}'
 let URL =
-  'https://www.sumofus.org/optout/?lang={{ user.lang }}&akid={{ user.token }}';
+  'https://www.eko.org/optout/?lang={{ user.lang }}&akid={{ user.token }}';
 
 let buttonStyle = {
   backgroundColor: '#BEBEBE',

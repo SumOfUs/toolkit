@@ -1,4 +1,4 @@
-export const pageUrl = 'https://actions.sumofus.org/a/donate';
+export const pageUrl = 'https://actions.eko.org/a/donate';
 export const plainText =
   "EN Can you chip in {{amount}} to keep nestle's hands off our water";
 export const linkText =
@@ -15,6 +15,6 @@ export const amounts = [];
 export const donorButtonDefaults = `Doe {{amount}} agora`;
 export const donorLinkDefaults = `Doe um outro valor`;
 export const nonDonorLinkDefaults = `Você pode doar {{amount}} para ajudar...?`;
-export const oneClickCopy = `Se você já salvou seus dados de pagamento com a SumOfUs, sua doação será feita imediatamente:`;
+export const oneClickCopy = `Se você já salvou seus dados de pagamento com a Ekō, sua doação será feita imediatamente:`;
 export const paymentMethodsCopy =
   'Doar leva apenas alguns instantes — use Paypal ou seu cartão.';
