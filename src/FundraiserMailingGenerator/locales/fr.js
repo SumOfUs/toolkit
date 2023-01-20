@@ -1,4 +1,4 @@
-export const pageUrl = 'https://actions.sumofus.org/a/donate';
+export const pageUrl = 'https://actions.eko.org/a/donate';
 export const plainText = `Oui, je vais faire un don de {{amount}} pour sauver les abeilles`;
 export const linkText = `Oui, je vais faire un don de {{amount}} pour sauver les abeilles`;
 export const section = 'monthly';
@@ -13,6 +13,6 @@ export const amounts = [];
 export const donorButtonDefaults = `Donner {{amount}}`;
 export const donorLinkDefaults = `Doner un autre montant`;
 export const nonDonorLinkDefaults = `Oui, je vais donner {{amount}} pour aider [EDIT]`;
-export const oneClickCopy = `Si vous avez enregistré votre moyen de paiement avec SumOfUs, votre don sera pris en compte automatiquement.`;
+export const oneClickCopy = `Si vous avez enregistré votre moyen de paiement avec Ekō, votre don sera pris en compte automatiquement.`;
 export const paymentMethodsCopy =
   'Donner ne prend que deux minutes — utilisez votre carte bancaire ou PayPal.';

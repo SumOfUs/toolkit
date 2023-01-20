@@ -33,7 +33,7 @@ class Generator extends Component<void, State> {
   _debouncedSave: any;
 
   static defaultState: State = {
-    url: 'https://actions.sumofus.org/a/donate',
+    url: 'https://actions.eko.org/a/donate',
     rates: null,
     lang: 'en',
     themeName: 'classic',
