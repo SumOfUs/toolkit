@@ -16,7 +16,7 @@ class BoxTextHTML extends Component {
       donorRecurring: '',
       donorOneClick: true,
       donorWeekly: false,
-      nonDonorButtonTemplate: locales[props.lang].donorButtonDefaults,
+      nonDonorButtonTemplate: locales[props.lang].nonDonorButtonDefaults,
       nonDonorLinkTemplate: locales[props.lang].nonDonorLinkDefaults,
     };
   }
@@ -26,6 +26,7 @@ class BoxTextHTML extends Component {
   };
 
   buildMarkup = (donorTemplate = 'XXXX', nonDonorTemplate = 'YYYY') => {
+    console.log(this.state.donorRecurring);
     // Note: We are doing snapshot testing. If we modify this template,
     //       we should also update the snapshot. Make sure the snapshot
     //       test is passing, before updating the snapshot, otherwise
@@ -36,14 +37,14 @@ class BoxTextHTML extends Component {
     <p style="text-align: center; font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><em>${
       locales[this.props.lang].oneClickCopy
     }</em></p>
-    <p style="text-align: center;">
+    <p style="text-align: center; width: fit-content;">
       ${donorTemplate}
     </p>
   
     {% else %}
     <!--- NON-DONOR --->
-    <p style="text-align: center;">
-      ${donorTemplate}
+    <p style="text-align: center; width: fit-content;">
+      ${nonDonorTemplate}
     </p>
     {% endif %}`;
     return tpl;
@@ -56,7 +57,10 @@ class BoxTextHTML extends Component {
       url: this.props.url,
       styles: this.props.styles,
       multipliers: this.state.donorMultipliers,
-      recurringDefault: this.state.donorRecurring,
+      recurringDefault:
+        this.state.donorRecurring == ''
+          ? 'only_one_off'
+          : this.state.donorRecurring,
       oneClick: this.state.donorOneClick,
       weekly: this.state.donorWeekly,
       buttonTemplate: this.state.donorButtonTemplate,
@@ -64,17 +68,20 @@ class BoxTextHTML extends Component {
     });
   };
 
-  nonDonorTemplate = (options = {}) => {
-    return utils.nonDonorSuggestedAmountsMarkup({
-      correctLowAsks: options.correctLowAsks || false,
-      isButton: options.isButton || false,
+  nonDonorTemplate = () => {
+    return utils.donorSuggestedAmountsMarkup({
       locale: this.props.lang,
       rates: this.props.rates,
-      styles: this.props.styles,
-      template: options.template || this.state.nonDonorButtonTemplate,
       url: this.props.url,
-      recurringDefault: this.state.donorRecurring,
+      styles: this.props.styles,
+      multipliers: this.state.donorMultipliers,
+      recurringDefault:
+        this.state.donorRecurring == ''
+          ? 'only_one_off'
+          : this.state.donorRecurring,
       weekly: this.state.donorWeekly,
+      buttonTemplate: this.state.nonDonorButtonTemplate,
+      otherAmountTemplate: this.state.nonDonorLinkTemplate,
     });
   };
 

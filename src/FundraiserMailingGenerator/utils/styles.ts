@@ -10,20 +10,19 @@ type Styles = {
 const styles: Styles = {
   classic: {
     linkStyle: {
-      color: '#00abbd',
-      fontFamily: 'sans-serif',
+      color: '#ed3224',
+      fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
       fontWeight: 'bold',
       textAlign: 'center',
     },
     buttonStyle: {
       backgroundColor: '#ed3224',
       borderRadius: '8px',
-      boxShadow: 'inset 0 -1.2px rgba(0, 0, 0, 0.12) !important',
       color: 'white',
       display: 'block',
-      fontFamily: 'sans-serif',
+      fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
       fontWeight: 'bold',
-      lineHeight: '50px',
+      lineHeight: '55px',
       margin: '10px auto',
       maxWidth: '300px',
       textAlign: 'center',
@@ -35,12 +34,12 @@ const styles: Styles = {
   },
   rebranding: {
     linkStyle: {
-      color: '#00abbd',
+      color: '#ed3224',
       fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
       fontWeight: 'bold',
     },
     buttonStyle: {
-      backgroundColor: '#f8492e',
+      backgroundColor: '#ed3224',
       borderRadius: '0px',
       color: 'white',
       display: 'block',
