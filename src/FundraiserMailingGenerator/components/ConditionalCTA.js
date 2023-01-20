@@ -13,7 +13,7 @@ class BoxTextHTML extends Component {
       donorButtonTemplate: locales[props.lang].donorButtonDefaults,
       donorOtherLinkTemplate: locales[props.lang].donorLinkDefaults,
       donorMultipliers: [1, 0, 0, 0, 0],
-      donorRecurring: 'only_one_off',
+      donorRecurring: '',
       donorOneClick: true,
       donorWeekly: false,
       nonDonorButtonTemplate: locales[props.lang].nonDonorButtonDefaults,
@@ -26,6 +26,7 @@ class BoxTextHTML extends Component {
   };
 
   buildMarkup = (donorTemplate = 'XXXX', nonDonorTemplate = 'YYYY') => {
+    console.log(this.state.donorRecurring);
     // Note: We are doing snapshot testing. If we modify this template,
     //       we should also update the snapshot. Make sure the snapshot
     //       test is passing, before updating the snapshot, otherwise
@@ -56,7 +57,10 @@ class BoxTextHTML extends Component {
       url: this.props.url,
       styles: this.props.styles,
       multipliers: this.state.donorMultipliers,
-      recurringDefault: this.state.donorRecurring,
+      recurringDefault:
+        this.state.donorRecurring == ''
+          ? 'only_one_off'
+          : this.state.donorRecurring,
       oneClick: this.state.donorOneClick,
       weekly: this.state.donorWeekly,
       buttonTemplate: this.state.donorButtonTemplate,
@@ -71,7 +75,10 @@ class BoxTextHTML extends Component {
       url: this.props.url,
       styles: this.props.styles,
       multipliers: this.state.donorMultipliers,
-      recurringDefault: this.state.donorRecurring,
+      recurringDefault:
+        this.state.donorRecurring == ''
+          ? 'only_one_off'
+          : this.state.donorRecurring,
       weekly: this.state.donorWeekly,
       buttonTemplate: this.state.nonDonorButtonTemplate,
       otherAmountTemplate: this.state.nonDonorLinkTemplate,
