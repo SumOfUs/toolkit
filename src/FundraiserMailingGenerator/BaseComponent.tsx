@@ -56,7 +56,7 @@ class Generator extends Component<void, State> {
 
   async componentDidMount() {
     const rates = await fetchRates();
-    this.setState({ rates });
+    this.setState({ rates, url: 'https://actions.eko.org/a/donate' });
   }
 
   handleThemeChange = (event: SyntheticEvent<HTMLInputElement>) => {
