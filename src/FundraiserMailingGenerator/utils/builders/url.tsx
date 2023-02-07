@@ -23,7 +23,7 @@ type UrlBuilderOptions = {
 };
 
 export default class UrlBuilder {
-  url: string = 'https://actions.sumofus.org/a/donate';
+  url: string = 'https://actions.eko.org/a/donate';
   config: UrlBuilderConfig | null = null;
 
   static defaultQuery = qs
